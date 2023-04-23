@@ -1,20 +1,21 @@
 package gui;
 
-import javax.swing.JPanel;
-import javax.swing.JLabel;
-
 import java.awt.Color;
 import java.awt.Font;
+
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
-import javax.swing.JComboBox;
-import javax.swing.JButton;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
-public class NhanVienKyThuat_GUI extends JPanel {
+public class TraCuuNVKT_GUI extends JPanel {
+	
 	private JTextField txtMa;
 	private JTextField txtTenNV;
 	private JTextField txtDiaChi;
@@ -23,13 +24,11 @@ public class NhanVienKyThuat_GUI extends JPanel {
 	private JTextField txtChucVu;
 	private JTextField txtSoNamKinhNghiem;
 	private JTable table;
-	private JPanel panel;
-	private JTextField txtTimKiem;
 
 	/**
 	 * Create the panel.
 	 */
-	public NhanVienKyThuat_GUI() {
+	public TraCuuNVKT_GUI() {
 		setLayout(null);
 		
 		JLabel lblThongTinNVKT = new JLabel("THÔNG TIN NHÂN VIÊN KỸ THUẬT");
@@ -134,44 +133,7 @@ public class NhanVienKyThuat_GUI extends JPanel {
 		table.getColumnModel().getColumn(1).setPreferredWidth(78);
 		table.getColumnModel().getColumn(6).setPreferredWidth(108);
 		scrollPane.setViewportView(table);
-		
-		
-		
-		panel = new JPanel();
-		panel.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "Ch\u1ECDn ch\u1EE9c n\u0103ng", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
-		panel.setBounds(10, 570, 1139, 67);
-		add(panel);
-		panel.setLayout(null);
-		
-		JButton btnThem = new JButton("Thêm");
-		btnThem.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		btnThem.setBounds(679, 21, 89, 23);
-		panel.add(btnThem);
-		
-		JButton btnCapNhat = new JButton("Cập nhật");
-		btnCapNhat.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		btnCapNhat.setBounds(778, 21, 101, 23);
-		panel.add(btnCapNhat);
-		
-		JButton btnXoaTrang = new JButton("Xóa trắng");
-		btnXoaTrang.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		btnXoaTrang.setBounds(889, 21, 105, 23);
-		panel.add(btnXoaTrang);
-		
-		JButton btnXoa = new JButton("Xóa");
-		btnXoa.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		btnXoa.setBounds(1004, 21, 111, 23);
-		panel.add(btnXoa);
-		
-		txtTimKiem = new JTextField();
-		txtTimKiem.setBounds(141, 22, 266, 20);
-		panel.add(txtTimKiem);
-		txtTimKiem.setColumns(10);
-		
-		JButton btnTimKiem = new JButton("Tìm kiếm");
-		btnTimKiem.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		btnTimKiem.setBounds(10, 21, 121, 23);
-		panel.add(btnTimKiem);
 
 	}
+
 }

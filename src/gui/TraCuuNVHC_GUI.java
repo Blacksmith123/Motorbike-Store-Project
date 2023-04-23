@@ -1,5 +1,13 @@
 package gui;
 
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -8,18 +16,7 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Font;
-
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JLabel;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-
-public class NhanVienHanhChinh_GUI extends JPanel {
-
+public class TraCuuNVHC_GUI extends JPanel {
 	private JTextField txtMa;
 	private JTextField txtTenNV;
 	private JTextField txtDiaChi;
@@ -28,18 +25,16 @@ public class NhanVienHanhChinh_GUI extends JPanel {
 	private JTextField txtChucVu;
 	private JTextField txtSoNamKinhNghiem;
 	private JTable table;
-	private JPanel panel;
-	private JTextField txtTimKiem;
 
 	/**
 	 * Create the panel.
 	 */
-	public NhanVienHanhChinh_GUI() {
+	public TraCuuNVHC_GUI() {
 		setLayout(null);
 		
 		JLabel lblThongTinNVHC = new JLabel("THÔNG TIN NHÂN VIÊN HÀNH CHÍNH");
 		lblThongTinNVHC.setFont(new Font("Arial", Font.BOLD, 24));
-		lblThongTinNVHC.setBounds(334, 27, 491, 55);
+		lblThongTinNVHC.setBounds(391, 21, 452, 55);
 		add(lblThongTinNVHC);
 		
 		JLabel lblMaNV = new JLabel("Mã nhân viên");
@@ -124,7 +119,7 @@ public class NhanVienHanhChinh_GUI extends JPanel {
 		
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(0, 244, 1162, 315);
+		scrollPane.setBounds(10, 244, 1139, 315);
 		add(scrollPane);
 		
 		table = new JTable();
@@ -140,52 +135,7 @@ public class NhanVienHanhChinh_GUI extends JPanel {
 		table.getColumnModel().getColumn(1).setPreferredWidth(78);
 		table.getColumnModel().getColumn(6).setPreferredWidth(108);
 		scrollPane.setViewportView(table);
-		
-		panel = new JPanel();
-		panel.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "Ch\u1ECDn ch\u1EE9c n\u0103ng", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
-		panel.setBounds(0, 557, 1162, 110);
-		add(panel);
-		panel.setLayout(null);
-		
-		JButton btnThem = new JButton("Thêm");
-		btnThem.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		btnThem.setFont(new Font("Arial", Font.PLAIN, 14));
-		btnThem.setBounds(641, 51, 89, 23);
-		panel.add(btnThem);
-		
-		JButton btnCapNhat = new JButton("Cập nhật");
-		btnCapNhat.setFont(new Font("Arial", Font.PLAIN, 14));
-		btnCapNhat.setBounds(740, 51, 120, 23);
-		panel.add(btnCapNhat);
-		
-		JButton btnXoaTrang = new JButton("Xóa trắng");
-		btnXoaTrang.setFont(new Font("Arial", Font.PLAIN, 14));
-		btnXoaTrang.setBounds(870, 51, 123, 23);
-		panel.add(btnXoaTrang);
-		
-		JButton btnXoa = new JButton("Xóa");
-		btnXoa.setFont(new Font("Arial", Font.PLAIN, 14));
-		btnXoa.setBounds(1003, 51, 105, 23);
-		panel.add(btnXoa);
-		
-		txtTimKiem = new JTextField();
-		txtTimKiem.setBounds(146, 54, 266, 20);
-		panel.add(txtTimKiem);
-		txtTimKiem.setColumns(10);
-		
-		JButton btnTimKiem = new JButton("Tìm kiếm");
-		btnTimKiem.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		btnTimKiem.setFont(new Font("Arial", Font.PLAIN, 14));
-		btnTimKiem.setBounds(25, 51, 111, 23);
-		panel.add(btnTimKiem);
 
 
 	}
-
 }
