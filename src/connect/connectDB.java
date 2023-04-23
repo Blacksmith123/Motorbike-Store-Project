@@ -35,8 +35,4 @@ public class connectDB {
 	public static Connection getConnection() {
 		return con;
 	}
-	public static void main(String[] args) {
-		connectDB.connect();
-		System.out.println(con);
-	}
 }
