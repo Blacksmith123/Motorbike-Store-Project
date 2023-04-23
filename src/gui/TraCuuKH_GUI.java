@@ -17,6 +17,10 @@ import javax.swing.table.DefaultTableModel;
 
 public class TraCuuKH_GUI extends JPanel {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JTextField txtMaKH;
 	private JTextField txtHoKH;
 	private JTextField txtDiaChi;

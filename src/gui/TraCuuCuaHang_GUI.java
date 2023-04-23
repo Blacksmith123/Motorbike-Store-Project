@@ -16,6 +16,10 @@ import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 
 public class TraCuuCuaHang_GUI extends JPanel {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JTextField txtMaCH;
 	private JTextField txtTenCH;
 	private JTextField txtEmail;

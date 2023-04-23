@@ -22,6 +22,10 @@ import java.awt.event.ActionEvent;
 
 public class Xe_GUI extends JPanel {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JTable table;
 	private Component txtSoNamKinhNghiem;
 	private JTextField txtChucVu;

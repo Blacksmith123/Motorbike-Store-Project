@@ -18,6 +18,11 @@ import java.awt.Color;
 import javax.swing.SwingConstants;
 
 public class TrangChu_GUI extends JFrame implements ActionListener{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	private JMenuItem menuTrangChu;
 
 	private JPanel contentPane;

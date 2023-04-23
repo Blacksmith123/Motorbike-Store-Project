@@ -29,6 +29,10 @@ import entity.TaiKhoan;
 
 public class DangNhap_GUI extends JFrame implements ActionListener{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JPanel jTitle;
 	private JPanel jUser;
 	private JPanel jPwd;

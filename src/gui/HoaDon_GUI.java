@@ -17,6 +17,10 @@ import java.awt.event.ActionEvent;
 import javax.swing.border.LineBorder;
 
 public class HoaDon_GUI extends JPanel {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JTextField txtMaHD;
 	private JTextField txtNgayLap;
 	private JTable table;
