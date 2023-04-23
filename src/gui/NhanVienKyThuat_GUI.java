@@ -15,6 +15,10 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 public class NhanVienKyThuat_GUI extends JPanel {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JTextField txtMa;
 	private JTextField txtTenNV;
 	private JTextField txtDiaChi;
