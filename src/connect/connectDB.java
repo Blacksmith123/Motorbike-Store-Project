@@ -11,12 +11,14 @@ public class connectDB {
 		return instance;
 	}
 	public static void connect() {
-		String url = "jdbc:sqlserver://localhost:1433;databasename=Bikestores";
+		String url = "jdbc:sqlserver://localhost:1433;databasename=BikeStores";
 		String user = "sa";
-		String pwd = "123";
+		String pwd = "sapassword";
 		try {
+			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
 			con = DriverManager.getConnection(url, user, pwd);
-		} catch (SQLException e) {
+			System.out.println(con);
+		} catch (SQLException | ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -33,5 +35,8 @@ public class connectDB {
 	}
 	public static Connection getConnection() {
 		return con;
+	}
+	public static void main(String[] args) {
+		connect();
 	}
 }

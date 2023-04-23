@@ -6,6 +6,6 @@
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/java/workspace/workspace/Phat trien ung dung/src/sqljdbc42.jar"/>
+	<classpathentry kind="lib" path="library/sqljdbc42.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
