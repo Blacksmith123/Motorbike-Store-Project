@@ -11,9 +11,9 @@ public class connectDB {
 		return instance;
 	}
 	public static void connect() {
-		String url = "jdbc:sqlserver://localhost:1433;databasename=QUANLYLUONGSANPHAM";
+		String url = "jdbc:sqlserver://localhost:1433;databasename=Bikestores";
 		String user = "sa";
-		String pwd = "sapassword";
+		String pwd = "123";
 		try {
 			con = DriverManager.getConnection(url, user, pwd);
 		} catch (SQLException e) {
