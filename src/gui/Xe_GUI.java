@@ -1,5 +1,6 @@
 package gui;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -7,12 +8,14 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 
 import java.awt.Canvas;
 import java.awt.Component;
 import java.awt.Font;
 import java.awt.Panel;
+import java.awt.SystemColor;
 import java.awt.Color;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
@@ -22,171 +25,223 @@ import java.awt.event.ActionEvent;
 
 public class Xe_GUI extends JPanel {
 
+
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private JTable table;
-	private Component txtSoNamKinhNghiem;
-	private JTextField txtChucVu;
-	private JTextField txtDiaChi;
-	private Component txtSDT;
-	private JTextField txtTenNV;
-	private JTextField txtMa;
 	private JTextField textField;
+	private JTable table;
+	private JTextField textMaXe;
+	private JTextField textSoMay;
+	private JTextField textSoKhung;
+	private JTextField textNgayNhapXe;
 
 	/**
 	 * Create the panel.
 	 */
 	public Xe_GUI() {
+		setBorder(new LineBorder(new Color(0, 0, 0)));
+		setBackground(Color.LIGHT_GRAY);
 		setLayout(null);
-
-		JLabel lblNewLabel = new JLabel("THÔNG TIN XE");
-		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 24));
-		lblNewLabel.setBounds(411, 10, 313, 66);
-		add(lblNewLabel);
-
-		JLabel lblXe = new JLabel("Mã xe:");
-		lblXe.setFont(new Font("Arial", Font.PLAIN, 16));
-		lblXe.setBounds(59, 95, 100, 28);
-		add(lblXe);
-
-		JLabel lblSoMay = new JLabel("Số máy:\r\n");
-		lblSoMay.setFont(new Font("Arial", Font.PLAIN, 16));
-		lblSoMay.setBounds(59, 131, 100, 28);
-		add(lblSoMay);
-
-		JLabel lblSoKhung = new JLabel("Số khung:");
-		lblSoKhung.setFont(new Font("Arial", Font.PLAIN, 16));
-		lblSoKhung.setBounds(59, 169, 100, 28);
-		add(lblSoKhung);
-
-		JLabel lblNgayNhapXe = new JLabel("Ngày nhập xe:\r\n");
-		lblNgayNhapXe.setFont(new Font("Arial", Font.PLAIN, 16));
-		lblNgayNhapXe.setBounds(59, 209, 100, 28);
-		add(lblNgayNhapXe);
-
-		JLabel lblNhaPhanPhoi = new JLabel("Nhà phân phối:");
-		lblNhaPhanPhoi.setFont(new Font("Arial", Font.PLAIN, 16));
-		lblNhaPhanPhoi.setBounds(591, 97, 122, 28);
-		add(lblNhaPhanPhoi);
-
-		lblSoMay.setFont(new Font("Arial", Font.PLAIN, 16));
-
-		txtMa = new JTextField();
-		txtMa.setBounds(163, 102, 227, 20);
-		add(txtMa);
-		txtMa.setColumns(10);
-
-		txtTenNV = new JTextField();
-		txtTenNV.setBounds(163, 138, 227, 20);
-		add(txtTenNV);
-		txtTenNV.setColumns(10);
-
-		txtDiaChi = new JTextField();
-		txtDiaChi.setBounds(163, 176, 227, 20);
-		add(txtDiaChi);
-		txtDiaChi.setColumns(10);
-
-		txtSDT = new JTextField();
-		txtSDT.setBounds(163, 216, 227, 20);
-		add(txtSDT);
-		((JTextField) txtSDT).setColumns(10);
-
-		txtChucVu = new JTextField();
-		txtChucVu.setBounds(713, 102, 287, 20);
-		add(txtChucVu);
-		txtChucVu.setColumns(10);
-
-		JLabel lbMaLoaiXe = new JLabel("Mã loại xe:");
-		lbMaLoaiXe.setFont(new Font("Arial", Font.PLAIN, 16));
-		lbMaLoaiXe.setBounds(591, 176, 122, 28);
-		add(lbMaLoaiXe);
-
-		txtSoNamKinhNghiem = new JTextField();
-		txtSoNamKinhNghiem.setBounds(713, 183, 287, 20);
-		add(txtSoNamKinhNghiem);
-		((JTextField) txtSoNamKinhNghiem).setColumns(10);
-
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(0, 243, 1160, 313);
-		add(scrollPane);
-
-		table = new JTable();
-		table.setFont(new Font("Arial", Font.PLAIN, 16));
-		table.setBorder(new LineBorder(new Color(0, 191, 255)));
-		table.setBackground(new Color(255, 255, 255));
-		table.setModel(new DefaultTableModel(new Object[][] { { null, null, null, "", null, null }, },
-				new String[] { "M\u00E3 xe", "S\u00F3 m\u00E1y", "S\u1ED1 khung", "Ng\u00E0y nh\u1EADp xe",
-						"M\u00E3 nh\u00E0 ph\u00E2n ph\u1ED1i", "M\u00E3 lo\u1EA1i xe" }) {
-			boolean[] columnEditables = new boolean[] { false, false, false, false, false, false };
-
-			public boolean isCellEditable(int row, int column) {
-				return columnEditables[column];
-			}
-		});
-		table.getColumnModel().getColumn(1).setPreferredWidth(85);
-		table.getColumnModel().getColumn(2).setResizable(false);
-		table.getColumnModel().getColumn(4).setPreferredWidth(99);
-		scrollPane.setViewportView(table);
-
+		
 		JPanel panel = new JPanel();
-		panel.setForeground(new Color(0, 0, 0));
-		panel.setBorder(new TitledBorder(
-				new EtchedBorder(EtchedBorder.LOWERED, new Color(0, 255, 255), new Color(160, 160, 160)),
-				"Ch\u1ECDn ch\u1EE9c n\u0103ng", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
-		panel.setBounds(0, 555, 1160, 112);
+		panel.setBackground(new Color(165, 42, 42));
+		panel.setBorder(new LineBorder(Color.CYAN));
+		panel.setBounds(10, 148, 802, 545);
 		add(panel);
 		panel.setLayout(null);
-
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(10, 10, 782, 525);
+		panel.add(scrollPane);
+		
+		table = new JTable();
+		table.setFont(new Font("Arial", Font.PLAIN, 16));
+		table.setModel(new DefaultTableModel(
+			new Object[][] {
+				{null, null, null, null, null, ""},
+				{null, null, null, null, null, null},
+			},
+			new String[] {
+				"M\u00E3 xe", "S\u1ED1 m\u00E1y", "S\u1ED1 khung", "Ng\u00E0y nh\u1EADp xe", "M\u00E3 nh\u00E0 ph\u00E2n ph\u1ED1i", "M\u00E3 lo\u1EA1i xe"
+			}
+		));
+		scrollPane.setViewportView(table);
+		
+		JPanel panel_1 = new JPanel();
+		panel_1.setBackground(SystemColor.text);
+		panel_1.setBorder(new LineBorder(Color.CYAN));
+		panel_1.setBounds(812, 148, 376, 545);
+		add(panel_1);
+		panel_1.setLayout(null);
+		
+		JLabel lblNewLabel_4 = new JLabel("Mã xe:");
+		lblNewLabel_4.setForeground(new Color(165, 42, 42));
+		lblNewLabel_4.setBackground(new Color(255, 255, 255));
+		lblNewLabel_4.setFont(new Font("Arial", Font.PLAIN, 16));
+		lblNewLabel_4.setBounds(10, 10, 122, 34);
+		panel_1.add(lblNewLabel_4);
+		
+		JLabel lblNewLabel_4_1 = new JLabel("Số máy:");
+		lblNewLabel_4_1.setForeground(new Color(165, 42, 42));
+		lblNewLabel_4_1.setFont(new Font("Arial", Font.PLAIN, 16));
+		lblNewLabel_4_1.setBounds(10, 45, 122, 34);
+		panel_1.add(lblNewLabel_4_1);
+		
+		JLabel lblNewLabel_4_1_1 = new JLabel("Số khung:");
+		lblNewLabel_4_1_1.setForeground(new Color(165, 42, 42));
+		lblNewLabel_4_1_1.setFont(new Font("Arial", Font.PLAIN, 16));
+		lblNewLabel_4_1_1.setBounds(10, 89, 115, 34);
+		panel_1.add(lblNewLabel_4_1_1);
+		
+		JLabel lblNewLabel_4_1_1_1 = new JLabel("Ngày nhập xe:");
+		lblNewLabel_4_1_1_1.setForeground(new Color(165, 42, 42));
+		lblNewLabel_4_1_1_1.setFont(new Font("Arial", Font.PLAIN, 16));
+		lblNewLabel_4_1_1_1.setBounds(10, 133, 105, 34);
+		panel_1.add(lblNewLabel_4_1_1_1);
+		
+		JLabel lblNewLabel_4_1_1_1_1 = new JLabel("Nhà phân phối:");
+		lblNewLabel_4_1_1_1_1.setForeground(new Color(165, 42, 42));
+		lblNewLabel_4_1_1_1_1.setFont(new Font("Arial", Font.PLAIN, 16));
+		lblNewLabel_4_1_1_1_1.setBounds(10, 185, 105, 34);
+		panel_1.add(lblNewLabel_4_1_1_1_1);
+		
+		JLabel lblNewLabel_4_1_1_1_2 = new JLabel("Mã loại xe:");
+		lblNewLabel_4_1_1_1_2.setForeground(new Color(165, 42, 42));
+		lblNewLabel_4_1_1_1_2.setFont(new Font("Arial", Font.PLAIN, 16));
+		lblNewLabel_4_1_1_1_2.setBounds(10, 229, 105, 34);
+		panel_1.add(lblNewLabel_4_1_1_1_2);
+		
+		textMaXe = new JTextField();
+		textMaXe.setFont(new Font("Arial", Font.PLAIN, 16));
+		textMaXe.setBounds(160, 18, 206, 24);
+		panel_1.add(textMaXe);
+		textMaXe.setColumns(10);
+		
+		textSoMay = new JTextField();
+		textSoMay.setFont(new Font("Arial", Font.PLAIN, 16));
+		textSoMay.setColumns(10);
+		textSoMay.setBounds(160, 53, 206, 24);
+		panel_1.add(textSoMay);
+		
+		textSoKhung = new JTextField();
+		textSoKhung.setFont(new Font("Arial", Font.PLAIN, 16));
+		textSoKhung.setColumns(10);
+		textSoKhung.setBounds(160, 97, 206, 24);
+		panel_1.add(textSoKhung);
+		
+		textNgayNhapXe = new JTextField();
+		textNgayNhapXe.setFont(new Font("Arial", Font.PLAIN, 16));
+		textNgayNhapXe.setColumns(10);
+		textNgayNhapXe.setBounds(160, 141, 206, 24);
+		panel_1.add(textNgayNhapXe);
+		
+		JPanel panel_2 = new JPanel();
+		panel_2.setBackground(Color.WHITE);
+		panel_2.setBorder(new LineBorder(new Color(165, 42, 42)));
+		panel_2.setBounds(10, 378, 356, 147);
+		panel_1.add(panel_2);
+		panel_2.setLayout(null);
+		
 		JButton btnThem = new JButton("Thêm");
-		btnThem.setFont(new Font("Arial", Font.PLAIN, 14));
-		btnThem.setBackground(Color.CYAN);
-		btnThem.setForeground(new Color(0, 0, 0));
-		btnThem.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		btnThem.setBounds(470, 52, 100, 30);
-		panel.add(btnThem);
-
-		JButton btnCapNhat = new JButton("Cập nhật");
-		btnCapNhat.setFont(new Font("Arial", Font.PLAIN, 14));
-		btnCapNhat.setBackground(Color.CYAN);
-		btnCapNhat.setBounds(580, 52, 100, 30);
-		panel.add(btnCapNhat);
-
+		btnThem.setBackground(Color.BLUE);
+		btnThem.setForeground(new Color(165, 42, 42));
+		btnThem.setFont(new Font("Arial", Font.PLAIN, 16));
+		btnThem.setBounds(56, 32, 112, 27);
+		panel_2.add(btnThem);
+		
+		JButton btnXoatrang = new JButton("Xóa Trắng");
+		btnXoatrang.setForeground(new Color(165, 42, 42));
+		btnXoatrang.setFont(new Font("Arial", Font.PLAIN, 16));
+		btnXoatrang.setBackground(Color.BLUE);
+		btnXoatrang.setBounds(212, 32, 112, 27);
+		panel_2.add(btnXoatrang);
+		
+		JButton btnCapnhat = new JButton("Cập Nhật");
+		btnCapnhat.setForeground(new Color(165, 42, 42));
+		btnCapnhat.setFont(new Font("Arial", Font.PLAIN, 16));
+		btnCapnhat.setBackground(Color.BLUE);
+		btnCapnhat.setBounds(56, 69, 112, 27);
+		panel_2.add(btnCapnhat);
+		
 		JButton btnXoa = new JButton("Xóa");
-		btnXoa.setFont(new Font("Arial", Font.PLAIN, 14));
-		btnXoa.setBackground(Color.CYAN);
-		btnXoa.setBounds(690, 52, 100, 30);
-		panel.add(btnXoa);
-
-		JButton btnXoaTrang = new JButton("Xóa trắng");
-		btnXoaTrang.setFont(new Font("Arial", Font.PLAIN, 14));
-		btnXoaTrang.setBackground(Color.CYAN);
-		btnXoaTrang.setBounds(800, 52, 100, 30);
-		panel.add(btnXoaTrang);
-
+		btnXoa.setForeground(new Color(165, 42, 42));
+		btnXoa.setFont(new Font("Arial", Font.PLAIN, 16));
+		btnXoa.setBackground(Color.BLUE);
+		btnXoa.setBounds(212, 69, 112, 27);
+		panel_2.add(btnXoa);
+		
+		JButton btnLuu = new JButton("Lưu");
+		btnLuu.setForeground(new Color(165, 42, 42));
+		btnLuu.setFont(new Font("Arial", Font.PLAIN, 16));
+		btnLuu.setBackground(Color.BLUE);
+		btnLuu.setBounds(136, 106, 112, 27);
+		panel_2.add(btnLuu);
+		
+		JLabel lblNewLabel_1_1 = new JLabel("Chức năng:");
+		lblNewLabel_1_1.setForeground(Color.BLUE);
+		lblNewLabel_1_1.setFont(new Font("Arial", Font.BOLD | Font.ITALIC, 14));
+		lblNewLabel_1_1.setBounds(10, 352, 322, 27);
+		panel_1.add(lblNewLabel_1_1);
+		
+		JComboBox cbNhaPP = new JComboBox();
+		cbNhaPP.setFont(new Font("Arial", Font.PLAIN, 16));
+		cbNhaPP.setBounds(160, 192, 206, 21);
+		panel_1.add(cbNhaPP);
+		
+		JComboBox cbMaLoaiXe = new JComboBox();
+		cbMaLoaiXe.setFont(new Font("Arial", Font.PLAIN, 16));
+		cbMaLoaiXe.setBounds(160, 238, 206, 21);
+		panel_1.add(cbMaLoaiXe);
+		
+		JLabel lblNewLabel = new JLabel("Danh Sách Xe");
+		lblNewLabel.setForeground(Color.BLUE);
+		lblNewLabel.setFont(new Font("Arial", Font.BOLD | Font.ITALIC, 16));
+		lblNewLabel.setBounds(10, 123, 322, 27);
+		add(lblNewLabel);
+		
+		JLabel lblNewLabel_1 = new JLabel("Thông Tin:");
+		lblNewLabel_1.setForeground(Color.BLUE);
+		lblNewLabel_1.setFont(new Font("Arial", Font.BOLD | Font.ITALIC, 16));
+		lblNewLabel_1.setBounds(809, 123, 322, 27);
+		add(lblNewLabel_1);
+		
+		JLabel lblNewLabel_2 = new JLabel("Tìm Kiếm:");
+		lblNewLabel_2.setFont(new Font("Arial", Font.BOLD, 16));
+		lblNewLabel_2.setBounds(10, 6, 91, 54);
+		add(lblNewLabel_2);
+		
+		JComboBox cbTim = new JComboBox();
+		cbTim.setForeground(Color.RED);
+		cbTim.setFont(new Font("Arial", Font.PLAIN, 16));
+		cbTim.setBounds(88, 25, 125, 21);
+		add(cbTim);
+		
 		textField = new JTextField();
-		textField.setBounds(27, 63, 200, 19);
-		panel.add(textField);
+		textField.setFont(new Font("Arial", Font.PLAIN, 16));
+		textField.setBounds(223, 19, 289, 27);
+		add(textField);
 		textField.setColumns(10);
-
-		JLabel lblNewLabel_1 = new JLabel("Tìm mã xe:");
-		lblNewLabel_1.setFont(new Font("Arial", Font.PLAIN, 16));
-		lblNewLabel_1.setBounds(27, 40, 110, 13);
-		panel.add(lblNewLabel_1);
-
-		JButton btnTimKiem = new JButton("Tìm ");
-		btnTimKiem.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		btnTimKiem.setFont(new Font("Arial", Font.PLAIN, 14));
-		btnTimKiem.setBackground(Color.CYAN);
-		btnTimKiem.setBounds(237, 52, 100, 30);
-		panel.add(btnTimKiem);
+		
+		JLabel lblNewLabel_3 = new JLabel("Quản Lí Xe");
+		lblNewLabel_3.setBackground(new Color(165, 42, 42));
+		lblNewLabel_3.setForeground(Color.BLUE);
+		lblNewLabel_3.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel_3.setFont(new Font("Arial", Font.BOLD, 24));
+		lblNewLabel_3.setBounds(0, 70, 1198, 37);
+		add(lblNewLabel_3);
+		
+		JButton btnTim = new JButton("Tìm Kiếm");
+		btnTim.setHorizontalAlignment(SwingConstants.LEFT);
+		btnTim.setIcon(new ImageIcon("D:\\Study\\OOPJava\\21091031_TrinhMinhKhaa\\Motorbike-Store-Project\\data\\image\\icons8-search-30.png"));
+		btnTim.setForeground(new Color(165, 42, 42));
+		btnTim.setFont(new Font("Arial", Font.PLAIN, 16));
+		btnTim.setBackground(Color.BLUE);
+		btnTim.setBounds(522, 20, 133, 27);
+		btnTim.setHorizontalTextPosition(SwingConstants.RIGHT);
+		btnTim.setVerticalTextPosition(SwingConstants.CENTER);
+		btnTim.setHorizontalAlignment(SwingConstants.LEFT);
+		add(btnTim);
 
 	}
 }

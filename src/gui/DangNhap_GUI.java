@@ -50,7 +50,7 @@ public class DangNhap_GUI extends JFrame implements ActionListener{
 	public DangNhap_GUI() {
 		// TODO Auto-generated constructor stub
 		setLayout(null);
-//		connectDB.getInstance().connect();
+//		ConnectDB.getInstance().connect();
 //		tk_dao = new Login_DAO();
 		setTitle("Login");
 		setSize(650, 400);

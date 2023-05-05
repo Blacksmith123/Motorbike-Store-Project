@@ -229,24 +229,24 @@ public class TrangChu_GUI extends JFrame implements ActionListener{
 		else if(o.equals(menuitemQuanLyXe)) {
 			showMenu(new Xe_GUI());
 		}
-		else if(o.equals(menuitemTraCuuCuaHang)) {
-			showMenu(new TraCuuCuaHang_GUI());
-		}
-		else if(o.equals(menuitemTraCuuHD)) {
-			showMenu(new TraCuuHD_GUI());
-		}
-		else if(o.equals(menuitemTraCuuKH)) {
-			showMenu(new TraCuuKH_GUI());
-		}
-		else if(o.equals(menuitemTraCuuNVHC)) {
-			showMenu(new TraCuuNVHC_GUI());
-		}
-		else if(o.equals(menuitemTraCuuNVKT)) {
-			showMenu(new TraCuuNVKT_GUI());
-		}
-		else if(o.equals(menuitemTraCuuXe)) {
-			//showMenu(new );
-		}
+//		else if(o.equals(menuitemTraCuuCuaHang)) {
+//			showMenu(new TraCuuCuaHang_GUI());
+//		}
+//		else if(o.equals(menuitemTraCuuHD)) {
+//			showMenu(new TraCuuHD_GUI());
+//		}
+//		else if(o.equals(menuitemTraCuuKH)) {
+//			showMenu(new TraCuuKH_GUI());
+//		}
+//		else if(o.equals(menuitemTraCuuNVHC)) {
+//			showMenu(new TraCuuNVHC_GUI());
+//		}
+//		else if(o.equals(menuitemTraCuuNVKT)) {
+//			showMenu(new TraCuuNVKT_GUI());
+//		}
+//		else if(o.equals(menuitemTraCuuXe)) {
+//			//showMenu(new );
+//		}
 //		else if(o.equals(menuitemTraCuuNVKT)) {
 //			showMenu(new TraCuuNVKT_GUI());
 //		}
