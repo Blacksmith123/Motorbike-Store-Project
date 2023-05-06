@@ -8,6 +8,16 @@ public class KhachHang {
 	private int sdt;
 	public ArrayList<HoaDon> dsHoaDon;
 	public ArrayList<PhieuNhanXet> dsPhieuNhanXet;
+	
+	public KhachHang() {
+		super();
+	}
+	
+	public KhachHang(String ma) {
+		super();
+		this.ma = ma;
+	}
+	
 	public KhachHang(String ma, String ho, String ten, String diaChi, String email, int sdt) {
 		super();
 		this.ma = ma;
@@ -20,6 +30,10 @@ public class KhachHang {
 		dsPhieuNhanXet = new ArrayList<PhieuNhanXet>();
 	}
 	
+	public void setMa(String ma) {
+		this.ma = ma;
+	}
+
 	public String getMa() {
 		return ma;
 	}

@@ -1,47 +1,14 @@
 package entity;
 
-import java.sql.Date;
-
 public class TaiKhoan {
-	private String taiKhoan;
+	private String maTK;
 	private String matKhau;
-	private NhanVien nvhc;
-	private Date ngayThem;
-	private Date ngayCapNhat;
-	private String vaiTro;
-	public TaiKhoan() {
-		// TODO Auto-generated constructor stub
+	
+	public String getMaTK() {
+		return maTK;
 	}
-	public TaiKhoan(String taiKhoan, String matKhau) {
-		// TODO Auto-generated constructor stub
-		this.taiKhoan = taiKhoan;
-		this.matKhau = matKhau;
-	}
-	public TaiKhoan(NhanVien nvhc) {
-		// TODO Auto-generated constructor stub
-		this.nvhc = nvhc;
-	}
-
-	public TaiKhoan(String taiKhoan, String matKhau, NhanVien nvhc, Date ngayThem, Date ngayCapNhat, String vaiTro) {
-		super();
-		this.taiKhoan = taiKhoan;
-		this.matKhau = matKhau;
-		this.nvhc = nvhc;
-		this.ngayThem = ngayThem;
-		this.ngayCapNhat = ngayCapNhat;
-		this.vaiTro = vaiTro;
-	}
-	public String getVaiTro() {
-		return vaiTro;
-	}
-	public void setVaiTro(String vaiTro) {
-		this.vaiTro = vaiTro;
-	}
-	public String getTaiKhoan() {
-		return taiKhoan;
-	}
-	public void setTaiKhoan(String taiKhoan) {
-		this.taiKhoan = taiKhoan;
+	public void setMaTK(String maTK) {
+		this.maTK = maTK;
 	}
 	public String getMatKhau() {
 		return matKhau;
@@ -49,31 +16,48 @@ public class TaiKhoan {
 	public void setMatKhau(String matKhau) {
 		this.matKhau = matKhau;
 	}
-	public NhanVien getNvhc() {
-		return nvhc;
+	
+	public TaiKhoan() {
+		super();
 	}
-	public void setNvhc(NhanVien nvhc) {
-		this.nvhc = nvhc;
+	
+	public TaiKhoan(String maTK, String matKhau) {
+		super();
+		this.maTK = maTK;
+		this.matKhau = matKhau;
 	}
-
+	
+	public TaiKhoan(String maTK) {
+		super();
+		this.maTK = maTK;
+	}
 	
 	@Override
 	public String toString() {
-		return "TaiKhoan [taiKhoan=" + taiKhoan + ", matKhau=" + matKhau + ", nvhc=" + nvhc + ", ngayThem=" + ngayThem
-				+ ", ngayCapNhat=" + ngayCapNhat + ", vaiTro=" + vaiTro + "]";
+		return "TaiKhoan [maTK=" + maTK + ", matKhau=" + matKhau + "]";
 	}
-	public Date getNgayThem() {
-		return ngayThem;
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((maTK == null) ? 0 : maTK.hashCode());
+		return result;
 	}
-	public void setNgayThem(Date ngayThem) {
-		this.ngayThem = ngayThem;
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		TaiKhoan other = (TaiKhoan) obj;
+		if (maTK == null) {
+			if (other.maTK != null)
+				return false;
+		} else if (!maTK.equals(other.maTK))
+			return false;
+		return true;
 	}
-	public Date getNgayCapNhat() {
-		return ngayCapNhat;
-	}
-	public void setNgayCapNhat(Date ngayCapNhat) {
-		this.ngayCapNhat = ngayCapNhat;
-	}
-
 
 }
