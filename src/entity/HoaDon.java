@@ -1,14 +1,24 @@
 package entity;
 
-import java.time.LocalDate;
+import java.sql.Date;
 import java.util.Objects;
 
 public class HoaDon {
-	private String ma, maXe, maKH, maNV, maCH;
-	private int thoiGianBH, donGia, soLuong;
-	private LocalDate ngayLap;
-	public HoaDon(String ma, String maXe, String maKH, String maNV, String maCH, int thoiGianBH, int donGia,
-			int soLuong, LocalDate ngayLap) {
+	private String ma, maXe, maKH, maNV, maCH, thoiGianBH;
+	private int donGia, soLuong;
+	private Date ngayLap;
+	
+	public HoaDon() {
+		super();
+	}
+	
+	public HoaDon(String ma) {
+		super();
+		this.ma = ma;
+	}
+	
+	public HoaDon(String ma, String maXe, String maKH, String maNV, String maCH, String thoiGianBH, int donGia,
+			int soLuong, Date ngayLap) {
 		super();
 		this.ma = ma;
 		this.maXe = maXe;
@@ -20,6 +30,11 @@ public class HoaDon {
 		this.soLuong = soLuong;
 		this.ngayLap = ngayLap;
 	}
+	
+	public void setMa(String ma) {
+		this.ma = ma;
+	}
+
 	public String getMaXe() {
 		return maXe;
 	}
@@ -44,10 +59,10 @@ public class HoaDon {
 	public void setMaCH(String maCH) {
 		this.maCH = maCH;
 	}
-	public int getThoiGianBH() {
+	public String getThoiGianBH() {
 		return thoiGianBH;
 	}
-	public void setThoiGianBH(int thoiGianBH) {
+	public void setThoiGianBH(String thoiGianBH) {
 		this.thoiGianBH = thoiGianBH;
 	}
 	public int getDonGia() {
@@ -62,10 +77,10 @@ public class HoaDon {
 	public void setSoLuong(int soLuong) {
 		this.soLuong = soLuong;
 	}
-	public LocalDate getNgayLap() {
+	public Date getNgayLap() {
 		return ngayLap;
 	}
-	public void setNgayLap(LocalDate ngayLap) {
+	public void setNgayLap(Date ngayLap) {
 		this.ngayLap = ngayLap;
 	}
 	public String getMa() {
