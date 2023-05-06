@@ -4,8 +4,7 @@ import java.sql.Date;
 import java.util.Objects;
 
 public class HoaDon {
-	private String ma, maXe, maKH, maNV, maCH, thoiGianBH;
-	private int donGia, soLuong;
+	private String ma, maKH, maNV, maCH, thoiGianBH;
 	private Date ngayLap;
 	
 	public HoaDon() {
@@ -17,29 +16,18 @@ public class HoaDon {
 		this.ma = ma;
 	}
 	
-	public HoaDon(String ma, String maXe, String maKH, String maNV, String maCH, String thoiGianBH, int donGia,
-			int soLuong, Date ngayLap) {
+	public HoaDon(String ma, Date ngayLap, String thoiGianBH, String maKH, String maCH, String maNV) {
 		super();
 		this.ma = ma;
-		this.maXe = maXe;
 		this.maKH = maKH;
 		this.maNV = maNV;
 		this.maCH = maCH;
 		this.thoiGianBH = thoiGianBH;
-		this.donGia = donGia;
-		this.soLuong = soLuong;
 		this.ngayLap = ngayLap;
 	}
 	
 	public void setMa(String ma) {
 		this.ma = ma;
-	}
-
-	public String getMaXe() {
-		return maXe;
-	}
-	public void setMaXe(String maXe) {
-		this.maXe = maXe;
 	}
 	public String getMaKH() {
 		return maKH;
@@ -65,18 +53,6 @@ public class HoaDon {
 	public void setThoiGianBH(String thoiGianBH) {
 		this.thoiGianBH = thoiGianBH;
 	}
-	public int getDonGia() {
-		return donGia;
-	}
-	public void setDonGia(int donGia) {
-		this.donGia = donGia;
-	}
-	public int getSoLuong() {
-		return soLuong;
-	}
-	public void setSoLuong(int soLuong) {
-		this.soLuong = soLuong;
-	}
 	public Date getNgayLap() {
 		return ngayLap;
 	}
@@ -86,6 +62,7 @@ public class HoaDon {
 	public String getMa() {
 		return ma;
 	}
+	
 	@Override
 	public int hashCode() {
 		return Objects.hash(ma);
