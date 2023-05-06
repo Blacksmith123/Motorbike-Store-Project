@@ -21,12 +21,9 @@ public class HoaDon_DAO {
 			stmt.setString(1, hd.getMa());
 			stmt.setDate(2, hd.getNgayLap());
 			stmt.setString(3, hd.getThoiGianBH());
-			stmt.setInt(4, hd.getDonGia());
-			stmt.setInt(5, hd.getSoLuong());
-			stmt.setString(6, hd.getMaKH());
-			stmt.setString(7, hd.getMaCH());
-			stmt.setString(8, hd.getMaNV());
-			stmt.setString(9, hd.getMaXe());
+			stmt.setString(4, hd.getMaKH());
+			stmt.setString(5, hd.getMaCH());
+			stmt.setString(6, hd.getMaNV());
 		} finally {
 			stmt.close();
 		}
@@ -49,14 +46,13 @@ public class HoaDon_DAO {
 				"SELECT * FROM [dbo].[HoaDon] where ngayLap between '" + ngayBD + "' and '" + ngayKT + "'");
 		while (rs.next()) {
 			HoaDon hd = new HoaDon();
+			
 			hd.setMa(rs.getString(1));
 			hd.setNgayLap(rs.getDate(2));
-			hd.setDonGia(rs.getInt(3));
-			hd.setSoLuong(rs.getInt(4));
-			hd.setMaKH(rs.getString(5));
-			hd.setMaCH(rs.getString(6));
-			hd.setMaNV(rs.getString(7));
-			hd.setMaXe(rs.getString(8));
+			hd.setThoiGianBH(rs.getString(3));
+			hd.setMaKH(rs.getString(4));
+			hd.setMaCH(rs.getString(5));
+			hd.setMaNV(rs.getString(6));
 
 			lsHD.add(hd);
 		}
@@ -78,12 +74,10 @@ public class HoaDon_DAO {
 
 			hd.setMa(rs.getString(1));
 			hd.setNgayLap(rs.getDate(2));
-			hd.setDonGia(rs.getInt(3));
-			hd.setSoLuong(rs.getInt(4));
-			hd.setMaKH(rs.getString(5));
-			hd.setMaCH(rs.getString(6));
-			hd.setMaNV(rs.getString(7));
-			hd.setMaXe(rs.getString(8));
+			hd.setThoiGianBH(rs.getString(3));
+			hd.setMaKH(rs.getString(4));
+			hd.setMaCH(rs.getString(5));
+			hd.setMaNV(rs.getString(6));
 
 		}
 
@@ -107,13 +101,11 @@ public class HoaDon_DAO {
 
 			hd.setMa(rs.getString(1));
 			hd.setNgayLap(rs.getDate(2));
-			hd.setDonGia(rs.getInt(3));
-			hd.setSoLuong(rs.getInt(4));
-			hd.setMaKH(rs.getString(5));
-			hd.setMaCH(rs.getString(6));
-			hd.setMaNV(rs.getString(7));
-			hd.setMaXe(rs.getString(8));
-
+			hd.setThoiGianBH(rs.getString(3));
+			hd.setMaKH(rs.getString(4));
+			hd.setMaCH(rs.getString(5));
+			hd.setMaNV(rs.getString(6));
+			
 			lsHD.add(hd);
 		}
 
@@ -136,12 +128,10 @@ public class HoaDon_DAO {
 
 			hd.setMa(rs.getString(1));
 			hd.setNgayLap(rs.getDate(2));
-			hd.setDonGia(rs.getInt(3));
-			hd.setSoLuong(rs.getInt(4));
-			hd.setMaKH(rs.getString(5));
-			hd.setMaCH(rs.getString(6));
-			hd.setMaNV(rs.getString(7));
-			hd.setMaXe(rs.getString(8));
+			hd.setThoiGianBH(rs.getString(3));
+			hd.setMaKH(rs.getString(4));
+			hd.setMaCH(rs.getString(5));
+			hd.setMaNV(rs.getString(6));
 
 			lsHD.add(hd);
 		}
@@ -167,12 +157,10 @@ public class HoaDon_DAO {
 
 			hd.setMa(rs.getString(1));
 			hd.setNgayLap(rs.getDate(2));
-			hd.setDonGia(rs.getInt(3));
-			hd.setSoLuong(rs.getInt(4));
-			hd.setMaKH(rs.getString(5));
-			hd.setMaCH(rs.getString(6));
-			hd.setMaNV(rs.getString(7));
-			hd.setMaXe(rs.getString(8));
+			hd.setThoiGianBH(rs.getString(3));
+			hd.setMaKH(rs.getString(4));
+			hd.setMaCH(rs.getString(5));
+			hd.setMaNV(rs.getString(6));
 
 			lsHD.add(hd);
 		}
