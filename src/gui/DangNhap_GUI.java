@@ -1,7 +1,6 @@
 package gui;
 
 import java.awt.Color;
-import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.Toolkit;
@@ -17,13 +16,10 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
-import javax.swing.border.EmptyBorder;
 
-import dao.DangNhap_DAO;
 import entity.TaiKhoan;
 
 
@@ -45,7 +41,6 @@ public class DangNhap_GUI extends JFrame implements ActionListener{
 	private JButton btnLogin;
 	private JButton btnExit;
 	public String hau;
-	private DangNhap_DAO tk_dao;
 	public static TaiKhoan tkd;
 	public DangNhap_GUI() {
 		// TODO Auto-generated constructor stub
@@ -144,31 +139,7 @@ public class DangNhap_GUI extends JFrame implements ActionListener{
 		}
 	}
 	private int login() {
-		if(txtUser.getText().equals("")) {
-			JOptionPane.showMessageDialog(this, "Bạn chưa nhập tài khoản!", "Chú ý", JOptionPane.ERROR_MESSAGE);
-			txtUser.requestFocus();
-			return 0;
-		}
-		else if(txtPwd.getPassword().length==0) {
-			JOptionPane.showMessageDialog(this, "Bạn chưa nhập mật khẩu!", "Chú ý", JOptionPane.ERROR_MESSAGE);
-			txtPwd.requestFocus();
-			return 0;
-		}
-		else {
-			TaiKhoan l = tk_dao.login(txtUser.getText(), String.valueOf(txtPwd.getPassword()));
-			if(l == null) {
-				JOptionPane.showMessageDialog(null, "Bạn nhập sai tài khoản hoặc mật khẩu!");
-				txtUser.selectAll();
-				txtUser.requestFocus();
-				return 0;
-			}
-			else {
-//				ShareDate.nguoiDangNhap = l;
-//				System.out.println(ShareDate.nguoiDangNhap);
-				this.dispose();
-				return 1;
-			}
-	}
+		return 1;
 	}
 	private void exit() {
 		System.exit(0);
