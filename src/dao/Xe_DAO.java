@@ -18,8 +18,7 @@ public class Xe_DAO {
 	public boolean themXe(Xe xe) throws SQLException {
 		ConnectDB.getInstance();
 		Connection con = ConnectDB.getConnection();
-		PreparedStatement ps = null;
-		ps = con.prepareStatement("insert into Xe value (?, ?, ?, ?, ?, ?)");
+		PreparedStatement ps = con.prepareStatement("insert into Xe values (?, ?, ?, ?, ?, ?)");
 		ps.setString(1, xe.getMa());
 		ps.setString(2, xe.getSoMay());
 		ps.setString(3, xe.getSoKhung());
@@ -32,7 +31,7 @@ public class Xe_DAO {
 	}
 
 	// xoa xe theo ma
-	public boolean xoaXe(String ma) throws SQLException {
+	public boolean xoaXeTheoMa(String ma) throws SQLException {
 		ConnectDB.getInstance();
 		Connection con = ConnectDB.getConnection();
 		PreparedStatement ps = con.prepareStatement("delete from Xe where maXe = '" + ma + "'");
