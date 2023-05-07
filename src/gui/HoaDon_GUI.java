@@ -351,16 +351,9 @@ public class HoaDon_GUI extends JPanel {
 		panel_3.add(btnThemDong);
 
 	//	đổ dữ liệu vào table hóa đơn
-<<<<<<< HEAD
 		hoaDon_DAO = new HoaDon_DAO();
 		for (HoaDon hd : hoaDon_DAO.getAllHoaDon()) {
-			Object[] objects = {hd.getMa(),hd.getNgayLap(),hd.getMaKH(),hd.getMaCH(),hd.getMaNV()};
-=======
-		hoaDon = new HoaDon_DAO();
-//		Database.getInstance().connect();
-		for (HoaDon hd : hoaDon.getAllHoaDon()) {
 			Object[] objects = {hd.getMa(),hd.getNgayLap(),hd.getThoiGianBH(),hd.getMaKH(),hd.getMaCH(),hd.getMaNV()};
->>>>>>> 0178bf85ac6e1556a86c1218515da8587037214e
 			 modelHd.addRow(objects);
 		}
 	}
