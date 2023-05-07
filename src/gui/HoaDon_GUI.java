@@ -16,6 +16,7 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 import connect.ConnectDB;
+import dao.ChiTietHoaDon_DAO;
 import dao.HoaDon_DAO;
 import entity.HoaDon;
 
@@ -40,13 +41,14 @@ public class HoaDon_GUI extends JPanel {
 	private JTextField textField;
 	private JTable tableHd;
 	private DefaultTableModel modelHd;
-//	private DefaultTableModel modelHdDetail;
+	private DefaultTableModel modelHdDetail;
 	private JTextField textMaHD;
 	private JTable tableHddetail;
 	private JTextField textNgaylap;
 	private JTextField textThoigianbaohanh;
 	private JTextField textField_3;
 	private HoaDon_DAO hoaDon_DAO;
+	private ChiTietHoaDon_DAO chiTietHoaDon_DAO;
 
 	/**
 	 * Create the panel.
@@ -289,22 +291,15 @@ public class HoaDon_GUI extends JPanel {
 		panel_3.setBackground(new Color(165, 42, 42));
 		panel_3.setBounds(10, 39, 422, 661);
 		add(panel_3);
-
-		JScrollPane scrollPane_1 = new JScrollPane();
-		scrollPane_1.setBounds(10, 125, 402, 489);
-		panel_3.add(scrollPane_1);
-
-		tableHddetail = new JTable();
-		tableHddetail.setModel(new DefaultTableModel(
-			new Object[][] {
-				{null, null, null, null},
-			},
-			new String[] {
-				"M\u00E3 h\u00F3a \u0111\u01A1n", "S\u1ED1 l\u01B0\u1EE3ng", "M\u00E3 Lo\u1EA1i Xe", "Th\u00E0nh ti\u1EC1n"
-			}
-		));
+//==================================table chi tiết hóa đơn
+		String[] column_1 = {"Mã hóa đơn","Mã loại xe","Số lượng","Đơn giá","Thành tiền"};
+		modelHdDetail = new DefaultTableModel(column_1,0);
+		tableHddetail = new JTable(modelHdDetail);
 		tableHddetail.setFont(new Font("Arial", Font.PLAIN, 16));
-		scrollPane_1.setViewportView(tableHddetail);
+		JScrollPane scrollPane_1 = new JScrollPane(tableHddetail, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		scrollPane_1.setBounds(10, 125, 402, 489);		
+		panel_3.add(scrollPane_1);
 
 		JLabel lblNewLabel_2 = new JLabel("Tìm Kiếm:");
 		lblNewLabel_2.setForeground(Color.WHITE);
@@ -360,5 +355,6 @@ public class HoaDon_GUI extends JPanel {
 					hd.getMaNV() };
 			modelHd.addRow(objects);
 		}
+		// đổ dữ liệu vào
 	}
 }
