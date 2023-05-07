@@ -5,6 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 import connect.ConnectDB;
 import entity.ThongTinXe;
@@ -71,6 +73,19 @@ public class ThongTinXe_DAO {
 		}
 		
 		return thongTinXe;
+	}
+	
+	// get danh sach thong tin xe
+	public List<ThongTinXe> getAllThongTinXe() throws SQLException {
+		ConnectDB.getInstance();
+		Connection con = ConnectDB.getConnection();
+		List<ThongTinXe> dsThongTinXe = new ArrayList<ThongTinXe>();
+		Statement statement = con.createStatement();
+		ResultSet resultSet = statement.executeQuery("select * from ThongTinXe");
+		while (resultSet.next()) {
+			dsThongTinXe.add(new ThongTinXe(resultSet.getString(1),resultSet.getString(2),resultSet.getInt(3),resultSet.getInt(4), resultSet.getString(5), resultSet.getString(6)));
+		}
+		return dsThongTinXe;
 	}
 	
 	
