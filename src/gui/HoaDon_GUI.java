@@ -14,6 +14,10 @@ import javax.swing.border.TitledBorder;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+
+import dao.HoaDon_DAO;
+import entity.HoaDon;
+
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -31,11 +35,14 @@ public class HoaDon_GUI extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private JTextField textField;
 	private JTable tableHd;
+	private DefaultTableModel modelHd;
+//	private DefaultTableModel modelHdDetail;
 	private JTextField textMaHD;
 	private JTable tableHddetail;
 	private JTextField textNgaylap;
 	private JTextField textThoigianbaohanh;
 	private JTextField textField_3;
+	HoaDon_DAO hoaDon;
 
 	/**
 	 * Create the panel.
@@ -51,21 +58,15 @@ public class HoaDon_GUI extends JPanel {
 		panel.setBounds(442, 299, 748, 401);
 		add(panel);
 		panel.setLayout(null);
-		JScrollPane scrollPane = new JScrollPane();
+		//table
+		String[] column = {"Mã hóa đơn","Ngày lập","Thời gian bảo hành","Mã khách hàng","Mã cửa hàng", "Mã nhân viên"};
+		modelHd = new DefaultTableModel(column,2);
+		tableHd = new JTable(modelHd);
+		tableHd.setFont(new Font("Arial", Font.PLAIN, 16));
+		JScrollPane scrollPane = new JScrollPane(tableHd, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		scrollPane.setBounds(10, 10, 728, 381);
 		panel.add(scrollPane);
 		
-		tableHd = new JTable();
-		tableHd.setFont(new Font("Arial", Font.PLAIN, 16));
-		tableHd.setModel(new DefaultTableModel(
-			new Object[][] {
-				{null, null, null, null, null, null},
-			},
-			new String[] {
-				"M\u00E3 h\u00F3a \u0111\u01A1n", "Ng\u00E0y l\u1EADp", " Th\u1EDDi gian b\u1EA3o h\u00E0nh", "M\u00E3 kh\u00E1ch h\u00E0ng", "M\u00E3 c\u1EEDa h\u00E0ng", "M\u00E3 nh\u00E2n vi\u00EAn"
-			}
-		));
-		scrollPane.setViewportView(tableHd);
 		
 		JPanel txtTongtien = new JPanel();
 		txtTongtien.setBackground(SystemColor.text);
@@ -95,7 +96,7 @@ public class HoaDon_GUI extends JPanel {
 		panel_2.setLayout(null);
 		
 		JButton btnThem = new JButton("Thêm");
-		btnThem.setBackground(Color.BLUE);
+		btnThem.setBackground(Color.LIGHT_GRAY);
 		btnThem.setForeground(new Color(165, 42, 42));
 		btnThem.setFont(new Font("Arial", Font.PLAIN, 16));
 		btnThem.setBounds(56, 32, 112, 27);
@@ -104,36 +105,32 @@ public class HoaDon_GUI extends JPanel {
 		JButton btnXoatrang = new JButton("Xóa Trắng");
 		btnXoatrang.setForeground(new Color(165, 42, 42));
 		btnXoatrang.setFont(new Font("Arial", Font.PLAIN, 16));
-		btnXoatrang.setBackground(Color.BLUE);
+		btnXoatrang.setBackground(Color.LIGHT_GRAY);
 		btnXoatrang.setBounds(212, 32, 112, 27);
 		panel_2.add(btnXoatrang);
 		
 		JButton btnCapnhat = new JButton("Cập Nhật");
 		btnCapnhat.setForeground(new Color(165, 42, 42));
 		btnCapnhat.setFont(new Font("Arial", Font.PLAIN, 16));
-		btnCapnhat.setBackground(Color.BLUE);
+		btnCapnhat.setBackground(Color.LIGHT_GRAY);
 		btnCapnhat.setBounds(56, 69, 112, 27);
 		panel_2.add(btnCapnhat);
 		
 		JButton btnXoa = new JButton("Xóa");
 		btnXoa.setForeground(new Color(165, 42, 42));
 		btnXoa.setFont(new Font("Arial", Font.PLAIN, 16));
-		btnXoa.setBackground(Color.BLUE);
+		btnXoa.setBackground(Color.LIGHT_GRAY);
 		btnXoa.setBounds(212, 69, 112, 27);
 		panel_2.add(btnXoa);
 		
 		JButton btnLuu = new JButton("Lưu");
 		btnLuu.setForeground(new Color(165, 42, 42));
 		btnLuu.setFont(new Font("Arial", Font.PLAIN, 16));
-		btnLuu.setBackground(Color.BLUE);
+		btnLuu.setBackground(Color.LIGHT_GRAY);
 		btnLuu.setBounds(136, 106, 112, 27);
 		panel_2.add(btnLuu);
 		
-		JLabel lblNewLabel_1_1 = new JLabel("Chức năng:");
-		lblNewLabel_1_1.setForeground(Color.BLUE);
-		lblNewLabel_1_1.setFont(new Font("Arial", Font.BOLD | Font.ITALIC, 14));
-		lblNewLabel_1_1.setBounds(10, 352, 322, 27);
-		txtTongtien.add(lblNewLabel_1_1);
+	
 		
 		JLabel lblNewLabel_4_1 = new JLabel("Ngày Lập:\r\n");
 		lblNewLabel_4_1.setForeground(new Color(165, 42, 42));
@@ -207,7 +204,6 @@ public class HoaDon_GUI extends JPanel {
 		textField_3 = new JTextField();
 		textField_3.setEnabled(false);
 		textField_3.setEditable(false);
-		textField_3.setDropMode(DropMode.ON);
 		textField_3.setFont(new Font("Arial", Font.PLAIN, 16));
 		textField_3.setColumns(10);
 		textField_3.setBounds(508, 60, 206, 24);
@@ -227,35 +223,35 @@ public class HoaDon_GUI extends JPanel {
 		});
 		btnThem_1.setForeground(new Color(165, 42, 42));
 		btnThem_1.setFont(new Font("Arial", Font.PLAIN, 16));
-		btnThem_1.setBackground(Color.BLUE);
+		btnThem_1.setBackground(Color.LIGHT_GRAY);
 		btnThem_1.setBounds(56, 32, 112, 27);
 		panel_2_1.add(btnThem_1);
 		
 		JButton btnXoatrang_1 = new JButton("Xóa Trắng");
 		btnXoatrang_1.setForeground(new Color(165, 42, 42));
 		btnXoatrang_1.setFont(new Font("Arial", Font.PLAIN, 16));
-		btnXoatrang_1.setBackground(Color.BLUE);
+		btnXoatrang_1.setBackground(Color.LIGHT_GRAY);
 		btnXoatrang_1.setBounds(212, 32, 112, 27);
 		panel_2_1.add(btnXoatrang_1);
 		
 		JButton btnCapnhat_1 = new JButton("Cập Nhật");
 		btnCapnhat_1.setForeground(new Color(165, 42, 42));
 		btnCapnhat_1.setFont(new Font("Arial", Font.PLAIN, 16));
-		btnCapnhat_1.setBackground(Color.BLUE);
+		btnCapnhat_1.setBackground(Color.LIGHT_GRAY);
 		btnCapnhat_1.setBounds(56, 69, 112, 27);
 		panel_2_1.add(btnCapnhat_1);
 		
 		JButton btnXoa_1 = new JButton("Xóa");
 		btnXoa_1.setForeground(new Color(165, 42, 42));
 		btnXoa_1.setFont(new Font("Arial", Font.PLAIN, 16));
-		btnXoa_1.setBackground(Color.BLUE);
+		btnXoa_1.setBackground(Color.LIGHT_GRAY);
 		btnXoa_1.setBounds(212, 69, 112, 27);
 		panel_2_1.add(btnXoa_1);
 		
 		JButton btnLuu_1 = new JButton("Lưu");
 		btnLuu_1.setForeground(new Color(165, 42, 42));
 		btnLuu_1.setFont(new Font("Arial", Font.PLAIN, 16));
-		btnLuu_1.setBackground(Color.BLUE);
+		btnLuu_1.setBackground(Color.LIGHT_GRAY);
 		btnLuu_1.setBounds(136, 106, 112, 27);
 		panel_2_1.add(btnLuu_1);
 		
@@ -328,7 +324,7 @@ public class HoaDon_GUI extends JPanel {
 		btnTim.setIcon(new ImageIcon("D:\\Study\\OOPJava\\21091031_TrinhMinhKhaa\\Motorbike-Store-Project\\data\\image\\icons8-search-30.png"));
 		btnTim.setForeground(new Color(165, 42, 42));
 		btnTim.setFont(new Font("Arial", Font.PLAIN, 16));
-		btnTim.setBackground(Color.BLUE);
+		btnTim.setBackground(Color.LIGHT_GRAY);
 		btnTim.setHorizontalTextPosition(SwingConstants.RIGHT);
 		btnTim.setVerticalTextPosition(SwingConstants.CENTER);
 		btnTim.setHorizontalAlignment(SwingConstants.LEFT);
@@ -343,9 +339,15 @@ public class HoaDon_GUI extends JPanel {
 		JButton btnThemDong = new JButton("Thêm Dòng");
 		btnThemDong.setForeground(new Color(165, 42, 42));
 		btnThemDong.setFont(new Font("Arial", Font.PLAIN, 16));
-		btnThemDong.setBackground(Color.BLUE);
+		btnThemDong.setBackground(Color.LIGHT_GRAY);
 		btnThemDong.setBounds(10, 624, 125, 27);
 		panel_3.add(btnThemDong);
 
+	//	đổ dữ liệu vào table hóa đơn
+		hoaDon = new HoaDon_DAO();
+		for (HoaDon hd : hoaDon.getAllHoaDon()) {
+			Object[] objects = {hd.getMa(),hd.getNgayLap(),hd.getMaKH(),hd.getMaCH(),hd.getMaNV()};
+			 modelHd.addRow(objects);
+		}
 	}
 }

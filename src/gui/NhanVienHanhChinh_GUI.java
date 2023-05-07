@@ -157,7 +157,7 @@ public class NhanVienHanhChinh_GUI extends JPanel {
 		panel_2.setLayout(null);
 		
 		JButton btnThem = new JButton("Thêm");
-		btnThem.setBackground(Color.BLUE);
+		btnThem.setBackground(Color.LIGHT_GRAY);
 		btnThem.setForeground(new Color(165, 42, 42));
 		btnThem.setFont(new Font("Arial", Font.PLAIN, 16));
 		btnThem.setBounds(56, 32, 112, 27);
@@ -166,33 +166,33 @@ public class NhanVienHanhChinh_GUI extends JPanel {
 		JButton btnXoatrang = new JButton("Xóa Trắng");
 		btnXoatrang.setForeground(new Color(165, 42, 42));
 		btnXoatrang.setFont(new Font("Arial", Font.PLAIN, 16));
-		btnXoatrang.setBackground(Color.BLUE);
+		btnXoatrang.setBackground(Color.LIGHT_GRAY);
 		btnXoatrang.setBounds(212, 32, 112, 27);
 		panel_2.add(btnXoatrang);
 		
 		JButton btnCapnhat = new JButton("Cập Nhật");
 		btnCapnhat.setForeground(new Color(165, 42, 42));
 		btnCapnhat.setFont(new Font("Arial", Font.PLAIN, 16));
-		btnCapnhat.setBackground(Color.BLUE);
+		btnCapnhat.setBackground(Color.LIGHT_GRAY);
 		btnCapnhat.setBounds(56, 69, 112, 27);
 		panel_2.add(btnCapnhat);
 		
 		JButton btnXoa = new JButton("Xóa");
 		btnXoa.setForeground(new Color(165, 42, 42));
 		btnXoa.setFont(new Font("Arial", Font.PLAIN, 16));
-		btnXoa.setBackground(Color.BLUE);
+		btnXoa.setBackground(Color.LIGHT_GRAY);
 		btnXoa.setBounds(212, 69, 112, 27);
 		panel_2.add(btnXoa);
 		
 		JButton btnLuu = new JButton("Lưu");
 		btnLuu.setForeground(new Color(165, 42, 42));
 		btnLuu.setFont(new Font("Arial", Font.PLAIN, 16));
-		btnLuu.setBackground(Color.BLUE);
+		btnLuu.setBackground(Color.LIGHT_GRAY);
 		btnLuu.setBounds(136, 106, 112, 27);
 		panel_2.add(btnLuu);
 		
 		JLabel lblNewLabel_1_1 = new JLabel("Chức năng:");
-		lblNewLabel_1_1.setForeground(Color.BLUE);
+		lblNewLabel_1_1.setForeground(Color.LIGHT_GRAY);
 		lblNewLabel_1_1.setFont(new Font("Arial", Font.BOLD | Font.ITALIC, 14));
 		lblNewLabel_1_1.setBounds(10, 352, 322, 27);
 		panel_1.add(lblNewLabel_1_1);
@@ -262,7 +262,7 @@ public class NhanVienHanhChinh_GUI extends JPanel {
 		btnTim.setIcon(new ImageIcon("D:\\Study\\OOPJava\\21091031_TrinhMinhKhaa\\Motorbike-Store-Project\\data\\image\\icons8-search-30.png"));
 		btnTim.setForeground(new Color(165, 42, 42));
 		btnTim.setFont(new Font("Arial", Font.PLAIN, 16));
-		btnTim.setBackground(Color.BLUE);
+		btnTim.setBackground(Color.LIGHT_GRAY);
 		btnTim.setBounds(522, 20, 133, 27);
 		btnTim.setHorizontalTextPosition(SwingConstants.RIGHT);
 		btnTim.setVerticalTextPosition(SwingConstants.CENTER);

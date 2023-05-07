@@ -7,11 +7,29 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.List;
 
 import connect.ConnectDB;
 import entity.HoaDon;
 
 public class HoaDon_DAO {
+	public List<HoaDon> getAllHoaDon(){
+		List<HoaDon> dsHoaDon = new ArrayList<HoaDon>();
+		ConnectDB.getInstance();
+		Connection con = ConnectDB.getConnection();
+		try {
+			String sql = "select * from HoaDon";
+			Statement statement = con.createStatement();
+			ResultSet rs = statement.executeQuery(sql);
+			while (rs.next()) {
+				dsHoaDon.add(new HoaDon(rs.getString("maHoaDon"), /*rs.getString("ngayLap")*/null, rs.getString("thoiGianBaoHanh"), rs.getString("maKhachHang"), rs.getString("maCuaHang"),rs.getString("maNhanVien")));
+			}
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return dsHoaDon;
+	}
+
 	public boolean themHoaDon(HoaDon hd) throws SQLException {
 		ConnectDB.getInstance();
 		Connection con = ConnectDB.getConnection();
@@ -46,7 +64,7 @@ public class HoaDon_DAO {
 				"SELECT * FROM [dbo].[HoaDon] where ngayLap between '" + ngayBD + "' and '" + ngayKT + "'");
 		while (rs.next()) {
 			HoaDon hd = new HoaDon();
-			
+
 			hd.setMa(rs.getString(1));
 			hd.setNgayLap(rs.getDate(2));
 			hd.setThoiGianBH(rs.getString(3));
@@ -105,7 +123,7 @@ public class HoaDon_DAO {
 			hd.setMaKH(rs.getString(4));
 			hd.setMaCH(rs.getString(5));
 			hd.setMaNV(rs.getString(6));
-			
+
 			lsHD.add(hd);
 		}
 
@@ -261,5 +279,5 @@ public class HoaDon_DAO {
 	}
 
 	// get so luong xe
-	
+
 }
