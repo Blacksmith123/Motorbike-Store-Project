@@ -66,7 +66,7 @@ public class HoaDon_GUI extends JPanel {
 		panel.setLayout(null);
 		//table
 		String[] column = {"Mã hóa đơn","Ngày lập","Thời gian bảo hành","Mã khách hàng","Mã cửa hàng", "Mã nhân viên"};
-		modelHd = new DefaultTableModel(column,2);
+		modelHd = new DefaultTableModel(column,0);
 		tableHd = new JTable(modelHd);
 		tableHd.setFont(new Font("Arial", Font.PLAIN, 16));
 		JScrollPane scrollPane = new JScrollPane(tableHd, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
@@ -342,6 +342,7 @@ public class HoaDon_GUI extends JPanel {
 		comboBox.setBounds(90, 29, 133, 21);
 		panel_3.add(comboBox);
 		
+		//thêm dòng khi để thêm hóa đơn
 		JButton btnThemDong = new JButton("Thêm Dòng");
 		btnThemDong.setForeground(new Color(165, 42, 42));
 		btnThemDong.setFont(new Font("Arial", Font.PLAIN, 16));
