@@ -90,7 +90,7 @@ public class HoaDon_DAO {
 		ConnectDB.getInstance();
 		HoaDon hd = new HoaDon();
 		Connection con = ConnectDB.getConnection();
-		String sql = "SELECT * FROM [dbo].[HoaDon] where maHD ='" + ma + "'";
+		String sql = "SELECT * FROM [dbo].[HoaDon] where maHoaDon ='" + ma + "'";
 
 		Statement stm = con.createStatement();
 		ResultSet rs = stm.executeQuery(sql);
