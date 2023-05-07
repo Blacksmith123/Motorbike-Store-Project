@@ -17,7 +17,7 @@ public class ChiTietHoaDon {
 	public ChiTietHoaDon(String ma, ThongTinXe ttXE, int soLuong, int donGia) {
 		super();
 		this.ma = ma;
-		this.maLoaiXe = ttXE.getMaLoai();
+		this.maLoaiXe = ttXE.getMaLoaiXe();
 		this.donGia = ttXE.getGiaNiemYet();
 		this.soLuong = soLuong;
 		this.thanhTien = soLuong * donGia;
