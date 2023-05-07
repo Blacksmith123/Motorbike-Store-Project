@@ -26,6 +26,7 @@ import javax.swing.JComboBox;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.awt.event.ActionEvent;
 import javax.swing.border.LineBorder;
 import javax.swing.DropMode;
@@ -294,9 +295,14 @@ public class HoaDon_GUI extends JPanel {
 		panel_3.add(scrollPane_1);
 
 		tableHddetail = new JTable();
-		tableHddetail.setModel(new DefaultTableModel(new Object[][] { { null, null, null, null, null }, },
-				new String[] { "M\u00E3 h\u00F3a \u0111\u01A1n", "T\u00EAn lo\u1EA1i xe", "S\u1ED1 l\u01B0\u1EE3ng",
-						"\u0110\u01A1n gi\u00E1", "Th\u00E0nh ti\u1EC1n" }));
+		tableHddetail.setModel(new DefaultTableModel(
+			new Object[][] {
+				{null, null, null, null},
+			},
+			new String[] {
+				"M\u00E3 h\u00F3a \u0111\u01A1n", "S\u1ED1 l\u01B0\u1EE3ng", "M\u00E3 Lo\u1EA1i Xe", "Th\u00E0nh ti\u1EC1n"
+			}
+		));
 		tableHddetail.setFont(new Font("Arial", Font.PLAIN, 16));
 		scrollPane_1.setViewportView(tableHddetail);
 
@@ -337,12 +343,8 @@ public class HoaDon_GUI extends JPanel {
 		comboBox.setModel(new DefaultComboBoxModel(new String[] { "Hóa Đơn", "Chi Tiết Hóa Đơn" }));
 		comboBox.setBounds(90, 29, 133, 21);
 		panel_3.add(comboBox);
-<<<<<<< HEAD
 		
 		//thêm dòng khi để thêm hóa đơn
-=======
-
->>>>>>> a78bbc270f4084ca939462a0910849b49f35309e
 		JButton btnThemDong = new JButton("Thêm Dòng");
 		btnThemDong.setForeground(new Color(165, 42, 42));
 		btnThemDong.setFont(new Font("Arial", Font.PLAIN, 16));
@@ -352,8 +354,9 @@ public class HoaDon_GUI extends JPanel {
 
 		// đổ dữ liệu vào table hóa đơn
 		hoaDon_DAO = new HoaDon_DAO();
+		SimpleDateFormat dateFormat = new SimpleDateFormat("dd / MM / yyyy");
 		for (HoaDon hd : hoaDon_DAO.getAllHoaDon()) {
-			Object[] objects = { hd.getMa(), hd.getNgayLap(), hd.getThoiGianBH(), hd.getMaKH(), hd.getMaCH(),
+			Object[] objects = { hd.getMa(), dateFormat.format(hd.getNgayLap()), hd.getThoiGianBH(), hd.getMaKH(), hd.getMaCH(),
 					hd.getMaNV() };
 			modelHd.addRow(objects);
 		}
