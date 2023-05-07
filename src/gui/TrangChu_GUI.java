@@ -9,6 +9,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 import java.awt.event.ActionEvent;
 import javax.swing.JRadioButton;
 import javax.swing.JLabel;
@@ -222,7 +223,12 @@ public class TrangChu_GUI extends JFrame implements ActionListener{
 			showMenu(new NhanVienKyThuat_GUI());
 		}
 		else if(o.equals(menuitemHoaDon)) {
-			showMenu(new HoaDon_GUI());
+			try {
+				showMenu(new HoaDon_GUI());
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 		}
 		else if(o.equals(menuitemNhaPhanPhoi)) {
 			showMenu(new NhaPhanPhoi_GUI());

@@ -15,6 +15,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
+import connect.ConnectDB;
 import dao.HoaDon_DAO;
 import entity.HoaDon;
 
@@ -24,6 +25,7 @@ import javax.swing.JComboBox;
 
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.sql.SQLException;
 import java.awt.event.ActionEvent;
 import javax.swing.border.LineBorder;
 import javax.swing.DropMode;
@@ -47,8 +49,12 @@ public class HoaDon_GUI extends JPanel {
 
 	/**
 	 * Create the panel.
+	 * @throws SQLException 
 	 */
-	public HoaDon_GUI() {
+	public HoaDon_GUI() throws SQLException {
+		//bat buoc
+		ConnectDB.getInstance().connect();
+//		ở trên
 		setBorder(new LineBorder(new Color(0, 0, 0)));
 		setBackground(Color.LIGHT_GRAY);
 		setLayout(null);
