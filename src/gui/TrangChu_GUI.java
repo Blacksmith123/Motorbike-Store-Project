@@ -55,6 +55,8 @@ public class TrangChu_GUI extends JFrame implements ActionListener{
 	private JMenuItem menuitemTraCuuKH;
 
 	private JMenuItem menuitemNhanVienKyThuat;
+	
+	private JPanel tongJPanel;
 
 	/**
 	 * Launch the application.
@@ -91,6 +93,7 @@ public class TrangChu_GUI extends JFrame implements ActionListener{
 		menuBar.add(menuTrangChu);
 		
 		menuitemTrangChu = new JMenuItem("Trang chủ");
+		menuitemTrangChu.setIcon(new ImageIcon("D:\\DH\\EDP\\21089891_PhamVanThanh\\Motorbike-Store-Project\\data\\image\\info.png"));
 		menuTrangChu.add(menuitemTrangChu);
 		
 		menuCuaHang = new JMenu("Cửa hàng");
@@ -187,6 +190,7 @@ public class TrangChu_GUI extends JFrame implements ActionListener{
 		contentPane.add(lblNewLabel);
 		
 		JLabel lblNewLabel_1 = new JLabel("QUẢN LÝ BÁN XE MÁY", SwingConstants.CENTER);
+		lblNewLabel_1.setForeground(Color.red);
 		lblNewLabel_1.setFont(new Font("Arial", Font.BOLD, 24));
 		lblNewLabel_1.setBounds(0, 0, 1161, 74);
 		contentPane.add(lblNewLabel_1);
@@ -205,8 +209,7 @@ public class TrangChu_GUI extends JFrame implements ActionListener{
 		menuitemTraCuuNVHC.addActionListener(this);
 		menuitemTraCuuNVKT.addActionListener(this);
 		menuitemTraCuuXe.addActionListener(this);
-		
-		}
+	}
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		Object o = e.getSource();
@@ -235,6 +238,9 @@ public class TrangChu_GUI extends JFrame implements ActionListener{
 		}
 		else if(o.equals(menuitemQuanLyXe)) {
 			showMenu(new Xe_GUI());
+		}
+		else if (o.equals(menuitemThongTinXe)) {
+			showMenu(new ThongTinXe_GUI());
 		}
 //		else if(o.equals(menuitemTraCuuCuaHang)) {
 //			showMenu(new TraCuuCuaHang_GUI());
