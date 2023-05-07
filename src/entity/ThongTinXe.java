@@ -3,52 +3,86 @@ package entity;
 import java.util.ArrayList;
 
 public class ThongTinXe {
-	private String maLoai, tenLoai, moTa, phienBan;
+	private String maLoaiXe, tenLoaiXe, moTaXe, phienBan;
 	private int giaNiemYet, giaGiam;
 	public ArrayList<Xe> dsXe;
-	public ThongTinXe(String maLoai, String tenLoai, String moTa, String phienBan, int giaNiemYet, int giaGiam) {
+	
+	public ThongTinXe() {
 		super();
-		this.maLoai = maLoai;
-		this.tenLoai = tenLoai;
-		this.moTa = moTa;
+	}
+	
+	public ThongTinXe(String maLoaiXe) {
+		super();
+		this.maLoaiXe = maLoaiXe;
+	}
+	
+	public ThongTinXe(String maLoaiXe, String tenLoaiXe, String moTaXe, String phienBan, int giaNiemYet, int giaGiam) {
+		super();
+		this.maLoaiXe = maLoaiXe;
+		this.tenLoaiXe = tenLoaiXe;
+		this.moTaXe = moTaXe;
 		this.phienBan = phienBan;
 		this.giaNiemYet = giaNiemYet;
 		this.giaGiam = giaGiam;
 		dsXe = new ArrayList<Xe>();
 	}
-	public String getTenLoai() {
-		return tenLoai;
+
+	public String getMaLoaiXe() {
+		return maLoaiXe;
 	}
-	public void setTenLoai(String tenLoai) {
-		this.tenLoai = tenLoai;
+
+	public void setMaLoaiXe(String maLoaiXe) {
+		this.maLoaiXe = maLoaiXe;
 	}
-	public String getMoTa() {
-		return moTa;
+
+	public String getTenLoaiXe() {
+		return tenLoaiXe;
 	}
-	public void setMoTa(String moTa) {
-		this.moTa = moTa;
+
+	public void setTenLoaiXe(String tenLoaiXe) {
+		this.tenLoaiXe = tenLoaiXe;
 	}
+
+	public String getMoTaXe() {
+		return moTaXe;
+	}
+
+	public void setMoTaXe(String moTaXe) {
+		this.moTaXe = moTaXe;
+	}
+
 	public String getPhienBan() {
 		return phienBan;
 	}
+
 	public void setPhienBan(String phienBan) {
 		this.phienBan = phienBan;
 	}
+
 	public int getGiaNiemYet() {
 		return giaNiemYet;
 	}
+
 	public void setGiaNiemYet(int giaNiemYet) {
 		this.giaNiemYet = giaNiemYet;
 	}
+
 	public int getGiaGiam() {
 		return giaGiam;
 	}
+
 	public void setGiaGiam(int giaGiam) {
 		this.giaGiam = giaGiam;
 	}
-	public String getMaLoai() {
-		return maLoai;
+
+	public ArrayList<Xe> getDsXe() {
+		return dsXe;
 	}
+
+	public void setDsXe(ArrayList<Xe> dsXe) {
+		this.dsXe = dsXe;
+	}
+	
 	
 	
 }
