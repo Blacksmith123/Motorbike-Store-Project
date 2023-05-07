@@ -18,18 +18,19 @@ public class HoaDon_DAO {
 	private Calendar ngayKetThucCalendar;
 	private Calendar dCalendar;
 
+	// get danh sach hoa don, get tat ca hoa don
 	public List<HoaDon> getAllHoaDon() {
-		List<HoaDon> dsHoaDon = new ArrayList<HoaDon>();
 		ConnectDB.getInstance();
+		List<HoaDon> dsHoaDon = new ArrayList<HoaDon>();
 		Connection con = ConnectDB.getConnection();
 		try {
 			String sql = "select * from HoaDon";
 			Statement statement = con.createStatement();
 			ResultSet rs = statement.executeQuery(sql);
 			while (rs.next()) {
-				dsHoaDon.add(new HoaDon(rs.getString("maHoaDon"), /* rs.getString("ngayLap") */null,
-						rs.getString("thoiGianBaoHanh"), rs.getString("maKhachHang"), rs.getString("maCuaHang"),
-						rs.getString("maNhanVien")));
+				dsHoaDon.add(new HoaDon(rs.getString(1), rs.getDate(2),
+						rs.getString(3), rs.getString(4), rs.getString(5),
+						rs.getString(6)));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -58,6 +59,7 @@ public class HoaDon_DAO {
 	// get hoa don theo ngay
 	public ArrayList<HoaDon> getHDTheoNgay(Date ngayBatDau, Date ngayKetThuc) throws SQLException {
 
+		ConnectDB.getInstance();
 		ngayBatDauCalendar = null;
 		ngayBatDauCalendar.setTime(ngayBatDau);
 		ngayKetThucCalendar = null;
@@ -67,7 +69,6 @@ public class HoaDon_DAO {
 		String ngayKT = (ngayKetThucCalendar.get(Calendar.YEAR) + 1900) + "/" + (ngayKetThucCalendar.get(Calendar.MONTH) + 1) + "/"
 				+ ngayKetThucCalendar.get(Calendar.DATE);
 
-		ConnectDB.getInstance();
 		Connection con = ConnectDB.getConnection();
 		Statement stm = con.createStatement();
 		ResultSet rs = stm.executeQuery(
@@ -89,10 +90,8 @@ public class HoaDon_DAO {
 
 	// get hoa don theo ma
 	public HoaDon getHDTheoMa(String ma) throws SQLException {
-
-		HoaDon hd = new HoaDon();
-
 		ConnectDB.getInstance();
+		HoaDon hd = new HoaDon();
 		Connection con = ConnectDB.getConnection();
 		String sql = "SELECT * FROM [dbo].[HoaDon] where maHD ='" + ma + "'";
 
@@ -115,9 +114,8 @@ public class HoaDon_DAO {
 
 	// get hoa don theo ten khach hang
 	public ArrayList<HoaDon> getHDTheoTenKH(String tenKH) throws SQLException {
-
-		ArrayList<HoaDon> lsHD = new ArrayList<HoaDon>();
 		ConnectDB.getInstance();
+		ArrayList<HoaDon> lsHD = new ArrayList<HoaDon>();		
 		Connection con = ConnectDB.getConnection();
 		String sql = "SELECT HoaDon.* FROM  HoaDon INNER JOIN KhachHang ON HoaDon.maKhachHang = KhachHang.maKhachHang where KhachHang.tenKhachHang like N'%"
 				+ tenKH + "%'";
@@ -143,9 +141,8 @@ public class HoaDon_DAO {
 
 	// get hoa don theo ma nhan vien
 	public ArrayList<HoaDon> getHDTheoMaNV(String maNV) throws SQLException {
-
-		ArrayList<HoaDon> lsHD = new ArrayList<HoaDon>();
 		ConnectDB.getInstance();
+		ArrayList<HoaDon> lsHD = new ArrayList<HoaDon>();
 		Connection con = ConnectDB.getConnection();
 		String sql = "SELECT * FROM [dbo].[HoaDon] where maNhanVien = '" + maNV + "'";
 
@@ -170,12 +167,11 @@ public class HoaDon_DAO {
 
 	// get hoa don theo ngay
 	public ArrayList<HoaDon> getHDtheoNgay(Date d) throws SQLException {
-
+		ConnectDB.getInstance();
 		dCalendar = null;
 		dCalendar.setTime(d);
 		ArrayList<HoaDon> lsHD = new ArrayList<HoaDon>();
 		String ngay = (dCalendar.get(Calendar.YEAR) + 1900) + "/" + (dCalendar.get(Calendar.MONTH) + 1) + "/" + dCalendar.get(Calendar.DATE);
-		ConnectDB.getInstance();
 		Connection con = ConnectDB.getConnection();
 		String sql = "SELECT * FROM [dbo].[HoaDon] where ngayLap = '" + ngay + "'";
 
@@ -267,7 +263,7 @@ public class HoaDon_DAO {
 
 	// get so luong khach hang
 	public Integer demSoKH(Date ngayBatDau, Date ngayKetThuc) throws SQLException {
-		
+		ConnectDB.getInstance();
 		ngayBatDauCalendar = null;
 		ngayBatDauCalendar.setTime(ngayBatDau);
 		ngayKetThucCalendar = null;
@@ -278,7 +274,6 @@ public class HoaDon_DAO {
 		String ngayKT = (ngayKetThucCalendar.get(Calendar.YEAR) + 1900) + "/" + (ngayKetThucCalendar.get(Calendar.MONTH) + 1) + "/"
 				+ ngayKetThucCalendar.get(Calendar.DATE);
 
-		ConnectDB.getInstance();
 		Connection con = ConnectDB.getConnection();
 		String sql = "select COUNT (DISTINCT maKhachHang ) from  KhachHang kh inner join HoaDon hd on kh.maKhachHang = hd.maKhachHang where ngayLap between '"
 				+ ngayBD + "' and '" + ngayKT + "'";
