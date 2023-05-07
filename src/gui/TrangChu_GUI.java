@@ -59,16 +59,17 @@ public class TrangChu_GUI extends JFrame implements ActionListener{
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					TrangChu_GUI frame = new TrangChu_GUI();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
+//		EventQueue.invokeLater(new Runnable() {
+//			public void run() {
+//				try {
+//					TrangChu_GUI frame = new TrangChu_GUI();
+//					frame.setVisible(true);
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
+//			}
+//		});
+		new TrangChu_GUI().setVisible(true);
 	}
 
 	/**
@@ -105,7 +106,7 @@ public class TrangChu_GUI extends JFrame implements ActionListener{
 		menuBar.add(menuNhanVien);
 		
 		menuitemNhanVienKyThuat = new JMenuItem("Nhân viên kỹ thuật");
-		menuitemNhanVienKyThuat.setIcon(new ImageIcon(TrangChu_GUI.class.getResource("/image/worker.png")));
+//		menuitemNhanVienKyThuat.setIcon(new ImageIcon(TrangChu_GUI.class.getResource("data//image//worker.png")));
 		menuitemNhanVienKyThuat.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
@@ -114,7 +115,7 @@ public class TrangChu_GUI extends JFrame implements ActionListener{
 		menuNhanVien.add(menuitemNhanVienKyThuat);
 		
 		 menuitemNhanVienHanhChinh = new JMenuItem("Nhân viên hành chính");
-		 menuitemNhanVienHanhChinh.setIcon(new ImageIcon(TrangChu_GUI.class.getResource("/image/employee.png")));
+//		 menuitemNhanVienHanhChinh.setIcon(new ImageIcon(TrangChu_GUI.class.getResource("data//image//employee.png")));
 		menuNhanVien.add(menuitemNhanVienHanhChinh);
 		
 		JMenu menuHoaDon = new JMenu("Hóa đơn");
@@ -180,7 +181,7 @@ public class TrangChu_GUI extends JFrame implements ActionListener{
 		contentPane.setLayout(null);
 		
 		JLabel lblNewLabel = new JLabel("");
-		lblNewLabel.setIcon(new ImageIcon(TrangChu_GUI.class.getResource("/image/TrangChu.jpg")));
+//		lblNewLabel.setIcon(new ImageIcon(TrangChu_GUI.class.getResource("/image/TrangChu.jpg")));
 		lblNewLabel.setBounds(54, 123, 830, 476);
 		contentPane.add(lblNewLabel);
 		
