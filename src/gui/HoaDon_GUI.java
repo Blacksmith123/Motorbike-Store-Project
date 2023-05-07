@@ -353,7 +353,7 @@ public class HoaDon_GUI extends JPanel {
 		hoaDon = new HoaDon_DAO();
 //		Database.getInstance().connect();
 		for (HoaDon hd : hoaDon.getAllHoaDon()) {
-			Object[] objects = {hd.getMa(),hd.getNgayLap(),hd.getMaKH(),hd.getMaCH(),hd.getMaNV()};
+			Object[] objects = {hd.getMa(),hd.getNgayLap(),hd.getThoiGianBH(),hd.getMaKH(),hd.getMaCH(),hd.getMaNV()};
 			 modelHd.addRow(objects);
 		}
 	}
