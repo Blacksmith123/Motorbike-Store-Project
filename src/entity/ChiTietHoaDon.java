@@ -1,8 +1,9 @@
 package entity;
 
 public class ChiTietHoaDon {
-	private String ma, tenLoaiXe;
-	private int soLuong, donGia, thanhTien;
+	private String ma, maLoaiXe;
+	private ThongTinXe ttXE;
+	private int soLuong,thanhTien, donGia;
 	
 	public ChiTietHoaDon() {
 		super();
@@ -13,13 +14,13 @@ public class ChiTietHoaDon {
 		this.ma = ma;
 	}
 	
-	public ChiTietHoaDon(String ma, String tenLoaiXe, int soLuong, int donGia) {
+	public ChiTietHoaDon(String ma, ThongTinXe ttXE, int soLuong, int donGia) {
 		super();
 		this.ma = ma;
-		this.tenLoaiXe = tenLoaiXe;
+		this.maLoaiXe = ttXE.getMaLoai();
+		this.donGia = ttXE.getGiaNiemYet();
 		this.soLuong = soLuong;
-		this.donGia = donGia;
-		this.thanhTien = donGia * soLuong;
+		this.thanhTien = soLuong * donGia;
 	}
 
 	public String getMa() {
@@ -30,12 +31,20 @@ public class ChiTietHoaDon {
 		this.ma = ma;
 	}
 
-	public String getTenLoaiXe() {
-		return tenLoaiXe;
+	public String getMaLoaiXe() {
+		return maLoaiXe;
 	}
 
-	public void setTenLoaiXe(String tenLoaiXe) {
-		this.tenLoaiXe = tenLoaiXe;
+	public void setMaLoaiXe(String maLoaiXe) {
+		this.maLoaiXe = maLoaiXe;
+	}
+
+	public ThongTinXe getTtXE() {
+		return ttXE;
+	}
+
+	public void setTtXE(ThongTinXe ttXE) {
+		this.ttXE = ttXE;
 	}
 
 	public int getSoLuong() {
@@ -46,6 +55,14 @@ public class ChiTietHoaDon {
 		this.soLuong = soLuong;
 	}
 
+	public int getThanhTien() {
+		return thanhTien;
+	}
+
+	public void setThanhTien(int thanhTien) {
+		this.thanhTien = thanhTien;
+	}
+
 	public int getDonGia() {
 		return donGia;
 	}
@@ -54,13 +71,6 @@ public class ChiTietHoaDon {
 		this.donGia = donGia;
 	}
 
-	public int getThanhTien() {
-		return thanhTien;
-	}
 
-	public void setThanhTien(int thanhTien) {
-		this.thanhTien = thanhTien;
-	}
-	
 	
 }

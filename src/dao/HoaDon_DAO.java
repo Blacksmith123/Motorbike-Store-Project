@@ -42,7 +42,6 @@ public class HoaDon_DAO {
 		ConnectDB.getInstance();
 		Connection con = ConnectDB.getConnection();
 		PreparedStatement stmt = null;
-		try {
 			stmt = con.prepareStatement("insert into HoaDon values (?,?,?,?,?,?)");
 			stmt.setString(1, hd.getMa());
 			stmt.setDate(2, hd.getNgayLap());
@@ -50,9 +49,7 @@ public class HoaDon_DAO {
 			stmt.setString(4, hd.getMaKH());
 			stmt.setString(5, hd.getMaCH());
 			stmt.setString(6, hd.getMaNV());
-		} finally {
 			stmt.close();
-		}
 		return stmt.executeUpdate() > 0;
 	}
 
