@@ -15,6 +15,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
+import connect.ConnectDB;
 import dao.HoaDon_DAO;
 import entity.HoaDon;
 
@@ -23,6 +24,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 import java.awt.event.ActionEvent;
 import javax.swing.border.LineBorder;
 import javax.swing.DropMode;
@@ -46,8 +48,12 @@ public class HoaDon_GUI extends JPanel {
 
 	/**
 	 * Create the panel.
+	 * @throws SQLException 
 	 */
-	public HoaDon_GUI() {
+	public HoaDon_GUI() throws SQLException {
+		//bat buoc
+		ConnectDB.getInstance().connect();
+//		ở trên
 		setBorder(new LineBorder(new Color(0, 0, 0)));
 		setBackground(Color.LIGHT_GRAY);
 		setLayout(null);
@@ -345,6 +351,7 @@ public class HoaDon_GUI extends JPanel {
 
 	//	đổ dữ liệu vào table hóa đơn
 		hoaDon = new HoaDon_DAO();
+//		Database.getInstance().connect();
 		for (HoaDon hd : hoaDon.getAllHoaDon()) {
 			Object[] objects = {hd.getMa(),hd.getNgayLap(),hd.getMaKH(),hd.getMaCH(),hd.getMaNV()};
 			 modelHd.addRow(objects);
