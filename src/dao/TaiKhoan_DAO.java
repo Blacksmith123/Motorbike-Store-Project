@@ -54,9 +54,9 @@ public class TaiKhoan_DAO {
 		}
 		
 		//Load ds TK
-		public ArrayList<TaiKhoan> getDanhSachTK(){
-			ArrayList<TaiKhoan> lstTK=new ArrayList<TaiKhoan>();
+		public ArrayList<TaiKhoan> getDanhSachTK() {
 			ConnectDB.getInstance();
+			ArrayList<TaiKhoan> lstTK=new ArrayList<TaiKhoan>();
 			Connection con = ConnectDB.getConnection();
 			try {
 				PreparedStatement ps = con.prepareStatement("select * from TaiKhoan");
@@ -76,8 +76,8 @@ public class TaiKhoan_DAO {
 
 
 		public TaiKhoan getTaiKhoanTheoMa(String maTK) { 
-			TaiKhoan tk = new TaiKhoan();
 			ConnectDB.getInstance();
+			TaiKhoan tk = new TaiKhoan();
 			Connection con = ConnectDB.getConnection();
 			String sql = "select * from TaiKhoan where maTK = '"+maTK+"'";
 			
@@ -100,8 +100,8 @@ public class TaiKhoan_DAO {
 		
 		//Load ds matkhau
 		public TaiKhoan getMatKhauTheoMaNV(String ma) {
-			TaiKhoan tk = new TaiKhoan();
 			ConnectDB.getInstance();
+			TaiKhoan tk = new TaiKhoan();
 			Connection con = ConnectDB.getConnection();
 			String sql = "select * from TaiKhoan where maTK = '"+ma+"'"; 
 			try {
