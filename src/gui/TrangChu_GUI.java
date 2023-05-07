@@ -69,7 +69,11 @@ public class TrangChu_GUI extends JFrame implements ActionListener{
 //				}
 //			}
 //		});
+<<<<<<< HEAD
 		new TrangChu_GUI().setVisible(true);
+=======
+		new TrangChu_GUI().setVisible(true);;
+>>>>>>> 9736e031c4ebd5f1671315153d85dc86caa8e343
 	}
 
 	/**
@@ -106,7 +110,11 @@ public class TrangChu_GUI extends JFrame implements ActionListener{
 		menuBar.add(menuNhanVien);
 		
 		menuitemNhanVienKyThuat = new JMenuItem("Nhân viên kỹ thuật");
+<<<<<<< HEAD
 //		menuitemNhanVienKyThuat.setIcon(new ImageIcon(TrangChu_GUI.class.getResource("data//image//worker.png")));
+=======
+		//menuitemNhanVienKyThuat.setIcon(new ImageIcon(TrangChu_GUI.class.getResource("/image/worker.png")));
+>>>>>>> 9736e031c4ebd5f1671315153d85dc86caa8e343
 		menuitemNhanVienKyThuat.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
@@ -115,7 +123,11 @@ public class TrangChu_GUI extends JFrame implements ActionListener{
 		menuNhanVien.add(menuitemNhanVienKyThuat);
 		
 		 menuitemNhanVienHanhChinh = new JMenuItem("Nhân viên hành chính");
+<<<<<<< HEAD
 //		 menuitemNhanVienHanhChinh.setIcon(new ImageIcon(TrangChu_GUI.class.getResource("data//image//employee.png")));
+=======
+		 //menuitemNhanVienHanhChinh.setIcon(new ImageIcon(TrangChu_GUI.class.getResource("/image/employee.png")));
+>>>>>>> 9736e031c4ebd5f1671315153d85dc86caa8e343
 		menuNhanVien.add(menuitemNhanVienHanhChinh);
 		
 		JMenu menuHoaDon = new JMenu("Hóa đơn");
@@ -181,7 +193,11 @@ public class TrangChu_GUI extends JFrame implements ActionListener{
 		contentPane.setLayout(null);
 		
 		JLabel lblNewLabel = new JLabel("");
+<<<<<<< HEAD
 //		lblNewLabel.setIcon(new ImageIcon(TrangChu_GUI.class.getResource("/image/TrangChu.jpg")));
+=======
+		//lblNewLabel.setIcon(new ImageIcon(TrangChu_GUI.class.getResource("/image/TrangChu.jpg")));
+>>>>>>> 9736e031c4ebd5f1671315153d85dc86caa8e343
 		lblNewLabel.setBounds(54, 123, 830, 476);
 		contentPane.add(lblNewLabel);
 		
@@ -225,7 +241,7 @@ public class TrangChu_GUI extends JFrame implements ActionListener{
 			showMenu(new HoaDon_GUI());
 		}
 		else if(o.equals(menuitemNhaPhanPhoi)) {
-			//showMenu(new nh);
+			showMenu(new NhaPhanPhoi_GUI());
 		}
 		else if(o.equals(menuitemQuanLyXe)) {
 			showMenu(new Xe_GUI());
