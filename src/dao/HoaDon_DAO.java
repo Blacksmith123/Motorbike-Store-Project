@@ -7,12 +7,17 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import connect.ConnectDB;
 import entity.HoaDon;
 
 public class HoaDon_DAO {
+	private Calendar ngayBatDauCalendar;
+	private Calendar ngayKetThucCalendar;
+	private Calendar dCalendar;
+
 	public List<HoaDon> getAllHoaDon() {
 		List<HoaDon> dsHoaDon = new ArrayList<HoaDon>();
 		ConnectDB.getInstance();
@@ -37,7 +42,7 @@ public class HoaDon_DAO {
 		Connection con = ConnectDB.getConnection();
 		PreparedStatement stmt = null;
 		try {
-			stmt = con.prepareStatement("insert into HoaDon values (?,?,?,?,?,?,?,?,?)");
+			stmt = con.prepareStatement("insert into HoaDon values (?,?,?,?,?,?)");
 			stmt.setString(1, hd.getMa());
 			stmt.setDate(2, hd.getNgayLap());
 			stmt.setString(3, hd.getThoiGianBH());
@@ -51,13 +56,16 @@ public class HoaDon_DAO {
 	}
 
 	// get hoa don theo ngay
-	@SuppressWarnings("deprecation")
 	public ArrayList<HoaDon> getHDTheoNgay(Date ngayBatDau, Date ngayKetThuc) throws SQLException {
 
+		ngayBatDauCalendar = null;
+		ngayBatDauCalendar.setTime(ngayBatDau);
+		ngayKetThucCalendar = null;
+		ngayKetThucCalendar.setTime(ngayKetThuc);
 		ArrayList<HoaDon> lsHD = new ArrayList<HoaDon>();
-		String ngayBD = (ngayBatDau.getYear() + 1900) + "/" + (ngayBatDau.getMonth() + 1) + "/" + ngayBatDau.getDate();
-		String ngayKT = (ngayKetThuc.getYear() + 1900) + "/" + (ngayKetThuc.getMonth() + 1) + "/"
-				+ ngayKetThuc.getDate();
+		String ngayBD = (ngayBatDauCalendar.get(Calendar.YEAR) + 1900) + "/" + (ngayBatDauCalendar.get(Calendar.MONTH) + 1) + "/" + ngayBatDauCalendar.get(Calendar.DATE);
+		String ngayKT = (ngayKetThucCalendar.get(Calendar.YEAR) + 1900) + "/" + (ngayKetThucCalendar.get(Calendar.MONTH) + 1) + "/"
+				+ ngayKetThucCalendar.get(Calendar.DATE);
 
 		ConnectDB.getInstance();
 		Connection con = ConnectDB.getConnection();
@@ -163,9 +171,10 @@ public class HoaDon_DAO {
 	// get hoa don theo ngay
 	public ArrayList<HoaDon> getHDtheoNgay(Date d) throws SQLException {
 
+		dCalendar = null;
+		dCalendar.setTime(d);
 		ArrayList<HoaDon> lsHD = new ArrayList<HoaDon>();
-		@SuppressWarnings("deprecation")
-		String ngay = (d.getYear() + 1900) + "/" + (d.getMonth() + 1) + "/" + d.getDate();
+		String ngay = (dCalendar.get(Calendar.YEAR) + 1900) + "/" + (dCalendar.get(Calendar.MONTH) + 1) + "/" + dCalendar.get(Calendar.DATE);
 		ConnectDB.getInstance();
 		Connection con = ConnectDB.getConnection();
 		String sql = "SELECT * FROM [dbo].[HoaDon] where ngayLap = '" + ngay + "'";
@@ -257,13 +266,17 @@ public class HoaDon_DAO {
 	}
 
 	// get so luong khach hang
-	@SuppressWarnings("deprecation")
 	public Integer demSoKH(Date ngayBatDau, Date ngayKetThuc) throws SQLException {
+		
+		ngayBatDauCalendar = null;
+		ngayBatDauCalendar.setTime(ngayBatDau);
+		ngayKetThucCalendar = null;
+		ngayKetThucCalendar.setTime(ngayKetThuc);
 
 		// ArrayList<HoaDon> lsHD = new ArrayList<HoaDon>();
-		String ngayBD = (ngayBatDau.getYear() + 1900) + "/" + (ngayBatDau.getMonth() + 1) + "/" + ngayBatDau.getDate();
-		String ngayKT = (ngayKetThuc.getYear() + 1900) + "/" + (ngayKetThuc.getMonth() + 1) + "/"
-				+ ngayKetThuc.getDate();
+		String ngayBD = (ngayBatDauCalendar.get(Calendar.YEAR) + 1900) + "/" + (ngayBatDauCalendar.get(Calendar.MONTH) + 1) + "/" + ngayBatDauCalendar.get(Calendar.DATE);
+		String ngayKT = (ngayKetThucCalendar.get(Calendar.YEAR) + 1900) + "/" + (ngayKetThucCalendar.get(Calendar.MONTH) + 1) + "/"
+				+ ngayKetThucCalendar.get(Calendar.DATE);
 
 		ConnectDB.getInstance();
 		Connection con = ConnectDB.getConnection();
