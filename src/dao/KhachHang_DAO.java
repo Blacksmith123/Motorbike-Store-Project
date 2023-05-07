@@ -27,19 +27,14 @@ public class KhachHang_DAO {
 		return ps.executeUpdate() > 0;
 	}
 
-	// xoa khach hang
-	public boolean xoaKhachHang(String maKH) throws SQLException {
+	// xoa khach hang theo ma
+	public boolean xoaKhachHangTheoMa(String maKH) throws SQLException {
 		ConnectDB.getInstance();
 		Connection con = ConnectDB.getConnection();
 		String sql = "delete from KhachHang where maKhachHang = '" + maKH + "'";
-		try {
-			PreparedStatement ps = con.prepareStatement(sql);
-			return ps.executeUpdate() > 0;
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		PreparedStatement ps = con.prepareStatement(sql);
 		con.close();
-		return false;
+		return ps.executeUpdate() > 0;
 	}
 
 	// sua thong tin khach hang
@@ -47,18 +42,16 @@ public class KhachHang_DAO {
 		ConnectDB.getInstance();
 		Connection con = ConnectDB.getConnection();
 		PreparedStatement ps = null;
-		try {
-			ps = con.prepareStatement(
-					"update KhachHang set hoKhachHang = ?, tenKhachHang = ?, diaChi = ?, soDienThoai = ?, email = ? where maKhachHang = ?");
-			ps.setString(1, kh.getHo());
-			ps.setString(2, kh.getTen());
-			ps.setString(3, kh.getDiaChi());
-			ps.setInt(4, kh.getSdt());
-			ps.setString(5, kh.getEmail());
-			ps.setString(6, kh.getMa());
-		} finally {
-			ps.close();
-		}
+		ps = con.prepareStatement(
+				"update KhachHang set hoKhachHang = ?, tenKhachHang = ?, diaChi = ?, soDienThoai = ?, email = ? where maKhachHang = ?");
+		ps.setString(1, kh.getHo());
+		ps.setString(2, kh.getTen());
+		ps.setString(3, kh.getDiaChi());
+		ps.setInt(4, kh.getSdt());
+		ps.setString(5, kh.getEmail());
+		ps.setString(6, kh.getMa());
+		
+		ps.close();
 		return ps.executeUpdate() > 0;
 	}
 
