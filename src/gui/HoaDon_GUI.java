@@ -23,6 +23,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 import javax.swing.border.LineBorder;
 import javax.swing.DropMode;
@@ -42,7 +43,7 @@ public class HoaDon_GUI extends JPanel {
 	private JTextField textNgaylap;
 	private JTextField textThoigianbaohanh;
 	private JTextField textField_3;
-	HoaDon_DAO hoaDon;
+	private HoaDon_DAO hoaDon_DAO;
 
 	/**
 	 * Create the panel.
@@ -344,8 +345,8 @@ public class HoaDon_GUI extends JPanel {
 		panel_3.add(btnThemDong);
 
 	//	đổ dữ liệu vào table hóa đơn
-		hoaDon = new HoaDon_DAO();
-		for (HoaDon hd : hoaDon.getAllHoaDon()) {
+		hoaDon_DAO = new HoaDon_DAO();
+		for (HoaDon hd : hoaDon_DAO.getAllHoaDon()) {
 			Object[] objects = {hd.getMa(),hd.getNgayLap(),hd.getMaKH(),hd.getMaCH(),hd.getMaNV()};
 			 modelHd.addRow(objects);
 		}

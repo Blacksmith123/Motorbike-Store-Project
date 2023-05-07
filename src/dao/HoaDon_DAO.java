@@ -13,7 +13,7 @@ import connect.ConnectDB;
 import entity.HoaDon;
 
 public class HoaDon_DAO {
-	public List<HoaDon> getAllHoaDon(){
+	public List<HoaDon> getAllHoaDon() {
 		List<HoaDon> dsHoaDon = new ArrayList<HoaDon>();
 		ConnectDB.getInstance();
 		Connection con = ConnectDB.getConnection();
@@ -22,9 +22,11 @@ public class HoaDon_DAO {
 			Statement statement = con.createStatement();
 			ResultSet rs = statement.executeQuery(sql);
 			while (rs.next()) {
-				dsHoaDon.add(new HoaDon(rs.getString("maHoaDon"), /*rs.getString("ngayLap")*/null, rs.getString("thoiGianBaoHanh"), rs.getString("maKhachHang"), rs.getString("maCuaHang"),rs.getString("maNhanVien")));
+				dsHoaDon.add(new HoaDon(rs.getString("maHoaDon"), /* rs.getString("ngayLap") */null,
+						rs.getString("thoiGianBaoHanh"), rs.getString("maKhachHang"), rs.getString("maCuaHang"),
+						rs.getString("maNhanVien")));
 			}
-		}catch (SQLException e) {
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return dsHoaDon;
