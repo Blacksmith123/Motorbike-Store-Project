@@ -13,7 +13,9 @@ import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 
 import connect.ConnectDB;
+import dao.ThongTinXe_DAO;
 import dao.Xe_DAO;
+import entity.ThongTinXe;
 import entity.Xe;
 
 import java.awt.Canvas;
@@ -26,6 +28,8 @@ import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.border.EtchedBorder;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.sql.SQLException;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextArea;
@@ -43,8 +47,10 @@ public class ThongTinXe_GUI extends JPanel {
 	private JTextField textGiaNiemYet;
 	private JTextField textGiaGiam;
 	private JTextField textPhienBan;
+	private JTextArea textMoTa;
 	private DefaultTableModel model;
-
+	private ThongTinXe_DAO thongTinXe_DAO;
+	
 	/**
 	 * Create the panel.
 	 */
@@ -60,7 +66,7 @@ public class ThongTinXe_GUI extends JPanel {
 		add(panel);
 		panel.setLayout(null);
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 10, 782, 525);
+		scrollPane.setBounds(10, 10, 1295, 939);
 		panel.add(scrollPane);
 
 		String[] columns = { "M\u00E3 lo\u1EA1i xe", "T\u00EAn Lo\u1EA1i Xe", "Gi\u00E1 Ni\u00EAm Y\u1EBFt",
@@ -68,6 +74,44 @@ public class ThongTinXe_GUI extends JPanel {
 		model = new DefaultTableModel(columns, 0);
 		table = new JTable(model);
 		table.setFont(new Font("Arial", Font.PLAIN, 16));
+		table.addMouseListener(new MouseListener() {
+			
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mousePressed(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				// TODO Auto-generated method stub
+				int row = table.getSelectedRow();
+				textMaLoaiXe.setText((String) model.getValueAt(row, 0));
+				textTenLoaiXe.setText((String) model.getValueAt(row, 1));
+				textGiaNiemYet.setText((String) model.getValueAt(row, 2));
+				textGiaGiam.setText((String) model.getValueAt(row, 3));
+				textMoTa.setText((String) model.getValueAt(row, 4));
+				textPhienBan.setText((String) model.getValueAt(row, 5));
+			}
+		});
 
 		scrollPane.setViewportView(table);
 
@@ -186,8 +230,9 @@ public class ThongTinXe_GUI extends JPanel {
 		lblNewLabel_1_1.setFont(new Font("Arial", Font.BOLD | Font.ITALIC, 14));
 		lblNewLabel_1_1.setBounds(10, 352, 322, 27);
 		panel_1.add(lblNewLabel_1_1);
+		
 
-		JTextArea textMoTa = new JTextArea();
+		textMoTa = new JTextArea();
 		textMoTa.setColumns(3);
 		textMoTa.setBorder(new LineBorder(Color.LIGHT_GRAY));
 		textMoTa.setFont(new Font("Arial", Font.PLAIN, 12));
@@ -251,12 +296,12 @@ public class ThongTinXe_GUI extends JPanel {
 		add(btnTim);
 
 		// input data from sql server
-//		ConnectDB.getInstance();
-//		ConnectDB.connect();
-//		xe_DAO = new Xe_DAO();
-//		for (Xe xe : xe_DAO.getAllXe()) {
-//			Object[] objects = {xe.getMa(), xe.getSoMay(), xe.getSoKhung(), xe.getNgayNhap(), xe.getMaNPP(), xe.getMaLoaiXe()};
-//			model.addRow(objects);
-//		}
+		ConnectDB.getInstance();
+		ConnectDB.connect();
+		thongTinXe_DAO = new ThongTinXe_DAO();
+		for (ThongTinXe thongTinXe : thongTinXe_DAO.getAllThongTinXe()) {
+			Object[] objects = {thongTinXe.getMaLoaiXe(), thongTinXe.getTenLoaiXe(), thongTinXe.getGiaNiemYet(), thongTinXe.getGiaGiam(), thongTinXe.getMoTaXe(), thongTinXe.getPhienBan()};
+			model.addRow(objects);
+		}
 	}
 }

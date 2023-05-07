@@ -16,7 +16,7 @@ public class ThongTinXe {
 		this.maLoaiXe = maLoaiXe;
 	}
 	
-	public ThongTinXe(String maLoaiXe, String tenLoaiXe, String moTaXe, String phienBan, int giaNiemYet, int giaGiam) {
+	public ThongTinXe(String maLoaiXe, String tenLoaiXe, int giaNiemYet, int giaGiam, String moTaXe, String phienBan) {
 		super();
 		this.maLoaiXe = maLoaiXe;
 		this.tenLoaiXe = tenLoaiXe;
