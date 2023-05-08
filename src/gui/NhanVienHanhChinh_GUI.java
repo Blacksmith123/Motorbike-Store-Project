@@ -24,6 +24,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 import java.awt.event.ActionEvent;
 
 public class NhanVienHanhChinh_GUI extends JPanel {
@@ -46,9 +47,10 @@ public class NhanVienHanhChinh_GUI extends JPanel {
 
 	/**
 	 * Create the panel.
+	 * @throws SQLException 
 	 */
-	public NhanVienHanhChinh_GUI() {
-		ConnectDB.getInstance().getConnection();
+	public NhanVienHanhChinh_GUI() throws SQLException {
+		ConnectDB.getInstance().connect();
 		setBorder(new LineBorder(new Color(0, 0, 0)));
 		setBackground(Color.LIGHT_GRAY);
 		setLayout(null);
@@ -194,7 +196,7 @@ public class NhanVienHanhChinh_GUI extends JPanel {
 		panel_2.add(btnLuu);
 		
 		JLabel lblNewLabel_1_1 = new JLabel("Chức năng:");
-		lblNewLabel_1_1.setForeground(Color.LIGHT_GRAY);
+		lblNewLabel_1_1.setForeground(Color.blue);
 		lblNewLabel_1_1.setFont(new Font("Arial", Font.BOLD | Font.ITALIC, 14));
 		lblNewLabel_1_1.setBounds(10, 352, 322, 27);
 		panel_1.add(lblNewLabel_1_1);
@@ -274,7 +276,8 @@ public class NhanVienHanhChinh_GUI extends JPanel {
 		//do du lieu nhan vien hanh chinh
 		nhanVienHanhChinh_DAO = new NhanVienHanhChinh_DAO();
 		for (NhanVienHanhChinh nhanVienHanhChinh: nhanVienHanhChinh_DAO.getAlListNhanVienHanhChinhChinh()) {
-			Object[] objects = {nhanVienHanhChinh.getMa(), nhanVienHanhChinh.getTen(), n};
+			Object[] objects = {nhanVienHanhChinh.getMa(), nhanVienHanhChinh.getTen(), nhanVienHanhChinh.getDiaChi(), nhanVienHanhChinh.getSdt(), nhanVienHanhChinh.getChucVu(), nhanVienHanhChinh.getEmail(),nhanVienHanhChinh.getNamKinhNghiem(), nhanVienHanhChinh.getMaCuaHang()};
+			model.addRow(objects);
 		}
 	}
 }

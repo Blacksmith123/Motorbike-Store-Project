@@ -217,13 +217,23 @@ public class TrangChu_GUI extends JFrame implements ActionListener {
 		// TODO Auto-generated method stub
 		Object o = e.getSource();
 		if (o.equals(menuitemNhanVienHanhChinh)) {
-			showMenu(new NhanVienHanhChinh_GUI());
+			try {
+				showMenu(new NhanVienHanhChinh_GUI());
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 		} else if (o.equals(menuitemCuaHang)) {
 			showMenu(new CuaHang_GUI());
 		} else if (o.equals(menuitemKhachHang)) {
 			showMenu(new KhachHang_GUI());
 		} else if (o.equals(menuitemNhanVienKyThuat)) {
-			showMenu(new NhanVienKyThuat_GUI());
+			try {
+				showMenu(new NhanVienKyThuat_GUI());
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 		} else if (o.equals(menuitemHoaDon)) {
 			try {
 				showMenu(new HoaDon_GUI());
