@@ -20,9 +20,12 @@ import javax.swing.table.DefaultTableModel;
 
 import connect.ConnectDB;
 import dao.ChiTietHoaDon_DAO;
+import dao.CuaHang_DAO;
 import dao.HoaDon_DAO;
+import dao.KhachHang_DAO;
 import entity.ChiTietHoaDon;
 import entity.HoaDon;
+import entity.KhachHang;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -55,6 +58,9 @@ public class HoaDon_GUI extends JPanel {
 	private JTextField textField_3;
 	private HoaDon_DAO hoaDon_DAO;
 	private ChiTietHoaDon_DAO chiTietHoaDon_DAO;
+	private CuaHang_DAO cuaHang_DAO;
+	private KhachHang_DAO khachHang_DAO;
+	// xetrongkhodao
 	private JComboBox cbMakhachhang;
 	private JComboBox cbMacuahang;
 	private JComboBox cbManhanvien;
@@ -78,11 +84,12 @@ public class HoaDon_GUI extends JPanel {
 		panel.setBounds(442, 299, 748, 401);
 		add(panel);
 		panel.setLayout(null);
-		//table
-		String[] column = {"Mã hóa đơn","Ngày lập","Thời gian bảo hành","Mã khách hàng","Mã cửa hàng", "Mã nhân viên"};
-		modelHd = new DefaultTableModel(column,0);
+		// table
+		String[] column = { "Mã hóa đơn", "Ngày lập", "Thời gian bảo hành", "Mã khách hàng", "Mã cửa hàng",
+				"Mã nhân viên" };
+		modelHd = new DefaultTableModel(column, 0);
 		tableHd = new JTable(modelHd);
-		//click chuột vào bảng
+		// click chuột vào bảng
 		tableHd.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -94,21 +101,21 @@ public class HoaDon_GUI extends JPanel {
 			}
 		});
 		// Add a ListSelectionListener to the table
-        ListSelectionModel model = tableHd.getSelectionModel();
-        model.addListSelectionListener(new ListSelectionListener() {
-            @Override
-            public void valueChanged(ListSelectionEvent e) {
-                // Check if the current cell selection is not empty
-                if (!e.getValueIsAdjusting()) {
-                    // Get the row index of the selected cell
-                    int rowIndex = tableHd.getSelectedRow();
-                    
-                    // Set the background color of the selected row
-                    tableHd.setSelectionBackground(Color.RED);
-                    tableHd.setRowSelectionInterval(rowIndex, rowIndex);
-                }
-            }
-        });
+		ListSelectionModel model = tableHd.getSelectionModel();
+		model.addListSelectionListener(new ListSelectionListener() {
+			@Override
+			public void valueChanged(ListSelectionEvent e) {
+				// Check if the current cell selection is not empty
+				if (!e.getValueIsAdjusting()) {
+					// Get the row index of the selected cell
+					int rowIndex = tableHd.getSelectedRow();
+
+					// Set the background color of the selected row
+					tableHd.setSelectionBackground(Color.RED);
+					tableHd.setRowSelectionInterval(rowIndex, rowIndex);
+				}
+			}
+		});
 		tableHd.setFont(new Font("Arial", Font.PLAIN, 16));
 		JScrollPane scrollPane = new JScrollPane(tableHd, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
 				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
@@ -217,8 +224,12 @@ public class HoaDon_GUI extends JPanel {
 		lblNewLabel_4_1_4.setBackground(Color.WHITE);
 		lblNewLabel_4_1_4.setBounds(393, 10, 105, 34);
 		panelThongTin.add(lblNewLabel_4_1_4);
-
+		//cb mã kh
+		khachHang_DAO = new KhachHang_DAO();
 		cbMakhachhang = new JComboBox();
+		for (KhachHang kHang : khachHang_DAO.getAllKhachHang()) {
+			cbMakhachhang.addItem(kHang.getMa());
+		}
 		cbMakhachhang.setFont(new Font("Arial", Font.PLAIN, 16));
 		cbMakhachhang.setBounds(160, 152, 206, 21);
 		panelThongTin.add(cbMakhachhang);
@@ -328,13 +339,13 @@ public class HoaDon_GUI extends JPanel {
 		panel_3.setBounds(10, 39, 422, 661);
 		add(panel_3);
 //==================================table chi tiết hóa đơn
-		String[] column_1 = {"Mã hóa đơn","Mã loại xe","Số lượng","Đơn giá","Thành tiền"};
-		modelHdDetail = new DefaultTableModel(column_1,0);
+		String[] column_1 = { "Mã hóa đơn", "Mã loại xe", "Số lượng", "Đơn giá", "Thành tiền" };
+		modelHdDetail = new DefaultTableModel(column_1, 0);
 		tableHddetail = new JTable(modelHdDetail);
 		tableHddetail.setFont(new Font("Arial", Font.PLAIN, 16));
 		JScrollPane scrollPane_1 = new JScrollPane(tableHddetail, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
 				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-		scrollPane_1.setBounds(10, 125, 402, 489);		
+		scrollPane_1.setBounds(10, 125, 402, 489);
 		panel_3.add(scrollPane_1);
 
 		JLabel lblNewLabel_2 = new JLabel("Tìm Kiếm:");
@@ -374,8 +385,8 @@ public class HoaDon_GUI extends JPanel {
 		comboBox.setModel(new DefaultComboBoxModel(new String[] { "Hóa Đơn", "Chi Tiết Hóa Đơn" }));
 		comboBox.setBounds(90, 29, 133, 21);
 		panel_3.add(comboBox);
-		
-		//thêm dòng khi để thêm hóa đơn
+
+		// thêm dòng khi để thêm hóa đơn
 		JButton btnThemDong = new JButton("Thêm Dòng");
 		btnThemDong.setForeground(new Color(165, 42, 42));
 		btnThemDong.setFont(new Font("Arial", Font.PLAIN, 16));
@@ -387,15 +398,15 @@ public class HoaDon_GUI extends JPanel {
 		hoaDon_DAO = new HoaDon_DAO();
 		SimpleDateFormat dateFormat = new SimpleDateFormat("dd / MM / yyyy");
 		for (HoaDon hd : hoaDon_DAO.getAllHoaDon()) {
-			Object[] objects = { hd.getMa(), dateFormat.format(hd.getNgayLap()), hd.getThoiGianBH(), hd.getMaKH(), hd.getMaCH(),
-					hd.getMaNV() };
+			Object[] objects = { hd.getMa(), dateFormat.format(hd.getNgayLap()), hd.getThoiGianBH(), hd.getMaKH(),
+					hd.getMaCH(), hd.getMaNV() };
 			modelHd.addRow(objects);
 		}
 		// đổ dữ liệu vào
 		chiTietHoaDon_DAO = new ChiTietHoaDon_DAO();
 		for (ChiTietHoaDon chiTietHoaDon : chiTietHoaDon_DAO.getAllChiTietHoaDon()) {
-			Object[] objects = { chiTietHoaDon.getMa(), chiTietHoaDon.getMaLoaiXe(), chiTietHoaDon.getSoLuong(), chiTietHoaDon.getDonGia(),
-					chiTietHoaDon.getThanhTien() };
+			Object[] objects = { chiTietHoaDon.getMa(), chiTietHoaDon.getMaLoaiXe(), chiTietHoaDon.getSoLuong(),
+					chiTietHoaDon.getDonGia(), chiTietHoaDon.getThanhTien() };
 			modelHdDetail.addRow(objects);
 		}
 	}
