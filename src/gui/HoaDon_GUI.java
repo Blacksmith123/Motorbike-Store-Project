@@ -8,9 +8,12 @@ import java.awt.Font;
 import java.awt.SystemColor;
 
 import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
@@ -18,6 +21,7 @@ import javax.swing.table.DefaultTableModel;
 import connect.ConnectDB;
 import dao.ChiTietHoaDon_DAO;
 import dao.HoaDon_DAO;
+import entity.ChiTietHoaDon;
 import entity.HoaDon;
 
 import javax.swing.ImageIcon;
@@ -32,6 +36,8 @@ import java.awt.event.ActionEvent;
 import javax.swing.border.LineBorder;
 import javax.swing.DropMode;
 import javax.swing.DefaultComboBoxModel;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class HoaDon_GUI extends JPanel {
 	/**
@@ -49,6 +55,9 @@ public class HoaDon_GUI extends JPanel {
 	private JTextField textField_3;
 	private HoaDon_DAO hoaDon_DAO;
 	private ChiTietHoaDon_DAO chiTietHoaDon_DAO;
+	private JComboBox cbMakhachhang;
+	private JComboBox cbMacuahang;
+	private JComboBox cbManhanvien;
 
 	/**
 	 * Create the panel.
@@ -73,37 +82,64 @@ public class HoaDon_GUI extends JPanel {
 		String[] column = {"Mã hóa đơn","Ngày lập","Thời gian bảo hành","Mã khách hàng","Mã cửa hàng", "Mã nhân viên"};
 		modelHd = new DefaultTableModel(column,0);
 		tableHd = new JTable(modelHd);
+		//click chuột vào bảng
+		tableHd.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				int row = tableHd.getSelectedRow();
+				textMaHD.setText(tableHd.getValueAt(row, 0).toString());
+				textNgaylap.setText(tableHd.getValueAt(row, 1).toString());
+				textThoigianbaohanh.setText(tableHd.getValueAt(row, 2).toString());
+				cbMacuahang.setSelectedItem(tableHd.getValueAt(row, 3).toString());
+			}
+		});
+		// Add a ListSelectionListener to the table
+        ListSelectionModel model = tableHd.getSelectionModel();
+        model.addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                // Check if the current cell selection is not empty
+                if (!e.getValueIsAdjusting()) {
+                    // Get the row index of the selected cell
+                    int rowIndex = tableHd.getSelectedRow();
+                    
+                    // Set the background color of the selected row
+                    tableHd.setSelectionBackground(Color.RED);
+                    tableHd.setRowSelectionInterval(rowIndex, rowIndex);
+                }
+            }
+        });
 		tableHd.setFont(new Font("Arial", Font.PLAIN, 16));
 		JScrollPane scrollPane = new JScrollPane(tableHd, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
 				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		scrollPane.setBounds(10, 10, 728, 381);
 		panel.add(scrollPane);
 
-		JPanel txtTongtien = new JPanel();
-		txtTongtien.setBackground(SystemColor.text);
-		txtTongtien.setBorder(new LineBorder(Color.CYAN));
-		txtTongtien.setBounds(442, 39, 748, 236);
-		add(txtTongtien);
-		txtTongtien.setLayout(null);
+		JPanel panelThongTin = new JPanel();
+		panelThongTin.setBackground(SystemColor.text);
+		panelThongTin.setBorder(new LineBorder(Color.CYAN));
+		panelThongTin.setBounds(442, 39, 748, 236);
+		add(panelThongTin);
+		panelThongTin.setLayout(null);
 
 		JLabel lblNewLabel_4 = new JLabel("Mã Hóa Đơn:\r\n");
 		lblNewLabel_4.setForeground(new Color(165, 42, 42));
 		lblNewLabel_4.setBackground(new Color(255, 255, 255));
 		lblNewLabel_4.setFont(new Font("Arial", Font.PLAIN, 16));
 		lblNewLabel_4.setBounds(10, 10, 105, 34);
-		txtTongtien.add(lblNewLabel_4);
+		panelThongTin.add(lblNewLabel_4);
 
 		textMaHD = new JTextField();
 		textMaHD.setFont(new Font("Arial", Font.PLAIN, 16));
 		textMaHD.setBounds(160, 18, 206, 24);
-		txtTongtien.add(textMaHD);
+		panelThongTin.add(textMaHD);
 		textMaHD.setColumns(10);
 
 		JPanel panel_2 = new JPanel();
 		panel_2.setBackground(Color.WHITE);
 		panel_2.setBorder(new LineBorder(new Color(165, 42, 42)));
 		panel_2.setBounds(10, 378, 356, 147);
-		txtTongtien.add(panel_2);
+		panelThongTin.add(panel_2);
 		panel_2.setLayout(null);
 
 		JButton btnThem = new JButton("Thêm");
@@ -146,69 +182,69 @@ public class HoaDon_GUI extends JPanel {
 		lblNewLabel_4_1.setFont(new Font("Arial", Font.PLAIN, 16));
 		lblNewLabel_4_1.setBackground(Color.WHITE);
 		lblNewLabel_4_1.setBounds(10, 55, 105, 34);
-		txtTongtien.add(lblNewLabel_4_1);
+		panelThongTin.add(lblNewLabel_4_1);
 
 		textNgaylap = new JTextField();
 		textNgaylap.setFont(new Font("Arial", Font.PLAIN, 16));
 		textNgaylap.setColumns(10);
 		textNgaylap.setBounds(160, 65, 206, 24);
-		txtTongtien.add(textNgaylap);
+		panelThongTin.add(textNgaylap);
 
 		JLabel lblNewLabel_4_1_1 = new JLabel("Thời gian bảo hành:");
 		lblNewLabel_4_1_1.setForeground(new Color(165, 42, 42));
 		lblNewLabel_4_1_1.setFont(new Font("Arial", Font.PLAIN, 16));
 		lblNewLabel_4_1_1.setBackground(Color.WHITE);
 		lblNewLabel_4_1_1.setBounds(10, 99, 157, 34);
-		txtTongtien.add(lblNewLabel_4_1_1);
+		panelThongTin.add(lblNewLabel_4_1_1);
 
 		JLabel lblNewLabel_4_1_2 = new JLabel("Mã khách hàng:\r\n");
 		lblNewLabel_4_1_2.setForeground(new Color(165, 42, 42));
 		lblNewLabel_4_1_2.setFont(new Font("Arial", Font.PLAIN, 16));
 		lblNewLabel_4_1_2.setBackground(Color.WHITE);
 		lblNewLabel_4_1_2.setBounds(10, 143, 132, 34);
-		txtTongtien.add(lblNewLabel_4_1_2);
+		panelThongTin.add(lblNewLabel_4_1_2);
 
 		JLabel lblNewLabel_4_1_3 = new JLabel("Mã cửa hàng:");
 		lblNewLabel_4_1_3.setForeground(new Color(165, 42, 42));
 		lblNewLabel_4_1_3.setFont(new Font("Arial", Font.PLAIN, 16));
 		lblNewLabel_4_1_3.setBackground(Color.WHITE);
 		lblNewLabel_4_1_3.setBounds(10, 187, 105, 34);
-		txtTongtien.add(lblNewLabel_4_1_3);
+		panelThongTin.add(lblNewLabel_4_1_3);
 
 		JLabel lblNewLabel_4_1_4 = new JLabel("Mã nhân viên:");
 		lblNewLabel_4_1_4.setForeground(new Color(165, 42, 42));
 		lblNewLabel_4_1_4.setFont(new Font("Arial", Font.PLAIN, 16));
 		lblNewLabel_4_1_4.setBackground(Color.WHITE);
 		lblNewLabel_4_1_4.setBounds(393, 10, 105, 34);
-		txtTongtien.add(lblNewLabel_4_1_4);
+		panelThongTin.add(lblNewLabel_4_1_4);
 
-		JComboBox cbMakhachhang = new JComboBox();
+		cbMakhachhang = new JComboBox();
 		cbMakhachhang.setFont(new Font("Arial", Font.PLAIN, 16));
 		cbMakhachhang.setBounds(160, 152, 206, 21);
-		txtTongtien.add(cbMakhachhang);
+		panelThongTin.add(cbMakhachhang);
 
-		JComboBox cbMacuahang = new JComboBox();
+		cbMacuahang = new JComboBox();
 		cbMacuahang.setFont(new Font("Arial", Font.PLAIN, 16));
 		cbMacuahang.setBounds(160, 196, 206, 21);
-		txtTongtien.add(cbMacuahang);
+		panelThongTin.add(cbMacuahang);
 
-		JComboBox cbManhanvien = new JComboBox();
+		cbManhanvien = new JComboBox();
 		cbManhanvien.setFont(new Font("Arial", Font.PLAIN, 16));
 		cbManhanvien.setBounds(508, 17, 206, 21);
-		txtTongtien.add(cbManhanvien);
+		panelThongTin.add(cbManhanvien);
 
 		textThoigianbaohanh = new JTextField();
 		textThoigianbaohanh.setFont(new Font("Arial", Font.PLAIN, 16));
 		textThoigianbaohanh.setColumns(10);
 		textThoigianbaohanh.setBounds(160, 104, 206, 24);
-		txtTongtien.add(textThoigianbaohanh);
+		panelThongTin.add(textThoigianbaohanh);
 
 		JLabel lblNewLabel_4_1_4_1 = new JLabel("Tổng tiền:");
 		lblNewLabel_4_1_4_1.setForeground(new Color(165, 42, 42));
 		lblNewLabel_4_1_4_1.setFont(new Font("Arial", Font.PLAIN, 16));
 		lblNewLabel_4_1_4_1.setBackground(Color.WHITE);
 		lblNewLabel_4_1_4_1.setBounds(393, 55, 105, 34);
-		txtTongtien.add(lblNewLabel_4_1_4_1);
+		panelThongTin.add(lblNewLabel_4_1_4_1);
 
 		textField_3 = new JTextField();
 		textField_3.setEnabled(false);
@@ -216,14 +252,14 @@ public class HoaDon_GUI extends JPanel {
 		textField_3.setFont(new Font("Arial", Font.PLAIN, 16));
 		textField_3.setColumns(10);
 		textField_3.setBounds(508, 60, 206, 24);
-		txtTongtien.add(textField_3);
+		panelThongTin.add(textField_3);
 
 		JPanel panel_2_1 = new JPanel();
 		panel_2_1.setLayout(null);
 		panel_2_1.setBorder(new LineBorder(new Color(165, 42, 42)));
 		panel_2_1.setBackground(Color.WHITE);
 		panel_2_1.setBounds(393, 89, 338, 137);
-		txtTongtien.add(panel_2_1);
+		panelThongTin.add(panel_2_1);
 
 		JButton btnThem_1 = new JButton("Thêm");
 		btnThem_1.addActionListener(new ActionListener() {
@@ -356,5 +392,11 @@ public class HoaDon_GUI extends JPanel {
 			modelHd.addRow(objects);
 		}
 		// đổ dữ liệu vào
+		chiTietHoaDon_DAO = new ChiTietHoaDon_DAO();
+		for (ChiTietHoaDon chiTietHoaDon : chiTietHoaDon_DAO.getAllChiTietHoaDon()) {
+			Object[] objects = { chiTietHoaDon.getMa(), chiTietHoaDon.getMaLoaiXe(), chiTietHoaDon.getSoLuong(), chiTietHoaDon.getDonGia(),
+					chiTietHoaDon.getThanhTien() };
+			modelHdDetail.addRow(objects);
+		}
 	}
 }

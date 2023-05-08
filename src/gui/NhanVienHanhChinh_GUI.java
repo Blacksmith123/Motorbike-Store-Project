@@ -10,6 +10,10 @@ import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 
+import connect.ConnectDB;
+import dao.NhanVienHanhChinh_DAO;
+import entity.NhanVienHanhChinh;
+
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
@@ -30,6 +34,7 @@ public class NhanVienHanhChinh_GUI extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private JTextField textField;
 	private JTable table;
+	private DefaultTableModel model;
 	private JTextField textMaNV;
 	private JTextField textTenNV;
 	private JTextField textDiaChi;
@@ -37,11 +42,13 @@ public class NhanVienHanhChinh_GUI extends JPanel {
 	private JTextField textChucVu;
 	private JTextField textEmail;
 	private JTextField textNamKn;
+	private NhanVienHanhChinh_DAO nhanVienHanhChinh_DAO;
 
 	/**
 	 * Create the panel.
 	 */
 	public NhanVienHanhChinh_GUI() {
+		ConnectDB.getInstance().getConnection();
 		setBorder(new LineBorder(new Color(0, 0, 0)));
 		setBackground(Color.LIGHT_GRAY);
 		setLayout(null);
@@ -52,22 +59,17 @@ public class NhanVienHanhChinh_GUI extends JPanel {
 		panel.setBounds(10, 148, 802, 545);
 		add(panel);
 		panel.setLayout(null);
-		JScrollPane scrollPane = new JScrollPane();
+		
+		
+		String[] column = {
+				"M\u00E3 Nh\u00E2n vi\u00EAn", "T\u00EAn Nh\u00E2n Vi\u00EAn", "\u0110\u1ECBa Ch\u1EC9", "SDT", "Ch\u1EE9c V\u1EE5", "Email", "S\u1ED1 N\u0103m Kn", "M\u00E3 C\u1EEDa H\u00E0ng"
+			};
+		model = new DefaultTableModel(column,0);
+		table = new JTable(model);
+		table.setFont(new Font("Arial", Font.PLAIN, 16));
+		JScrollPane scrollPane = new JScrollPane(table, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		scrollPane.setBounds(10, 10, 782, 525);
 		panel.add(scrollPane);
-		
-		table = new JTable();
-		table.setFont(new Font("Arial", Font.PLAIN, 16));
-		table.setModel(new DefaultTableModel(
-			new Object[][] {
-				{null, null, null, null, null, null, null, ""},
-				{null, null, null, null, null, null, null, null},
-			},
-			new String[] {
-				"M\u00E3 Nh\u00E2n vi\u00EAn", "T\u00EAn Nh\u00E2n Vi\u00EAn", "\u0110\u1ECBa Ch\u1EC9", "SDT", "Ch\u1EE9c V\u1EE5", "Email", "S\u1ED1 N\u0103m Kn", "M\u00E3 C\u1EEDa H\u00E0ng"
-			}
-		));
-		scrollPane.setViewportView(table);
 		
 		JPanel panel_1 = new JPanel();
 		panel_1.setBackground(SystemColor.text);
@@ -268,6 +270,11 @@ public class NhanVienHanhChinh_GUI extends JPanel {
 		btnTim.setVerticalTextPosition(SwingConstants.CENTER);
 		btnTim.setHorizontalAlignment(SwingConstants.LEFT);
 		add(btnTim);
-
+		
+		//do du lieu nhan vien hanh chinh
+		nhanVienHanhChinh_DAO = new NhanVienHanhChinh_DAO();
+		for (NhanVienHanhChinh nhanVienHanhChinh: nhanVienHanhChinh_DAO.getAlListNhanVienHanhChinhChinh()) {
+			Object[] objects = {nhanVienHanhChinh.getMa(), nhanVienHanhChinh.getTen(), n};
+		}
 	}
 }
