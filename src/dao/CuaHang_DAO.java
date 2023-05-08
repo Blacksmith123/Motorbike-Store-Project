@@ -6,5 +6,5 @@ import entity.CuaHang;
 
 public class CuaHang_DAO {
 	//get danh sach cua hang
-	public List<CuaHang>t
+//	public List<CuaHang>;
 }
