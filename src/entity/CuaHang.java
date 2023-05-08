@@ -10,7 +10,6 @@ public class CuaHang {
 	public ArrayList<XeTrongKho> dsXe;
 	public CuaHang(String ma, String ten, String email, String duong, String thanhPho, String tinhTrang, int sdt,
 			int maBuuDien, NhanVien nv) {
-		super();
 		this.ma = ma;
 		this.ten = ten;
 		this.email = email;
