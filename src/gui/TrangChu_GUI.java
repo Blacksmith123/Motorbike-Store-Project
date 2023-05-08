@@ -30,7 +30,6 @@ public class TrangChu_GUI extends JFrame implements ActionListener {
 	private JPanel contentPane;
 
 	private JMenuItem menuitemNhanVienHanhChinh;
-	private JMenuItem menuitemTraCuuCuaHang;
 	private JMenuItem menuitemTrangChu;
 	private JMenuItem menuitemHoaDon;
 	private JMenuItem menuitemThongTinXe;
@@ -44,16 +43,6 @@ public class TrangChu_GUI extends JFrame implements ActionListener {
 	private JMenuItem menuitemQuanLyXe;
 
 	private JMenuItem menuitemKhachHang;
-
-	private JMenuItem menuitemTraCuuNVHC;
-
-	private JMenuItem menuitemTraCuuNVKT;
-
-	private JMenuItem menuitemTraCuuHD;
-
-	private JMenuItem menuitemTraCuuXe;
-
-	private JMenuItem menuitemTraCuuKH;
 
 	private JMenuItem menuitemNhanVienKyThuat;
 
@@ -155,29 +144,14 @@ public class TrangChu_GUI extends JFrame implements ActionListener {
 
 		menuitemKhachHang = new JMenuItem("Khách hàng");
 		menuKhachHang.add(menuitemKhachHang);
-
-		JMenu menuTraCuu = new JMenu("Tra cứu");
-		menuTraCuu.setForeground(new Color(0, 0, 255));
-		menuTraCuu.setFont(new Font("Segoe UI", Font.BOLD, 18));
-		menuBar.add(menuTraCuu);
-
-		menuitemTraCuuCuaHang = new JMenuItem("Tra cứu cửa hàng");
-		menuTraCuu.add(menuitemTraCuuCuaHang);
-
-		menuitemTraCuuNVHC = new JMenuItem("Tra cứu nhân viên hành chính");
-		menuTraCuu.add(menuitemTraCuuNVHC);
-
-		menuitemTraCuuNVKT = new JMenuItem("Tra cứu nhân viên kỹ thuật");
-		menuTraCuu.add(menuitemTraCuuNVKT);
-
-		menuitemTraCuuHD = new JMenuItem("Tra cứu hóa đơn");
-		menuTraCuu.add(menuitemTraCuuHD);
-
-		menuitemTraCuuXe = new JMenuItem("Tra cứu xe");
-		menuTraCuu.add(menuitemTraCuuXe);
-
-		menuitemTraCuuKH = new JMenuItem("Tra cứu khách hàng");
-		menuTraCuu.add(menuitemTraCuuKH);
+		
+		JMenu menuThongKe = new JMenu("Thống kê");
+		menuThongKe.setForeground(new Color(0, 0, 255));
+		menuThongKe.setFont(new Font("Segoe UI", Font.BOLD, 18));
+		menuBar.add(menuThongKe);
+		
+		JMenuItem mntmNewMenuItem = new JMenuItem("Thống kê ");
+		menuThongKe.add(mntmNewMenuItem);
 
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -186,9 +160,11 @@ public class TrangChu_GUI extends JFrame implements ActionListener {
 		contentPane.setLayout(null);
 
 		JLabel lblNewLabel = new JLabel("");
+		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel.setIcon(new ImageIcon("C:\\java\\workspace\\workspace\\Motorbike-Store-Project\\data\\image\\TrangChu.jpg"));
 		// lblNewLabel.setIcon(new
 		// ImageIcon(TrangChu_GUI.class.getResource("/image/TrangChu.jpg")));
-		lblNewLabel.setBounds(54, 123, 830, 476);
+		lblNewLabel.setBounds(79, 156, 1003, 476);
 		contentPane.add(lblNewLabel);
 
 		JLabel lblNewLabel_1 = new JLabel("QUẢN LÝ BÁN XE MÁY", SwingConstants.CENTER);
@@ -205,12 +181,6 @@ public class TrangChu_GUI extends JFrame implements ActionListener {
 		menuitemNhaPhanPhoi.addActionListener(this);
 		menuitemQuanLyXe.addActionListener(this);
 		menuitemThongTinXe.addActionListener(this);
-		menuitemTraCuuCuaHang.addActionListener(this);
-		menuitemTraCuuHD.addActionListener(this);
-		menuitemTraCuuKH.addActionListener(this);
-		menuitemTraCuuNVHC.addActionListener(this);
-		menuitemTraCuuNVKT.addActionListener(this);
-		menuitemTraCuuXe.addActionListener(this);
 	}
 
 	public void actionPerformed(ActionEvent e) {

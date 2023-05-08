@@ -274,7 +274,7 @@ public class NhanVienHanhChinh_GUI extends JPanel {
 		//do du lieu nhan vien hanh chinh
 		nhanVienHanhChinh_DAO = new NhanVienHanhChinh_DAO();
 		for (NhanVienHanhChinh nhanVienHanhChinh: nhanVienHanhChinh_DAO.getAlListNhanVienHanhChinhChinh()) {
-			Object[] objects = {nhanVienHanhChinh.getMa(), nhanVienHanhChinh.getTen(), n};
+			Object[] objects = {nhanVienHanhChinh.getMa(), nhanVienHanhChinh.getTen(), };
 		}
 	}
 }
