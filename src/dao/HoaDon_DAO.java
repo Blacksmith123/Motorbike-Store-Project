@@ -54,14 +54,14 @@ public class HoaDon_DAO {
 	}
 
 	// get hoa don theo ngay
-	public ArrayList<HoaDon> getHDTheoNgay(Date ngayBatDau, Date ngayKetThuc) throws SQLException {
+	public List<HoaDon> getHDTheoNgay(Date ngayBatDau, Date ngayKetThuc) throws SQLException {
 
 		ConnectDB.getInstance();
 		ngayBatDauCalendar = null;
 		ngayBatDauCalendar.setTime(ngayBatDau);
 		ngayKetThucCalendar = null;
 		ngayKetThucCalendar.setTime(ngayKetThuc);
-		ArrayList<HoaDon> lsHD = new ArrayList<HoaDon>();
+		List<HoaDon> lsHD = new ArrayList<HoaDon>();
 		String ngayBD = (ngayBatDauCalendar.get(Calendar.YEAR) + 1900) + "/" + (ngayBatDauCalendar.get(Calendar.MONTH) + 1) + "/" + ngayBatDauCalendar.get(Calendar.DATE);
 		String ngayKT = (ngayKetThucCalendar.get(Calendar.YEAR) + 1900) + "/" + (ngayKetThucCalendar.get(Calendar.MONTH) + 1) + "/"
 				+ ngayKetThucCalendar.get(Calendar.DATE);

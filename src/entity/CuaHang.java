@@ -9,7 +9,7 @@ public class CuaHang {
 	public ArrayList<HoaDon> dsHoaDon;
 	public ArrayList<XeTrongKho> dsXe;
 	public CuaHang(String ma, String ten, String email, String duong, String thanhPho, String tinhTrang, int sdt,
-			int maBuuDien, NhanVien nv) {
+			int maBuuDien) {
 		this.ma = ma;
 		this.ten = ten;
 		this.email = email;
@@ -19,7 +19,6 @@ public class CuaHang {
 		this.sdt = sdt;
 		this.maBuuDien = maBuuDien;
 		dsNhanVien = new ArrayList<NhanVien>();
-		dsNhanVien.add(nv);
 		dsHoaDon = new ArrayList<HoaDon>();
 		dsXe = new ArrayList<XeTrongKho>();
 	}

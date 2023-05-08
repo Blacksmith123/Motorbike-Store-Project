@@ -5,11 +5,32 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 import connect.ConnectDB;
+import entity.ChiTietHoaDon;
 import entity.KhachHang;
 
 public class KhachHang_DAO {
+	//get all khach hang
+	public List<KhachHang> getAllKhachHang(){
+		ConnectDB.getInstance();
+		Connection connection = ConnectDB.getConnection();
+		List<KhachHang> dsKhachHang = new ArrayList<KhachHang>();
+		try {
+			String sqlString = "select * from KhachHang";
+			Statement statement = connection.createStatement();
+			ResultSet rsResultSet = statement.executeQuery(sqlString);
+			while (rsResultSet.next()) {
+				dsKhachHang.add(new KhachHang(rsResultSet.getString(1), rsResultSet.getString(2), rsResultSet.getString(3), rsResultSet.getString(4), rsResultSet.getString(6), Integer.valueOf(rsResultSet.getString(5))));
+
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return dsKhachHang;
+	}
 	// them khach hang
 	public boolean themKhachHang(KhachHang khachHang) throws SQLException {
 		ConnectDB.getInstance();
