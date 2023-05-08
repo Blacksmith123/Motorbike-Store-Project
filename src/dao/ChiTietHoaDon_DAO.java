@@ -26,7 +26,7 @@ public class ChiTietHoaDon_DAO {
 			ResultSet rsResultSet = statement.executeQuery(sqlString);
 			while (rsResultSet.next()) {
 				thongTinXe = thongTinXe_DAO.getThongTinXeTheoMa(rsResultSet.getString(2));
-				dsChiTietHoaDon.add(new ChiTietHoaDon(rsResultSet.getString(1), thongTinXe,
+				dsChiTietHoaDon.add(new ChiTietHoaDon(rsResultSet.getString("maHoaDon"), thongTinXe,
 						Integer.valueOf(rsResultSet.getString(3)), Integer.valueOf(rsResultSet.getString(4))));
 
 			}
