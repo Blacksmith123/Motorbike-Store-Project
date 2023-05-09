@@ -94,7 +94,7 @@ public class TrangChu_GUI extends JFrame implements ActionListener {
 
 		menuitemTrangChu = new JMenuItem("Trang chủ");
 		menuitemTrangChu.setIcon(
-				new ImageIcon("D:\\DH\\EDP\\21089891_PhamVanThanh\\Motorbike-Store-Project\\data\\image\\info.png"));
+				new ImageIcon(TrangChu_GUI.class.getResource("/image/home.png")));
 		menuTrangChu.add(menuitemTrangChu);
 
 		menuCuaHang = new JMenu("Cửa hàng");
@@ -103,6 +103,7 @@ public class TrangChu_GUI extends JFrame implements ActionListener {
 		menuBar.add(menuCuaHang);
 
 		menuitemCuaHang = new JMenuItem("Quản lý cửa hàng");
+		menuitemCuaHang.setIcon(new ImageIcon(TrangChu_GUI.class.getResource("/image/store.png")));
 		menuCuaHang.add(menuitemCuaHang);
 
 		JMenu menuNhanVien = new JMenu("Nhân viên");
@@ -111,6 +112,7 @@ public class TrangChu_GUI extends JFrame implements ActionListener {
 		menuBar.add(menuNhanVien);
 
 		menuitemNhanVienKyThuat = new JMenuItem("Nhân viên kỹ thuật");
+		menuitemNhanVienKyThuat.setIcon(new ImageIcon(TrangChu_GUI.class.getResource("/image/technical-support.png")));
 		// menuitemNhanVienKyThuat.setIcon(new
 		// ImageIcon(TrangChu_GUI.class.getResource("/image/worker.png")));
 		menuitemNhanVienKyThuat.addActionListener(new ActionListener() {
@@ -121,6 +123,7 @@ public class TrangChu_GUI extends JFrame implements ActionListener {
 		menuNhanVien.add(menuitemNhanVienKyThuat);
 
 		menuitemNhanVienHanhChinh = new JMenuItem("Nhân viên hành chính");
+		menuitemNhanVienHanhChinh.setIcon(new ImageIcon(TrangChu_GUI.class.getResource("/image/team-management.png")));
 		// menuitemNhanVienHanhChinh.setIcon(new
 		// ImageIcon(TrangChu_GUI.class.getResource("/image/employee.png")));
 		menuNhanVien.add(menuitemNhanVienHanhChinh);
@@ -131,6 +134,7 @@ public class TrangChu_GUI extends JFrame implements ActionListener {
 		menuBar.add(menuHoaDon);
 
 		menuitemHoaDon = new JMenuItem("Hóa đơn");
+		menuitemHoaDon.setIcon(new ImageIcon(TrangChu_GUI.class.getResource("/image/bill.png")));
 		menuHoaDon.add(menuitemHoaDon);
 
 		JMenu menuXe = new JMenu("Xe");
@@ -139,13 +143,15 @@ public class TrangChu_GUI extends JFrame implements ActionListener {
 		menuBar.add(menuXe);
 
 		menuitemThongTinXe = new JMenuItem("Thông tin xe");
+		menuitemThongTinXe.setIcon(new ImageIcon(TrangChu_GUI.class.getResource("/image/information-button.png")));
 		menuXe.add(menuitemThongTinXe);
 
 		menuitemQuanLyXe = new JMenuItem("Quản lý xe");
-		menuitemQuanLyXe.setIcon(null);
+		menuitemQuanLyXe.setIcon(new ImageIcon(TrangChu_GUI.class.getResource("/image/project-management.png")));
 		menuXe.add(menuitemQuanLyXe);
 
 		menuitemNhaPhanPhoi = new JMenuItem("Nhà phân phối");
+		menuitemNhaPhanPhoi.setIcon(new ImageIcon(TrangChu_GUI.class.getResource("/image/distribution.png")));
 		menuXe.add(menuitemNhaPhanPhoi);
 
 		JMenu menuKhachHang = new JMenu("Khách hàng");
@@ -154,6 +160,7 @@ public class TrangChu_GUI extends JFrame implements ActionListener {
 		menuBar.add(menuKhachHang);
 
 		menuitemKhachHang = new JMenuItem("Khách hàng");
+		menuitemKhachHang.setIcon(new ImageIcon(TrangChu_GUI.class.getResource("/image/customer.png")));
 		menuKhachHang.add(menuitemKhachHang);
 
 		JMenu menuTraCuu = new JMenu("Tra cứu");
