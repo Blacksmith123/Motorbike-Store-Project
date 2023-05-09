@@ -53,7 +53,6 @@ public class ThongTinXe_GUI extends JPanel {
 	private JTextArea textMoTa;
 	private DefaultTableModel model;
 	private ThongTinXe_DAO thongTinXe_DAO;
-
 	/**
 	 * Create the panel.
 	 */
