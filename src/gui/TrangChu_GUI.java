@@ -1,7 +1,5 @@
 package gui;
 
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -10,9 +8,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
-import java.time.format.DateTimeFormatter;
 import java.awt.event.ActionEvent;
-import javax.swing.JRadioButton;
 import javax.swing.JLabel;
 import javax.swing.ImageIcon;
 import java.awt.Font;
@@ -103,7 +99,7 @@ public class TrangChu_GUI extends JFrame implements ActionListener {
 		menuBar.add(menuCuaHang);
 
 		menuitemCuaHang = new JMenuItem("Quản lý cửa hàng");
-		menuitemCuaHang.setIcon(new ImageIcon(TrangChu_GUI.class.getResource("../image/store.png")));
+		menuitemCuaHang.setIcon(new ImageIcon(TrangChu_GUI.class.getResource("/image/store.png")));
 		menuCuaHang.add(menuitemCuaHang);
 
 		JMenu menuNhanVien = new JMenu("Nhân viên");
@@ -112,7 +108,7 @@ public class TrangChu_GUI extends JFrame implements ActionListener {
 		menuBar.add(menuNhanVien);
 
 		menuitemNhanVienKyThuat = new JMenuItem("Nhân viên kỹ thuật");
-		menuitemNhanVienKyThuat.setIcon(new ImageIcon(TrangChu_GUI.class.getResource("//image/technical-support.png")));
+		menuitemNhanVienKyThuat.setIcon(new ImageIcon(TrangChu_GUI.class.getResource("/image/technical-support.png")));
 		// menuitemNhanVienKyThuat.setIcon(new
 		// ImageIcon(TrangChu_GUI.class.getResource("/image/worker.png")));
 		menuitemNhanVienKyThuat.addActionListener(new ActionListener() {

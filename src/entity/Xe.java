@@ -3,15 +3,23 @@ package entity;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class Xe {
 	private String ma, soMay, soKhung, maLoaiXe, maNPP;
 	private Date ngayNhap;
-	public ArrayList<XeTrongKho> dsKho;
+	public List<XeTrongKho> dsKho;
 
 	public Xe() {
-		super();
+	}
+
+	public List<XeTrongKho> getDsKho() {
+		return dsKho;
+	}
+
+	public void setDsKho(List<XeTrongKho> dsKho) {
+		this.dsKho = dsKho;
 	}
 
 	public Xe(String ma) {
