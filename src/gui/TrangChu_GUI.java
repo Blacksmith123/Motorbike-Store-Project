@@ -192,7 +192,7 @@ public class TrangChu_GUI extends JFrame implements ActionListener {
 		contentPane.add(lblNewLabel);
 
 		JLabel lblNewLabel_1 = new JLabel("QUẢN LÝ BÁN XE MÁY", SwingConstants.CENTER);
-		lblNewLabel_1.setForeground(Color.red);
+		lblNewLabel_1.setForeground(Color.red );
 		lblNewLabel_1.setFont(new Font("Arial", Font.BOLD, 24));
 		lblNewLabel_1.setBounds(0, 0, 1161, 74);
 		contentPane.add(lblNewLabel_1);

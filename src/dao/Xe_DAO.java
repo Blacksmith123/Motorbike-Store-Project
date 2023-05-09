@@ -50,6 +50,7 @@ public class Xe_DAO {
 		ps.setDate(3, xe.getNgayNhap());
 		ps.setString(4, xe.getMaNPP());
 		ps.setString(5, xe.getMaLoaiXe());
+		ps.close();
 
 		return ps.executeUpdate() > 0;
 	}
