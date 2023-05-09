@@ -23,9 +23,12 @@ import dao.ChiTietHoaDon_DAO;
 import dao.CuaHang_DAO;
 import dao.HoaDon_DAO;
 import dao.KhachHang_DAO;
+import dao.NhanVienHanhChinh_DAO;
 import entity.ChiTietHoaDon;
+import entity.CuaHang;
 import entity.HoaDon;
 import entity.KhachHang;
+import entity.NhanVienHanhChinh;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -33,6 +36,7 @@ import javax.swing.JComboBox;
 
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.List;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.awt.event.ActionEvent;
@@ -60,10 +64,13 @@ public class HoaDon_GUI extends JPanel {
 	private ChiTietHoaDon_DAO chiTietHoaDon_DAO;
 	private CuaHang_DAO cuaHang_DAO;
 	private KhachHang_DAO khachHang_DAO;
+	private NhanVienHanhChinh_DAO nhanVienHanhChinh_DAO;
+	private List<CuaHang> dsCuaHang;
 	// xetrongkhodao
 	private JComboBox cbMakhachhang;
 	private JComboBox cbMacuahang;
 	private JComboBox cbManhanvien;
+	private JButton btnTim;
 
 	/**
 	 * Create the panel.
@@ -77,6 +84,17 @@ public class HoaDon_GUI extends JPanel {
 		setBorder(new LineBorder(new Color(0, 0, 0)));
 		setBackground(Color.LIGHT_GRAY);
 		setLayout(null);
+		// chang
+		dsCuaHang = new ArrayList<CuaHang>();
+		cuaHang_DAO = new CuaHang_DAO();
+		dsCuaHang = cuaHang_DAO.getAllCuaHang();
+		// ========== cb nhan vien hành chánh
+		nhanVienHanhChinh_DAO = new NhanVienHanhChinh_DAO();
+		int size = dsCuaHang.size();
+		for (int i = 0; i < size; i++) {
+			dsCuaHang.get(i).setDsNhanVienHc(new ArrayList<NhanVienHanhChinh>(
+					nhanVienHanhChinh_DAO.getNhanVienHanhChinhTheoMaCh(dsCuaHang.get(i).getMa())));
+		}
 
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(165, 42, 42));
@@ -89,6 +107,7 @@ public class HoaDon_GUI extends JPanel {
 				"Mã nhân viên" };
 		modelHd = new DefaultTableModel(column, 0);
 		tableHd = new JTable(modelHd);
+		tableHd.setRowHeight(25);
 		// click chuột vào bảng
 		tableHd.addMouseListener(new MouseAdapter() {
 			@Override
@@ -97,7 +116,8 @@ public class HoaDon_GUI extends JPanel {
 				textMaHD.setText(tableHd.getValueAt(row, 0).toString());
 				textNgaylap.setText(tableHd.getValueAt(row, 1).toString());
 				textThoigianbaohanh.setText(tableHd.getValueAt(row, 2).toString());
-				cbMacuahang.setSelectedItem(tableHd.getValueAt(row, 3).toString());
+				cbMakhachhang.setSelectedItem(tableHd.getValueAt(row, 3).toString());
+				cbMacuahang.setSelectedItem(tableHd.getValueAt(row, 4).toString());
 			}
 		});
 		// Add a ListSelectionListener to the table
@@ -111,7 +131,7 @@ public class HoaDon_GUI extends JPanel {
 					int rowIndex = tableHd.getSelectedRow();
 
 					// Set the background color of the selected row
-					tableHd.setSelectionBackground(Color.RED);
+					tableHd.setSelectionBackground(Color.CYAN);
 					tableHd.setRowSelectionInterval(rowIndex, rowIndex);
 				}
 			}
@@ -224,7 +244,7 @@ public class HoaDon_GUI extends JPanel {
 		lblNewLabel_4_1_4.setBackground(Color.WHITE);
 		lblNewLabel_4_1_4.setBounds(393, 10, 105, 34);
 		panelThongTin.add(lblNewLabel_4_1_4);
-		//cb mã kh
+		// ======== cb mã kh
 		khachHang_DAO = new KhachHang_DAO();
 		cbMakhachhang = new JComboBox();
 		for (KhachHang kHang : khachHang_DAO.getAllKhachHang()) {
@@ -233,16 +253,36 @@ public class HoaDon_GUI extends JPanel {
 		cbMakhachhang.setFont(new Font("Arial", Font.PLAIN, 16));
 		cbMakhachhang.setBounds(160, 152, 206, 21);
 		panelThongTin.add(cbMakhachhang);
-
+		// ======== cb mã cửa hàng
 		cbMacuahang = new JComboBox();
+		for (CuaHang cHang : dsCuaHang) {
+			cbMacuahang.addItem(cHang.getMa());
+		}
 		cbMacuahang.setFont(new Font("Arial", Font.PLAIN, 16));
 		cbMacuahang.setBounds(160, 196, 206, 21);
 		panelThongTin.add(cbMacuahang);
 
 		cbManhanvien = new JComboBox();
+		for (NhanVienHanhChinh nv : dsCuaHang.get(0).getDsNhanVienHc()) {
+			cbManhanvien.addItem(nv.getMa());
+		}
 		cbManhanvien.setFont(new Font("Arial", Font.PLAIN, 16));
 		cbManhanvien.setBounds(508, 17, 206, 21);
 		panelThongTin.add(cbManhanvien);
+		// skien khi chon ma cua hang
+		cbMacuahang.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				cbManhanvien.removeAllItems();
+				for (CuaHang ch : dsCuaHang) {
+					if (cbMacuahang.getSelectedItem().equals(ch.getMa())) {
+						for (NhanVienHanhChinh nv : ch.getDsNhanVienHc()) {
+							cbManhanvien.addItem(nv.getMa());
+						}
+						break;
+					}
+				}
+			}
+		});
 
 		textThoigianbaohanh = new JTextField();
 		textThoigianbaohanh.setFont(new Font("Arial", Font.PLAIN, 16));
@@ -284,6 +324,13 @@ public class HoaDon_GUI extends JPanel {
 		panel_2_1.add(btnThem_1);
 
 		JButton btnXoatrang_1 = new JButton("Xóa Trắng");
+		btnXoatrang_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				textMaHD.setText("");
+				textNgaylap.setText("");
+				textThoigianbaohanh.setText("");
+			}
+		});
 		btnXoatrang_1.setForeground(new Color(165, 42, 42));
 		btnXoatrang_1.setFont(new Font("Arial", Font.PLAIN, 16));
 		btnXoatrang_1.setBackground(Color.LIGHT_GRAY);
@@ -342,6 +389,7 @@ public class HoaDon_GUI extends JPanel {
 		String[] column_1 = { "Mã hóa đơn", "Mã loại xe", "Số lượng", "Đơn giá", "Thành tiền" };
 		modelHdDetail = new DefaultTableModel(column_1, 0);
 		tableHddetail = new JTable(modelHdDetail);
+		tableHddetail.setRowHeight(25);
 		tableHddetail.setFont(new Font("Arial", Font.PLAIN, 16));
 		JScrollPane scrollPane_1 = new JScrollPane(tableHddetail, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
 				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
@@ -366,7 +414,12 @@ public class HoaDon_GUI extends JPanel {
 		cbTim.setForeground(Color.RED);
 		cbTim.setFont(new Font("Arial", Font.PLAIN, 16));
 
-		JButton btnTim = new JButton("Tìm Kiếm");
+		btnTim = new JButton("Tìm Kiếm");
+		cbTim.addItem("Mã hóa đơn");
+		cbTim.addItem("Ngày lập");
+		cbTim.addItem("Mã khách hàng");
+		cbTim.addItem("Mã cửa hàng");
+		cbTim.addItem("Mã nhân viên");
 		btnTim.setBounds(218, 90, 133, 27);
 		panel_3.add(btnTim);
 		btnTim.setHorizontalAlignment(SwingConstants.LEFT);
@@ -379,12 +432,28 @@ public class HoaDon_GUI extends JPanel {
 		btnTim.setVerticalTextPosition(SwingConstants.CENTER);
 		btnTim.setHorizontalAlignment(SwingConstants.LEFT);
 
-		JComboBox comboBox = new JComboBox();
-		comboBox.setEditable(true);
-		comboBox.setFont(new Font("Arial", Font.PLAIN, 16));
-		comboBox.setModel(new DefaultComboBoxModel(new String[] { "Hóa Đơn", "Chi Tiết Hóa Đơn" }));
-		comboBox.setBounds(90, 29, 133, 21);
-		panel_3.add(comboBox);
+		JComboBox cbTimTheo = new JComboBox();
+		cbTimTheo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				cbTim.removeAllItems();
+				if (cbTimTheo.getSelectedItem().equals("Hóa Đơn")) {
+					cbTim.addItem("Mã hóa đơn");
+					cbTim.addItem("Ngày lập");
+					cbTim.addItem("Mã khách hàng");
+					cbTim.addItem("Mã cửa hàng");
+					cbTim.addItem("Mã nhân viên");
+				} else {
+					cbTim.addItem("Mã hóa đơn");
+					cbTim.addItem("Mã loại xe");
+					cbTim.addItem("Số lượng");
+					cbTim.addItem("Đơn giá");
+				}
+			}
+		});
+		cbTimTheo.setFont(new Font("Arial", Font.PLAIN, 16));
+		cbTimTheo.setModel(new DefaultComboBoxModel(new String[] { "Hóa Đơn", "Chi Tiết Hóa Đơn" }));
+		cbTimTheo.setBounds(90, 29, 133, 21);
+		panel_3.add(cbTimTheo);
 
 		// thêm dòng khi để thêm hóa đơn
 		JButton btnThemDong = new JButton("Thêm Dòng");
