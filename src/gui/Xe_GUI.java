@@ -8,11 +8,16 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 
 import connect.ConnectDB;
+import dao.NhaPhanPhoi_DAO;
+import dao.ThongTinXe_DAO;
 import dao.Xe_DAO;
+import entity.NhaPhanPhoi;
+import entity.ThongTinXe;
 import entity.Xe;
 
 import java.awt.Canvas;
@@ -23,8 +28,12 @@ import java.awt.SystemColor;
 import java.awt.Color;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.border.EtchedBorder;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
@@ -44,6 +53,10 @@ public class Xe_GUI extends JPanel {
 	private JTextField textNgayNhapXe;
 	private DefaultTableModel model;
 	private Xe_DAO xe_DAO;
+	private NhaPhanPhoi_DAO nhaPhanPhoi_DAO;
+	private ThongTinXe_DAO thongTinXe_DAO;
+	private JComboBox cbNhaPP;
+	private JComboBox cbMaLoaiXe;
 
 	/**
 	 * Create the panel.
@@ -68,7 +81,62 @@ public class Xe_GUI extends JPanel {
 		model = new DefaultTableModel(columns, 0);
 		table = new JTable(model);
 		table.setFont(new Font("Arial", Font.PLAIN, 16));
+		table.setDefaultEditor(Object.class, null);
 		scrollPane.setViewportView(table);
+		
+		table.setRowHeight(25);
+		table.addMouseListener(new MouseListener() {
+			
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mousePressed(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				// TODO Auto-generated method stub
+				int row = table.getSelectedRow();
+				textMaXe.setText((String) model.getValueAt(row, 0));
+				textSoMay.setText((String) model.getValueAt(row, 1));
+				textSoKhung.setText((String) model.getValueAt(row, 2));
+				textNgayNhapXe.setText(model.getValueAt(row, 3) + "");
+				cbNhaPP.setSelectedItem(model.getValueAt(row, 4).toString());
+				cbMaLoaiXe.setSelectedItem(model.getValueAt(row, 5).toString());
+			}
+		});
+		// set color for table
+				ListSelectionModel listSelectionModel = table.getSelectionModel();
+				listSelectionModel.addListSelectionListener(new ListSelectionListener() {
+
+					@Override
+					public void valueChanged(ListSelectionEvent e) {
+						// TODO Auto-generated method stub
+						if (!e.getValueIsAdjusting()) {
+							int rowIndex = table.getSelectedRow();
+							table.setSelectionBackground(Color.cyan);
+							table.setRowSelectionInterval(rowIndex, rowIndex);
+						}
+					}
+				});
 
 		JPanel panel_1 = new JPanel();
 		panel_1.setBackground(SystemColor.text);
@@ -150,6 +218,14 @@ public class Xe_GUI extends JPanel {
 		btnThem.setForeground(new Color(165, 42, 42));
 		btnThem.setFont(new Font("Arial", Font.PLAIN, 16));
 		btnThem.setBounds(56, 32, 112, 27);
+		btnThem.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
 		panel_2.add(btnThem);
 
 		JButton btnXoatrang = new JButton("Xóa Trắng");
@@ -186,12 +262,22 @@ public class Xe_GUI extends JPanel {
 		lblNewLabel_1_1.setBounds(10, 352, 322, 27);
 		panel_1.add(lblNewLabel_1_1);
 
-		JComboBox cbNhaPP = new JComboBox();
+		cbNhaPP = new JComboBox<String>();
+		cbNhaPP.addItem("");
+		nhaPhanPhoi_DAO = new NhaPhanPhoi_DAO();
+		for (NhaPhanPhoi nhaPhanPhoi : nhaPhanPhoi_DAO.getAllNhaPhanPhoi()) {
+			cbNhaPP.addItem(nhaPhanPhoi.getMa() + "");
+		}
 		cbNhaPP.setFont(new Font("Arial", Font.PLAIN, 16));
 		cbNhaPP.setBounds(160, 192, 206, 21);
 		panel_1.add(cbNhaPP);
 
-		JComboBox cbMaLoaiXe = new JComboBox();
+		cbMaLoaiXe = new JComboBox();
+		cbMaLoaiXe.addItem("");
+		thongTinXe_DAO = new ThongTinXe_DAO();
+		for (ThongTinXe thongTinXe : thongTinXe_DAO.getAllThongTinXe()) {
+			cbMaLoaiXe.addItem(thongTinXe.getMaLoaiXe());
+		}
 		cbMaLoaiXe.setFont(new Font("Arial", Font.PLAIN, 16));
 		cbMaLoaiXe.setBounds(160, 238, 206, 21);
 		panel_1.add(cbMaLoaiXe);

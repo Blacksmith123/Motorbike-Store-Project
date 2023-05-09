@@ -431,6 +431,8 @@ public class HoaDon_GUI extends JPanel {
 				}
 			}
 		});
+		btnTim.setHorizontalTextPosition(SwingConstants.LEADING);
+		btnTim.setIcon(new ImageIcon(HoaDon_GUI.class.getResource("/image/magnifier.png")));
 		cbTim.addItem("Mã hóa đơn");
 		cbTim.addItem("Ngày lập");
 		cbTim.addItem("Mã khách hàng");
@@ -439,12 +441,11 @@ public class HoaDon_GUI extends JPanel {
 		btnTim.setBounds(218, 90, 133, 27);
 		panel_3.add(btnTim);
 		btnTim.setHorizontalAlignment(SwingConstants.LEFT);
-		btnTim.setIcon(new ImageIcon(
-				"D:\\Study\\OOPJava\\21091031_TrinhMinhKhaa\\Motorbike-Store-Project\\data\\image\\icons8-search-30.png"));
+//		btnTim.setIcon(new ImageIcon(
+//				"D:\\Study\\OOPJava\\21091031_TrinhMinhKhaa\\Motorbike-Store-Project\\data\\image\\icons8-search-30.png"));
 		btnTim.setForeground(new Color(165, 42, 42));
 		btnTim.setFont(new Font("Arial", Font.PLAIN, 16));
 		btnTim.setBackground(Color.LIGHT_GRAY);
-		btnTim.setHorizontalTextPosition(SwingConstants.RIGHT);
 		btnTim.setVerticalTextPosition(SwingConstants.CENTER);
 		btnTim.setHorizontalAlignment(SwingConstants.LEFT);
 

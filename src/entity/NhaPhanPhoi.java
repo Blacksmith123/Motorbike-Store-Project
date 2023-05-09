@@ -4,17 +4,27 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 public class NhaPhanPhoi {
-	private int ma, sdt;
-	private String ten, diaChi, email;
+	private int sdt;
+	private String tenNhaPhanPhoi, diaChi, email, ma;
 	public ArrayList<Xe> dsXe;
-	public NhaPhanPhoi(int ma, int sdt, String ten, String diaChi, String email) {
+	
+	public NhaPhanPhoi() {
+		super();
+	}
+	
+	public NhaPhanPhoi(String ma) {
 		super();
 		this.ma = ma;
+	}
+	
+	public NhaPhanPhoi(String ma, String tenNhaPhanPhoi, String diaChi, int sdt, String email) {
+		super();
 		this.sdt = sdt;
-		this.ten = ten;
+		this.tenNhaPhanPhoi = tenNhaPhanPhoi;
 		this.diaChi = diaChi;
 		this.email = email;
-		dsXe = new ArrayList<Xe>();
+		this.ma = ma;
+		this.dsXe = new ArrayList<Xe>();
 	}
 	public int getSdt() {
 		return sdt;
@@ -22,11 +32,11 @@ public class NhaPhanPhoi {
 	public void setSdt(int sdt) {
 		this.sdt = sdt;
 	}
-	public String getTen() {
-		return ten;
+	public String getTenNhaPhanPhoi() {
+		return tenNhaPhanPhoi;
 	}
-	public void setTen(String ten) {
-		this.ten = ten;
+	public void setTenNhaPhanPhoi(String tenNhaPhanPhoi) {
+		this.tenNhaPhanPhoi = tenNhaPhanPhoi;
 	}
 	public String getDiaChi() {
 		return diaChi;
@@ -40,7 +50,11 @@ public class NhaPhanPhoi {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	public int getMa() {
+	
+	public void setMa(String ma) {
+		this.ma = ma;
+	}
+	public String getMa() {
 		return ma;
 	}
 	@Override
