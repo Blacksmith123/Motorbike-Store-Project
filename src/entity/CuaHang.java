@@ -5,7 +5,8 @@ import java.util.ArrayList;
 public class CuaHang {
 	private String ma, ten, email, duong, thanhPho, tinhTrang;
 	private int sdt, maBuuDien;
-	public ArrayList<NhanVien> dsNhanVien;
+	public ArrayList<NhanVienHanhChinh> dsNhanVienHc;
+	public ArrayList<NhanVienKyThuat> dsNhanVienKt;
 	public ArrayList<HoaDon> dsHoaDon;
 	public ArrayList<XeTrongKho> dsXe;
 	public CuaHang(String ma, String ten, String email, String duong, String thanhPho, String tinhTrang, int sdt,
@@ -18,7 +19,8 @@ public class CuaHang {
 		this.tinhTrang = tinhTrang;
 		this.sdt = sdt;
 		this.maBuuDien = maBuuDien;
-		dsNhanVien = new ArrayList<NhanVien>();
+		dsNhanVienHc = new ArrayList<NhanVienHanhChinh>();
+		dsNhanVienKt = new ArrayList<NhanVienKyThuat>();
 		dsHoaDon = new ArrayList<HoaDon>();
 		dsXe = new ArrayList<XeTrongKho>();
 	}
@@ -64,11 +66,23 @@ public class CuaHang {
 	public void setMaBuuDien(int maBuuDien) {
 		this.maBuuDien = maBuuDien;
 	}
-	public ArrayList<NhanVien> getDsNhanVien() {
-		return dsNhanVien;
+	public ArrayList<NhanVienHanhChinh> getDsNhanVienHc() {
+		return dsNhanVienHc;
 	}
-	public void setDsNhanVien(ArrayList<NhanVien> dsNhanVien) {
-		this.dsNhanVien = dsNhanVien;
+	public void setDsNhanVienHc(ArrayList<NhanVienHanhChinh> dsNhanVienHc) {
+		this.dsNhanVienHc = dsNhanVienHc;
+	}
+	public ArrayList<NhanVienKyThuat> getDsNhanVienKt() {
+		return dsNhanVienKt;
+	}
+	public void setDsNhanVienKt(ArrayList<NhanVienKyThuat> dsNhanVienKt) {
+		this.dsNhanVienKt = dsNhanVienKt;
+	}
+	public ArrayList<XeTrongKho> getDsXe() {
+		return dsXe;
+	}
+	public void setDsXe(ArrayList<XeTrongKho> dsXe) {
+		this.dsXe = dsXe;
 	}
 	public ArrayList<HoaDon> getDsHoaDon() {
 		return dsHoaDon;
