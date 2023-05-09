@@ -415,6 +415,8 @@ public class HoaDon_GUI extends JPanel {
 		cbTim.setFont(new Font("Arial", Font.PLAIN, 16));
 
 		btnTim = new JButton("Tìm Kiếm");
+		btnTim.setHorizontalTextPosition(SwingConstants.LEADING);
+		btnTim.setIcon(new ImageIcon(HoaDon_GUI.class.getResource("/image/magnifier.png")));
 		cbTim.addItem("Mã hóa đơn");
 		cbTim.addItem("Ngày lập");
 		cbTim.addItem("Mã khách hàng");
@@ -428,7 +430,6 @@ public class HoaDon_GUI extends JPanel {
 		btnTim.setForeground(new Color(165, 42, 42));
 		btnTim.setFont(new Font("Arial", Font.PLAIN, 16));
 		btnTim.setBackground(Color.LIGHT_GRAY);
-		btnTim.setHorizontalTextPosition(SwingConstants.RIGHT);
 		btnTim.setVerticalTextPosition(SwingConstants.CENTER);
 		btnTim.setHorizontalAlignment(SwingConstants.LEFT);
 
