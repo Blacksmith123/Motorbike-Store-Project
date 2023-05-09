@@ -497,8 +497,11 @@ public class HoaDon_GUI extends JPanel {
 			public void valueChanged(ListSelectionEvent e) {
 				// Check if the current cell selection is not empty
 				if (!e.getValueIsAdjusting()) {
-					// Set the background color of the selected row
-					tableHddetail.setSelectionBackground(Color.CYAN);
+					int rowIndex = tableHddetail.getSelectedRow();
+					if (rowIndex >= 0 && rowIndex < tableHddetail.getRowCount()) {
+					    tableHddetail.setSelectionBackground(Color.CYAN);
+					    tableHddetail.setRowSelectionInterval(rowIndex, rowIndex);
+					}
 				}
 			}
 		});
