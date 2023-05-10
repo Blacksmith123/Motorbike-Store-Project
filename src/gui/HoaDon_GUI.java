@@ -73,6 +73,7 @@ public class HoaDon_GUI extends JPanel {
 	private JComboBox cbManhanvien;
 	private JButton btnTim;
 	private JComboBox cbTimTheo;
+	private SimpleDateFormat dateFormat;
 
 	/**
 	 * Create the panel.
@@ -118,12 +119,11 @@ public class HoaDon_GUI extends JPanel {
 			public void valueChanged(ListSelectionEvent e) {
 				// Check if the current cell selection is not empty
 				if (!e.getValueIsAdjusting()) {
-					// Get the row index of the selected cell
 					int rowIndex = tableHd.getSelectedRow();
-
-					// Set the background color of the selected row
-					tableHd.setSelectionBackground(Color.CYAN);
-					tableHd.setRowSelectionInterval(rowIndex, rowIndex);
+					if (rowIndex >= 0 && rowIndex < tableHd.getRowCount()) {
+						tableHd.setSelectionBackground(Color.CYAN);
+						tableHd.setRowSelectionInterval(rowIndex, rowIndex);
+					}
 				}
 			}
 		});
@@ -354,8 +354,23 @@ public class HoaDon_GUI extends JPanel {
 		btnLuu_1.setForeground(new Color(165, 42, 42));
 		btnLuu_1.setFont(new Font("Arial", Font.PLAIN, 16));
 		btnLuu_1.setBackground(Color.LIGHT_GRAY);
-		btnLuu_1.setBounds(136, 106, 112, 27);
+		btnLuu_1.setBounds(212, 106, 112, 27);
 		panel_2_1.add(btnLuu_1);
+
+		JButton btnLamMoi = new JButton("Làm Mới");
+		btnLamMoi.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				modelHd.setRowCount(0);
+				modelHdDetail.setRowCount(0);
+				doDuLieu(hoaDon_DAO);
+				doDuLieuChiTiet(chiTietHoaDon_DAO);
+			}
+		});
+		btnLamMoi.setForeground(new Color(165, 42, 42));
+		btnLamMoi.setFont(new Font("Arial", Font.PLAIN, 16));
+		btnLamMoi.setBackground(Color.LIGHT_GRAY);
+		btnLamMoi.setBounds(56, 106, 112, 27);
+		panel_2_1.add(btnLamMoi);
 
 		JLabel lblNewLabel_1 = new JLabel("Thông Tin:");
 		lblNewLabel_1.setHorizontalAlignment(SwingConstants.LEFT);
@@ -421,13 +436,27 @@ public class HoaDon_GUI extends JPanel {
 				if (textTim.getText().isEmpty()) {
 					JOptionPane.showMessageDialog(null, "Bạn chưa nhập dữ liệu");
 				} else {
+					boolean check = false;
 					if (cbTimTheo.getSelectedItem().equals("Hóa Đơn")) {
-						
+						if (cbTim.getSelectedItem().equals("Mã hóa đơn")) {
+							for (HoaDon hd : hoaDon_DAO.getAllHoaDon()) {
+								if (textTim.getText().equals(hd.getMa())) {
+									modelHd.setRowCount(0);
+									Object[] objects = { hd.getMa(), dateFormat.format(hd.getNgayLap()),
+											hd.getThoiGianBH(), hd.getMaKH(), hd.getMaCH(), hd.getMaNV() };
+									modelHd.addRow(objects);
+									check = true;
+									break;
+								}
+							}
+							if (check == false) {
+								JOptionPane.showMessageDialog(null, "Không tìm thấy mã trong bảng");
+							}
+						}
+					} else {
+
 					}
-					else {
-						
-					}
-						
+
 				}
 			}
 		});
@@ -482,14 +511,11 @@ public class HoaDon_GUI extends JPanel {
 
 		// đổ dữ liệu vào table hóa đơn
 		hoaDon_DAO = new HoaDon_DAO();
-		SimpleDateFormat dateFormat = new SimpleDateFormat("dd / MM / yyyy");
-		for (HoaDon hd : hoaDon_DAO.getAllHoaDon()) {
-			Object[] objects = { hd.getMa(), dateFormat.format(hd.getNgayLap()), hd.getThoiGianBH(), hd.getMaKH(),
-					hd.getMaCH(), hd.getMaNV() };
-			modelHd.addRow(objects);
-		}
+		dateFormat = new SimpleDateFormat("dd / MM / yyyy");
+		doDuLieu(hoaDon_DAO);
 		// Khai báo chi tiết hd dao
 		chiTietHoaDon_DAO = new ChiTietHoaDon_DAO();
+		doDuLieuChiTiet(chiTietHoaDon_DAO);
 		// Add a ListSelectionListener to the table
 		ListSelectionModel modelCthd = tableHddetail.getSelectionModel();
 		modelCthd.addListSelectionListener(new ListSelectionListener() {
@@ -499,8 +525,8 @@ public class HoaDon_GUI extends JPanel {
 				if (!e.getValueIsAdjusting()) {
 					int rowIndex = tableHddetail.getSelectedRow();
 					if (rowIndex >= 0 && rowIndex < tableHddetail.getRowCount()) {
-					    tableHddetail.setSelectionBackground(Color.CYAN);
-					    tableHddetail.setRowSelectionInterval(rowIndex, rowIndex);
+						tableHddetail.setSelectionBackground(Color.CYAN);
+						tableHddetail.setRowSelectionInterval(rowIndex, rowIndex);
 					}
 				}
 			}
@@ -529,12 +555,22 @@ public class HoaDon_GUI extends JPanel {
 				}
 			}
 		});
+	}
+	
+	public void doDuLieu(HoaDon_DAO hoaDon_DAO) {
+		for (HoaDon hd : hoaDon_DAO.getAllHoaDon()) {
+			Object[] objects = { hd.getMa(), dateFormat.format(hd.getNgayLap()), hd.getThoiGianBH(), hd.getMaKH(),
+					hd.getMaCH(), hd.getMaNV() };
+			modelHd.addRow(objects);
+		}
+	}
+
+	public void doDuLieuChiTiet(ChiTietHoaDon_DAO chiTietHoaDon_DAO) {
 		// đổ dữ liệu vào
 		for (ChiTietHoaDon chiTietHoaDon : chiTietHoaDon_DAO.getAllChiTietHoaDon()) {
 			Object[] objects = { chiTietHoaDon.getMa(), chiTietHoaDon.getMaLoaiXe(), chiTietHoaDon.getSoLuong(),
 					chiTietHoaDon.getDonGia(), chiTietHoaDon.getThanhTien() };
 			modelHdDetail.addRow(objects);
 		}
-
 	}
 }
