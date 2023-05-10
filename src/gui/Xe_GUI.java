@@ -255,8 +255,15 @@ public class Xe_GUI extends JPanel {
 		btnLuu.setForeground(new Color(165, 42, 42));
 		btnLuu.setFont(new Font("Arial", Font.PLAIN, 16));
 		btnLuu.setBackground(Color.LIGHT_GRAY);
-		btnLuu.setBounds(136, 106, 112, 27);
+		btnLuu.setBounds(212, 106, 112, 27);
 		panel_2.add(btnLuu);
+		
+		JButton btnLmMi = new JButton("Làm mới");
+		btnLmMi.setForeground(new Color(165, 42, 42));
+		btnLmMi.setFont(new Font("Arial", Font.PLAIN, 16));
+		btnLmMi.setBackground(Color.LIGHT_GRAY);
+		btnLmMi.setBounds(56, 106, 112, 27);
+		panel_2.add(btnLmMi);
 
 		JLabel lblNewLabel_1_1 = new JLabel("Chức năng:");
 		lblNewLabel_1_1.setForeground(Color.BLUE);

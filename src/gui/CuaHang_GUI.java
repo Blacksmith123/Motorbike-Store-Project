@@ -279,7 +279,7 @@ public class CuaHang_GUI extends JPanel {
 		lblNewLabel_1.setBounds(442, 10, 322, 27);
 		add(lblNewLabel_1);
 		
-		JLabel lblNewLabel_3 = new JLabel("Quản Lí Cửa Hàng");
+		JLabel lblNewLabel_3 = new JLabel("Quản Lý Cửa Hàng");
 		lblNewLabel_3.setBackground(new Color(165, 42, 42));
 		lblNewLabel_3.setForeground(Color.BLUE);
 		lblNewLabel_3.setHorizontalAlignment(SwingConstants.LEFT);
