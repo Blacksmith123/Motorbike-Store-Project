@@ -20,44 +20,34 @@ public class TrangChu_GUI extends JFrame implements ActionListener {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-
 	private JMenuItem menuTrangChu;
 
 	private JPanel contentPane;
 
+	private JMenu menuCuaHang;
 	private JMenuItem menuitemNhanVienHanhChinh;
-	private JMenuItem menuitemTraCuuCuaHang;
 	private JMenuItem menuitemTrangChu;
 	private JMenuItem menuitemHoaDon;
 	private JMenuItem menuitemThongTinXe;
 	private JMenuItem menuitemCuaHang;
-	private JMenuBar menuBar;
-
-	private JMenu menuCuaHang;
-
+	private JMenuBar  menuBar;
 	private JMenuItem menuitemNhaPhanPhoi;
-
 	private JMenuItem menuitemQuanLyXe;
-
 	private JMenuItem menuitemKhachHang;
-
-	private JMenuItem menuitemTraCuuNVHC;
-
-	private JMenuItem menuitemTraCuuNVKT;
-
-	private JMenuItem menuitemTraCuuHD;
-
-	private JMenuItem menuitemTraCuuXe;
-
-	private JMenuItem menuitemTraCuuKH;
-
 	private JMenuItem menuitemNhanVienKyThuat;
 
 	private JPanel tongJPanel;
 
-	/**
-	 * Launch the application.
-	 */
+	String trangChu = "Trang chủ";
+	String quanLyCuaHang = "Quản Lý Cửa Hàng";
+	String nhanVienKyThuat = "Nhân Viên Kỹ Thuật";
+	String nhanVienHanhChanh = "Nhân Viên Hành Chánh";
+	String hoaDon = "Hóa Đơn";
+	String thongTinXe = "Thông Tin Xe";
+	String quanLyXe = "Quản Lý Xe";
+	String nhaPhanPhoi = "Nhà Phân Phối";
+	String khachHang = "Khách Hàng";
+
 	public static void main(String[] args) {
 //		EventQueue.invokeLater(new Runnable() {
 //			public void run() {
@@ -76,21 +66,25 @@ public class TrangChu_GUI extends JFrame implements ActionListener {
 	 * Create the frame.
 	 */
 	public TrangChu_GUI() {
+		TrangChu();
+	}
+	
+	public void TrangChu() {
+		setTitle(trangChu);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(391, 21, 1210, 780);
 
 		menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
 
-		menuTrangChu = new JMenu("Trang chủ");
+		menuTrangChu = new JMenu(trangChu);
 		menuTrangChu.setIcon(null);
 		menuTrangChu.setForeground(new Color(0, 0, 255));
 		menuTrangChu.setFont(new Font("Segoe UI", Font.BOLD, 18));
 		menuBar.add(menuTrangChu);
 
 		menuitemTrangChu = new JMenuItem("Trang chủ");
-		menuitemTrangChu.setIcon(
-				new ImageIcon(TrangChu_GUI.class.getResource("/image/home.png")));
+		menuitemTrangChu.setIcon(new ImageIcon(TrangChu_GUI.class.getResource("/image/home.png")));
 		menuTrangChu.add(menuitemTrangChu);
 
 		menuCuaHang = new JMenu("Cửa hàng");
@@ -159,29 +153,6 @@ public class TrangChu_GUI extends JFrame implements ActionListener {
 		menuitemKhachHang.setIcon(new ImageIcon(TrangChu_GUI.class.getResource("/image/customer.png")));
 		menuKhachHang.add(menuitemKhachHang);
 
-		JMenu menuTraCuu = new JMenu("Tra cứu");
-		menuTraCuu.setForeground(new Color(0, 0, 255));
-		menuTraCuu.setFont(new Font("Segoe UI", Font.BOLD, 18));
-		menuBar.add(menuTraCuu);
-
-		menuitemTraCuuCuaHang = new JMenuItem("Tra cứu cửa hàng");
-		menuTraCuu.add(menuitemTraCuuCuaHang);
-
-		menuitemTraCuuNVHC = new JMenuItem("Tra cứu nhân viên hành chính");
-		menuTraCuu.add(menuitemTraCuuNVHC);
-
-		menuitemTraCuuNVKT = new JMenuItem("Tra cứu nhân viên kỹ thuật");
-		menuTraCuu.add(menuitemTraCuuNVKT);
-
-		menuitemTraCuuHD = new JMenuItem("Tra cứu hóa đơn");
-		menuTraCuu.add(menuitemTraCuuHD);
-
-		menuitemTraCuuXe = new JMenuItem("Tra cứu xe");
-		menuTraCuu.add(menuitemTraCuuXe);
-
-		menuitemTraCuuKH = new JMenuItem("Tra cứu khách hàng");
-		menuTraCuu.add(menuitemTraCuuKH);
-
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
@@ -190,12 +161,12 @@ public class TrangChu_GUI extends JFrame implements ActionListener {
 
 		JLabel lblNewLabel = new JLabel("");
 		// lblNewLabel.setIcon(new
-		// ImageIcon(TrangChu_GUI.class.getResource("/image/TrangChu.jpg")));
+		// ImageIcon(TrangChu_GUI.class.getResource("/image/TrangChu_GUI.jpg")));
 		lblNewLabel.setBounds(54, 123, 830, 476);
 		contentPane.add(lblNewLabel);
 
 		JLabel lblNewLabel_1 = new JLabel("QUẢN LÝ BÁN XE MÁY", SwingConstants.CENTER);
-		lblNewLabel_1.setForeground(Color.red );
+		lblNewLabel_1.setForeground(Color.red);
 		lblNewLabel_1.setFont(new Font("Arial", Font.BOLD, 24));
 		lblNewLabel_1.setBounds(0, 0, 1161, 74);
 		contentPane.add(lblNewLabel_1);
@@ -208,12 +179,6 @@ public class TrangChu_GUI extends JFrame implements ActionListener {
 		menuitemNhaPhanPhoi.addActionListener(this);
 		menuitemQuanLyXe.addActionListener(this);
 		menuitemThongTinXe.addActionListener(this);
-		menuitemTraCuuCuaHang.addActionListener(this);
-		menuitemTraCuuHD.addActionListener(this);
-		menuitemTraCuuKH.addActionListener(this);
-		menuitemTraCuuNVHC.addActionListener(this);
-		menuitemTraCuuNVKT.addActionListener(this);
-		menuitemTraCuuXe.addActionListener(this);
 	}
 
 	public void actionPerformed(ActionEvent e) {
@@ -221,17 +186,26 @@ public class TrangChu_GUI extends JFrame implements ActionListener {
 		Object o = e.getSource();
 		if (o.equals(menuitemNhanVienHanhChinh)) {
 			try {
+				setTitle(nhanVienHanhChanh);
 				showMenu(new NhanVienHanhChinh_GUI());
 			} catch (SQLException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 		} else if (o.equals(menuitemCuaHang)) {
-			showMenu(new CuaHang_GUI());
+			setTitle(quanLyCuaHang);
+			try {
+				showMenu(new CuaHang_GUI());
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 		} else if (o.equals(menuitemKhachHang)) {
+			setTitle(khachHang);
 			showMenu(new KhachHang_GUI());
 		} else if (o.equals(menuitemNhanVienKyThuat)) {
 			try {
+				setTitle(nhanVienKyThuat);
 				showMenu(new NhanVienKyThuat_GUI());
 			} catch (SQLException e1) {
 				// TODO Auto-generated catch block
@@ -239,15 +213,18 @@ public class TrangChu_GUI extends JFrame implements ActionListener {
 			}
 		} else if (o.equals(menuitemHoaDon)) {
 			try {
+				setTitle(hoaDon);
 				showMenu(new HoaDon_GUI());
 			} catch (SQLException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 		} else if (o.equals(menuitemNhaPhanPhoi)) {
+			setTitle(nhaPhanPhoi);
 			showMenu(new NhaPhanPhoi_GUI());
 		} else if (o.equals(menuitemQuanLyXe)) {
 			try {
+				setTitle(quanLyXe);
 				showMenu(new Xe_GUI());
 			} catch (SQLException e1) {
 				// TODO Auto-generated catch block
@@ -255,13 +232,15 @@ public class TrangChu_GUI extends JFrame implements ActionListener {
 			}
 		} else if (o.equals(menuitemThongTinXe)) {
 			try {
+				setTitle(thongTinXe);
 				showMenu(new ThongTinXe_GUI());
 			} catch (SQLException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
+		} else if (o.equals(menuitemTrangChu)) {
+			
 		}
-
 
 	}
 

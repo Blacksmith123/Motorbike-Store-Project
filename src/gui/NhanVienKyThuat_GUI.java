@@ -264,7 +264,7 @@ public class NhanVienKyThuat_GUI extends JPanel {
 		add(textField);
 		textField.setColumns(10);
 
-		JLabel lblNewLabel_3 = new JLabel("Nhân Viên Kĩ Thuật\r\n");
+		JLabel lblNewLabel_3 = new JLabel("Nhân Viên Kỹ Thuật\r\n");
 		lblNewLabel_3.setBackground(new Color(165, 42, 42));
 		lblNewLabel_3.setForeground(Color.BLUE);
 		lblNewLabel_3.setHorizontalAlignment(SwingConstants.CENTER);
@@ -274,8 +274,6 @@ public class NhanVienKyThuat_GUI extends JPanel {
 
 		JButton btnTim = new JButton("Tìm Kiếm");
 		btnTim.setHorizontalAlignment(SwingConstants.LEFT);
-		btnTim.setIcon(new ImageIcon(
-				"D:\\Study\\OOPJava\\21091031_TrinhMinhKhaa\\Motorbike-Store-Project\\data\\image\\icons8-search-30.png"));
 		btnTim.setForeground(new Color(165, 42, 42));
 		btnTim.setFont(new Font("Arial", Font.PLAIN, 16));
 		btnTim.setBackground(Color.LIGHT_GRAY);
