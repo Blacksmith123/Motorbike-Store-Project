@@ -129,11 +129,13 @@ public class Xe_GUI extends JPanel {
 
 					@Override
 					public void valueChanged(ListSelectionEvent e) {
-						// TODO Auto-generated method stub
+						// Check if the current cell selection is not empty
 						if (!e.getValueIsAdjusting()) {
 							int rowIndex = table.getSelectedRow();
-							table.setSelectionBackground(Color.cyan);
-							table.setRowSelectionInterval(rowIndex, rowIndex);
+							if (rowIndex >= 0 && rowIndex < table.getRowCount()) {
+								table.setSelectionBackground(Color.CYAN);
+								table.setRowSelectionInterval(rowIndex, rowIndex);
+							}
 						}
 					}
 				});
