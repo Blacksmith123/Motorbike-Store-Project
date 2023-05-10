@@ -9,8 +9,14 @@ public class CuaHang {
 	public ArrayList<NhanVienKyThuat> dsNhanVienKt;
 	public ArrayList<HoaDon> dsHoaDon;
 	public ArrayList<XeTrongKho> dsXe;
-	public CuaHang(String ma, String ten, String email, String duong, String thanhPho, String tinhTrang, int sdt,
-			int maBuuDien) {
+	public CuaHang() {
+		super();
+	}
+	public CuaHang(String ma) {
+		super();
+		this.ma = ma;
+	}
+	public CuaHang(String ma, String ten, int sdt, String email, String duong, String thanhPho, String tinhTrang, int maBuuDien) {
 		this.ma = ma;
 		this.ten = ten;
 		this.email = email;
@@ -24,6 +30,11 @@ public class CuaHang {
 		dsHoaDon = new ArrayList<HoaDon>();
 		dsXe = new ArrayList<XeTrongKho>();
 	}
+	
+	public void setMa(String ma) {
+		this.ma = ma;
+	}
+
 	public String getTen() {
 		return ten;
 	}

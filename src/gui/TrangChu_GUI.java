@@ -24,32 +24,16 @@ public class TrangChu_GUI extends JFrame implements ActionListener {
 
 	private JPanel contentPane;
 
+	private JMenu menuCuaHang;
 	private JMenuItem menuitemNhanVienHanhChinh;
-	private JMenuItem menuitemTraCuuCuaHang;
 	private JMenuItem menuitemTrangChu;
 	private JMenuItem menuitemHoaDon;
 	private JMenuItem menuitemThongTinXe;
 	private JMenuItem menuitemCuaHang;
-	private JMenuBar menuBar;
-
-	private JMenu menuCuaHang;
-
+	private JMenuBar  menuBar;
 	private JMenuItem menuitemNhaPhanPhoi;
-
 	private JMenuItem menuitemQuanLyXe;
-
 	private JMenuItem menuitemKhachHang;
-
-	private JMenuItem menuitemTraCuuNVHC;
-
-	private JMenuItem menuitemTraCuuNVKT;
-
-	private JMenuItem menuitemTraCuuHD;
-
-	private JMenuItem menuitemTraCuuXe;
-
-	private JMenuItem menuitemTraCuuKH;
-
 	private JMenuItem menuitemNhanVienKyThuat;
 
 	private JPanel tongJPanel;
@@ -169,29 +153,6 @@ public class TrangChu_GUI extends JFrame implements ActionListener {
 		menuitemKhachHang.setIcon(new ImageIcon(TrangChu_GUI.class.getResource("/image/customer.png")));
 		menuKhachHang.add(menuitemKhachHang);
 
-		JMenu menuTraCuu = new JMenu("Tra cứu");
-		menuTraCuu.setForeground(new Color(0, 0, 255));
-		menuTraCuu.setFont(new Font("Segoe UI", Font.BOLD, 18));
-		menuBar.add(menuTraCuu);
-
-		menuitemTraCuuCuaHang = new JMenuItem("Tra cứu cửa hàng");
-		menuTraCuu.add(menuitemTraCuuCuaHang);
-
-		menuitemTraCuuNVHC = new JMenuItem("Tra cứu nhân viên hành chính");
-		menuTraCuu.add(menuitemTraCuuNVHC);
-
-		menuitemTraCuuNVKT = new JMenuItem("Tra cứu nhân viên kỹ thuật");
-		menuTraCuu.add(menuitemTraCuuNVKT);
-
-		menuitemTraCuuHD = new JMenuItem("Tra cứu hóa đơn");
-		menuTraCuu.add(menuitemTraCuuHD);
-
-		menuitemTraCuuXe = new JMenuItem("Tra cứu xe");
-		menuTraCuu.add(menuitemTraCuuXe);
-
-		menuitemTraCuuKH = new JMenuItem("Tra cứu khách hàng");
-		menuTraCuu.add(menuitemTraCuuKH);
-
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
@@ -218,12 +179,6 @@ public class TrangChu_GUI extends JFrame implements ActionListener {
 		menuitemNhaPhanPhoi.addActionListener(this);
 		menuitemQuanLyXe.addActionListener(this);
 		menuitemThongTinXe.addActionListener(this);
-		menuitemTraCuuCuaHang.addActionListener(this);
-		menuitemTraCuuHD.addActionListener(this);
-		menuitemTraCuuKH.addActionListener(this);
-		menuitemTraCuuNVHC.addActionListener(this);
-		menuitemTraCuuNVKT.addActionListener(this);
-		menuitemTraCuuXe.addActionListener(this);
 	}
 
 	public void actionPerformed(ActionEvent e) {
@@ -239,7 +194,12 @@ public class TrangChu_GUI extends JFrame implements ActionListener {
 			}
 		} else if (o.equals(menuitemCuaHang)) {
 			setTitle(quanLyCuaHang);
-			showMenu(new CuaHang_GUI());
+			try {
+				showMenu(new CuaHang_GUI());
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 		} else if (o.equals(menuitemKhachHang)) {
 			setTitle(khachHang);
 			showMenu(new KhachHang_GUI());
