@@ -77,7 +77,7 @@ public class TrangChu_GUI extends JFrame implements ActionListener {
 	 */
 	public TrangChu_GUI() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(391, 21, 1175, 733);
+		setBounds(391, 21, 1210, 780);
 
 		menuBar = new JMenuBar();
 		setJMenuBar(menuBar);

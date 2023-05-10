@@ -38,7 +38,9 @@ import javax.swing.JComboBox;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Date;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.awt.event.ActionEvent;
 import javax.swing.border.LineBorder;
@@ -439,24 +441,154 @@ public class HoaDon_GUI extends JPanel {
 					boolean check = false;
 					if (cbTimTheo.getSelectedItem().equals("Hóa Đơn")) {
 						if (cbTim.getSelectedItem().equals("Mã hóa đơn")) {
-							for (HoaDon hd : hoaDon_DAO.getAllHoaDon()) {
-								if (textTim.getText().equals(hd.getMa())) {
-									modelHd.setRowCount(0);
+							HoaDon hd;
+							try {
+								hd = hoaDon_DAO.getHDTheoMa(textTim.getText());
+								modelHd.setRowCount(0);
+								Object[] objects = { hd.getMa(), dateFormat.format(hd.getNgayLap()), hd.getThoiGianBH(),
+										hd.getMaKH(), hd.getMaCH(), hd.getMaNV() };
+								modelHd.addRow(objects);
+							} catch (Exception e1) {
+								JOptionPane.showMessageDialog(null, "Không tìm thấy mã trong bảng");
+							}
+						} else if (cbTim.getSelectedItem().equals("Ngày lập")) {
+							try {
+								modelHd.setRowCount(0);
+								Date date = dateFormat.parse(textTim.getText());
+								for (HoaDon hd : hoaDon_DAO.getHDtheoNgay(date)) {
 									Object[] objects = { hd.getMa(), dateFormat.format(hd.getNgayLap()),
 											hd.getThoiGianBH(), hd.getMaKH(), hd.getMaCH(), hd.getMaNV() };
 									modelHd.addRow(objects);
 									check = true;
-									break;
 								}
+							} catch (ParseException | SQLException e1) {
+								check = true;
+								JOptionPane.showMessageDialog(null, "Định dạng không hợp lệ");
+							}
+
+							if (check == false) {
+								JOptionPane.showMessageDialog(null, "Không tìm thấy ngày trong bảng");
+							}
+						} else if (cbTim.getSelectedItem().equals("Tên khách hàng")) {
+							try {
+								modelHd.setRowCount(0);
+								for (HoaDon hd : hoaDon_DAO.getHDTheoTenKH(textTim.getText())) {
+									Object[] objects = { hd.getMa(), dateFormat.format(hd.getNgayLap()),
+											hd.getThoiGianBH(), hd.getMaKH(), hd.getMaCH(), hd.getMaNV() };
+									modelHd.addRow(objects);
+									check = true;
+								}
+							} catch (SQLException e1) {
+								e1.printStackTrace();
 							}
 							if (check == false) {
-								JOptionPane.showMessageDialog(null, "Không tìm thấy mã trong bảng");
+								JOptionPane.showMessageDialog(null, "Không tìm thấy tên KH trong bảng");
+							}
+						} else if (cbTim.getSelectedItem().equals("Mã cửa hàng")) {
+							try {
+								modelHd.setRowCount(0);
+								for (HoaDon hd : hoaDon_DAO.getHDTheoMaCH(textTim.getText())) {
+									Object[] objects = { hd.getMa(), dateFormat.format(hd.getNgayLap()),
+											hd.getThoiGianBH(), hd.getMaKH(), hd.getMaCH(), hd.getMaNV() };
+									modelHd.addRow(objects);
+									check = true;
+								}
+							} catch (SQLException e1) {
+								e1.printStackTrace();
+							}
+							if (check == false) {
+								JOptionPane.showMessageDialog(null, "Không tìm thấy mã CH trong bảng");
+							}
+						} else if (cbTim.getSelectedItem().equals("Mã nhân viên")) {
+							try {
+								modelHd.setRowCount(0);
+								for (HoaDon hd : hoaDon_DAO.getHDTheoMaNV(textTim.getText())) {
+									Object[] objects = { hd.getMa(), dateFormat.format(hd.getNgayLap()),
+											hd.getThoiGianBH(), hd.getMaKH(), hd.getMaCH(), hd.getMaNV() };
+									modelHd.addRow(objects);
+									check = true;
+								}
+							} catch (SQLException e1) {
+								e1.printStackTrace();
+							}
+							if (check == false) {
+								JOptionPane.showMessageDialog(null, "Không tìm thấy mã NV trong bảng");
 							}
 						}
 					} else {
+						if (cbTim.getSelectedItem().equals("Mã hóa đơn")) {
+							modelHdDetail.setRowCount(0);
+							try {
+								for (ChiTietHoaDon chiTietHoaDon : chiTietHoaDon_DAO
+										.getChiTietHoaDonTheoMa(textTim.getText())) {
+									Object[] objects = { chiTietHoaDon.getMa(), chiTietHoaDon.getMaLoaiXe(),
+											chiTietHoaDon.getSoLuong(), chiTietHoaDon.getDonGia(),
+											chiTietHoaDon.getThanhTien() };
+									modelHdDetail.addRow(objects);
+									check = true;
+								}
+							} catch (SQLException e1) {
+								e1.printStackTrace();
+							}
+							if (check == false) {
+								JOptionPane.showMessageDialog(null, "Không tìm thấy mã hóa đơn trong bảng");
+							}
+						} else if (cbTim.getSelectedItem().equals("Mã loại xe")) {
+							try {
+								modelHdDetail.setRowCount(0);
+								for (ChiTietHoaDon chiTietHoaDon : chiTietHoaDon_DAO
+										.getChiTietHoaDonTheoMaLoaiXe(textTim.getText())) {
+									Object[] objects = { chiTietHoaDon.getMa(), chiTietHoaDon.getMaLoaiXe(),
+											chiTietHoaDon.getSoLuong(), chiTietHoaDon.getDonGia(),
+											chiTietHoaDon.getThanhTien() };
+									modelHdDetail.addRow(objects);
+									check = true;
+								}
 
+							} catch (SQLException e1) {
+								e1.printStackTrace();
+							}
+							if (check == false) {
+								JOptionPane.showMessageDialog(null, "Không tìm thấy mã loại trong bảng");
+							}
+						} else if (cbTim.getSelectedItem().equals("Số lượng")) {
+							try {
+								modelHdDetail.setRowCount(0);
+								for (ChiTietHoaDon chiTietHoaDon : chiTietHoaDon_DAO
+										.getChiTietHoaDonTheoSoLuong(textTim.getText())) {
+									Object[] objects = { chiTietHoaDon.getMa(), chiTietHoaDon.getMaLoaiXe(),
+											chiTietHoaDon.getSoLuong(), chiTietHoaDon.getDonGia(),
+											chiTietHoaDon.getThanhTien() };
+									modelHdDetail.addRow(objects);
+									check = true;
+								}
+
+							} catch (SQLException e1) {
+								e1.printStackTrace();
+							}
+							if (check == false) {
+								JOptionPane.showMessageDialog(null, "Không tìm thấy số lượng phù hợp trong bảng");
+							}
+						} else if (cbTim.getSelectedItem().equals("Đơn giá")) {
+							try {
+								modelHdDetail.setRowCount(0);
+								for (ChiTietHoaDon chiTietHoaDon : chiTietHoaDon_DAO
+										.getChiTietHoaDonTheoDonGia(textTim.getText())) {
+									Object[] objects = { chiTietHoaDon.getMa(), chiTietHoaDon.getMaLoaiXe(),
+											chiTietHoaDon.getSoLuong(), chiTietHoaDon.getDonGia(),
+											chiTietHoaDon.getThanhTien() };
+									modelHdDetail.addRow(objects);
+									check = true;
+								}
+
+							} catch (SQLException e1) {
+								e1.printStackTrace();
+							}
+							if (check == false) {
+								JOptionPane.showMessageDialog(null, "Không tìm thấy đơn giá phù hợp trong bảng");
+							}
+						}
 					}
-
 				}
 			}
 		});
@@ -464,7 +596,7 @@ public class HoaDon_GUI extends JPanel {
 		btnTim.setIcon(new ImageIcon(HoaDon_GUI.class.getResource("/image/magnifier.png")));
 		cbTim.addItem("Mã hóa đơn");
 		cbTim.addItem("Ngày lập");
-		cbTim.addItem("Mã khách hàng");
+		cbTim.addItem("Tên khách hàng");
 		cbTim.addItem("Mã cửa hàng");
 		cbTim.addItem("Mã nhân viên");
 		btnTim.setBounds(218, 90, 133, 27);
@@ -480,12 +612,13 @@ public class HoaDon_GUI extends JPanel {
 
 		cbTimTheo = new JComboBox();
 		cbTimTheo.addActionListener(new ActionListener() {
+
 			public void actionPerformed(ActionEvent e) {
 				cbTim.removeAllItems();
 				if (cbTimTheo.getSelectedItem().equals("Hóa Đơn")) {
 					cbTim.addItem("Mã hóa đơn");
 					cbTim.addItem("Ngày lập");
-					cbTim.addItem("Mã khách hàng");
+					cbTim.addItem("Tên khách hàng");
 					cbTim.addItem("Mã cửa hàng");
 					cbTim.addItem("Mã nhân viên");
 				} else {
@@ -511,7 +644,8 @@ public class HoaDon_GUI extends JPanel {
 
 		// đổ dữ liệu vào table hóa đơn
 		hoaDon_DAO = new HoaDon_DAO();
-		dateFormat = new SimpleDateFormat("dd / MM / yyyy");
+		dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+
 		doDuLieu(hoaDon_DAO);
 		// Khai báo chi tiết hd dao
 		chiTietHoaDon_DAO = new ChiTietHoaDon_DAO();
@@ -556,7 +690,7 @@ public class HoaDon_GUI extends JPanel {
 			}
 		});
 	}
-	
+
 	public void doDuLieu(HoaDon_DAO hoaDon_DAO) {
 		for (HoaDon hd : hoaDon_DAO.getAllHoaDon()) {
 			Object[] objects = { hd.getMa(), dateFormat.format(hd.getNgayLap()), hd.getThoiGianBH(), hd.getMaKH(),
