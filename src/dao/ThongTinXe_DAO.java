@@ -8,6 +8,8 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JOptionPane;
+
 import connect.ConnectDB;
 import entity.ThongTinXe;
 
@@ -32,12 +34,21 @@ public class ThongTinXe_DAO {
 	}
 	
 	// xoa thong tin xe theo ma
-	public boolean xoaThongTinXeTheoMa(String maLoaiXe) throws SQLException {
+	public boolean xoaThongTinXeTheoMaLoaiXe(String maLoaiXe) {
 		ConnectDB.getInstance();
 		Connection con = ConnectDB.getConnection();
-		PreparedStatement ps = con.prepareStatement("delete from ThongTinXe where maLoaiXe = '"+ maLoaiXe +"'");
-		ps.close();
-		return ps.executeUpdate() > 0;
+		PreparedStatement ps;
+		try {
+			ps = con.prepareStatement("delete from ThongTinXe where maLoaiXe = '"+ maLoaiXe +"'");
+			ps.close();
+			return ps.executeUpdate() > 0;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			JOptionPane.showMessageDialog(null, "Phải xóa Xe và Xe Trong Kho có mã loại '"+ maLoaiXe +"'");
+			e.printStackTrace();
+		}
+		return false;
+		
 	}
 	
 	// sua thong tin xe 

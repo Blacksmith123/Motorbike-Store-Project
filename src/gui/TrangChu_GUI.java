@@ -190,7 +190,7 @@ public class TrangChu_GUI extends JFrame implements ActionListener {
 				showMenu(new NhanVienHanhChinh_GUI());
 			} catch (SQLException e1) {
 				// TODO Auto-generated catch block
-				e1.printStackTrace();
+				System.out.println("LOI");
 			}
 		} else if (o.equals(menuitemCuaHang)) {
 			setTitle(quanLyCuaHang);
@@ -227,7 +227,7 @@ public class TrangChu_GUI extends JFrame implements ActionListener {
 				setTitle(quanLyXe);
 				showMenu(new Xe_GUI());
 			} catch (SQLException e1) {
-				// TODO Auto-generated catch block
+				// TODO AutoX-generated catch block
 				e1.printStackTrace();
 			}
 		} else if (o.equals(menuitemThongTinXe)) {
