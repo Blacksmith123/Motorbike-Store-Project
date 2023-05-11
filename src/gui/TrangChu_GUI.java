@@ -202,7 +202,12 @@ public class TrangChu_GUI extends JFrame implements ActionListener {
 			}
 		} else if (o.equals(menuitemKhachHang)) {
 			setTitle(khachHang);
-			showMenu(new KhachHang_GUI());
+			try {
+				showMenu(new KhachHang_GUI());
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 		} else if (o.equals(menuitemNhanVienKyThuat)) {
 			try {
 				setTitle(nhanVienKyThuat);
@@ -221,7 +226,12 @@ public class TrangChu_GUI extends JFrame implements ActionListener {
 			}
 		} else if (o.equals(menuitemNhaPhanPhoi)) {
 			setTitle(nhaPhanPhoi);
-			showMenu(new NhaPhanPhoi_GUI());
+			try {
+				showMenu(new NhaPhanPhoi_GUI());
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 		} else if (o.equals(menuitemQuanLyXe)) {
 			try {
 				setTitle(quanLyXe);
