@@ -49,16 +49,6 @@ public class TrangChu_GUI extends JFrame implements ActionListener {
 	String khachHang = "Khách Hàng";
 
 	public static void main(String[] args) {
-//		EventQueue.invokeLater(new Runnable() {
-//			public void run() {
-//				try {
-//					TrangChu_GUI frame = new TrangChu_GUI();
-//					frame.setVisible(true);
-//				} catch (Exception e) {
-//					e.printStackTrace();
-//				}
-//			}
-//		});
 		new TrangChu_GUI().setVisible(true);
 	}
 
