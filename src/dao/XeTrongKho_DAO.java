@@ -25,34 +25,36 @@ public class XeTrongKho_DAO {
 		}
 		return dsXeTrongKho;
 	}
-	
-		// get xe trong kho theo ma cua hang va ma xe
-		public XeTrongKho getXeTrongKhoTheoMaCuaHangVaMaXe(String maCuaHang, String maXe) throws SQLException {
-			ConnectDB.getInstance();
-			Connection con = ConnectDB.getConnection();
-			Statement statement = con.createStatement();
-			ResultSet resultSet = statement.executeQuery("select * from XeTrongKho where maCuaHang = '" + maCuaHang + "' and maXe = '" + maXe + "'");
-			XeTrongKho xeTrongKho = new XeTrongKho();
-			while (resultSet.next()) {
-				xeTrongKho.setMaCuaHang(maCuaHang);
-				xeTrongKho.setMaXe(maXe);
-				xeTrongKho.setSoLuong(resultSet.getInt(3));
-			}
-			return xeTrongKho;
+
+	// get xe trong kho theo ma cua hang va ma xe
+	public XeTrongKho getXeTrongKhoTheoMaCuaHangVaMaXe(String maCuaHang, String maXe) throws SQLException {
+		ConnectDB.getInstance();
+		Connection con = ConnectDB.getConnection();
+		Statement statement = con.createStatement();
+		ResultSet resultSet = statement.executeQuery(
+				"select * from XeTrongKho where maCuaHang = '" + maCuaHang + "' and maXe = '" + maXe + "'");
+		XeTrongKho xeTrongKho = new XeTrongKho();
+		while (resultSet.next()) {
+			xeTrongKho.setMaCuaHang(maCuaHang);
+			xeTrongKho.setMaXe(maXe);
+			xeTrongKho.setSoLuong(resultSet.getInt(3));
+		}
+		return xeTrongKho;
+	}
+
+	// get danh sach xe trong kho, get tat ca xe trong kho
+	public List<XeTrongKho> getAllXeTrongKho() throws SQLException {
+		ConnectDB.getInstance();
+		Connection con = ConnectDB.getConnection();
+		Statement statement = con.createStatement();
+		ResultSet resultSet = statement.executeQuery("select * from XeTrongKho");
+		List<XeTrongKho> dsXe = new ArrayList<XeTrongKho>();
+		while (resultSet.next()) {
+			dsXe.add(new XeTrongKho(resultSet.getString(1), resultSet.getString(2), resultSet.getInt(3)));
+
 		}
 
-		// get danh sach xe trong kho, get tat ca xe trong kho
-		public List<XeTrongKho> getAllXeTrongKho() throws SQLException {
-			ConnectDB.getInstance();
-			Connection con = ConnectDB.getConnection();
-			Statement statement = con.createStatement();
-			ResultSet resultSet = statement.executeQuery("select * from XeTrongKho");
-			List<XeTrongKho> dsXe = new ArrayList<XeTrongKho>();
-			while (resultSet.next()) {
-				dsXe.add(new XeTrongKho(resultSet.getString(1), resultSet.getString(2), resultSet.getInt(3)));
+		return dsXe;
+	}
 
-			}
-
-			return dsXe;
-		}
 }

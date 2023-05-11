@@ -26,7 +26,7 @@ public class ChiTietHoaDon_DAO {
 			ResultSet rsResultSet = statement.executeQuery(sqlString);
 			while (rsResultSet.next()) {
 				thongTinXe = thongTinXe_DAO.getThongTinXeTheoMa(rsResultSet.getString(2));
-				dsChiTietHoaDon.add(new ChiTietHoaDon(rsResultSet.getString("maHoaDon"), thongTinXe,
+				dsChiTietHoaDon.add(new ChiTietHoaDon(rsResultSet.getString(1), thongTinXe,
 						Integer.valueOf(rsResultSet.getString(3)), Integer.valueOf(rsResultSet.getString(4))));
 			}
 		} catch (SQLException e) {
@@ -36,18 +36,19 @@ public class ChiTietHoaDon_DAO {
 	}
 
 	// thêm chi tiết hóa đơn
-	public boolean themChiTietHoaDon(ChiTietHoaDon chiTietHoaDon) throws SQLException {
+	public void themChiTietHoaDon(ChiTietHoaDon chiTietHoaDon) throws SQLException {
 		ConnectDB.getInstance();
 		Connection connection = ConnectDB.getConnection();
 		PreparedStatement stmPreparedStatement = null;
 		stmPreparedStatement = connection.prepareStatement("insert into ChiTietHoaDon values(?,?,?,?,?)");
 		stmPreparedStatement.setString(1, chiTietHoaDon.getMa());
-		stmPreparedStatement.setString(2, chiTietHoaDon.getTtXE().getMaLoaiXe());
+		stmPreparedStatement.setString(2, chiTietHoaDon.getMaLoaiXe());
 		stmPreparedStatement.setInt(3, chiTietHoaDon.getSoLuong());
 		stmPreparedStatement.setInt(4, chiTietHoaDon.getDonGia());
 		stmPreparedStatement.setInt(5, chiTietHoaDon.getThanhTien());
+		stmPreparedStatement.executeUpdate();
 		stmPreparedStatement.close();
-		return stmPreparedStatement.executeUpdate() > 0;
+		return;
 	}
 
 	// get chi tiết hóa đơn theo mã hóa đơn

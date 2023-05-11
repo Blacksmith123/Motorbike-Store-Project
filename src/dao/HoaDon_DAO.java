@@ -37,19 +37,23 @@ public class HoaDon_DAO {
 		return dsHoaDon;
 	}
 
-	public boolean themHoaDon(HoaDon hd) throws SQLException {
+//	thêm hóa đơn
+	public void themHoaDon(HoaDon hd) throws SQLException {
 		ConnectDB.getInstance();
 		Connection con = ConnectDB.getConnection();
 		PreparedStatement stmt = null;
 		stmt = con.prepareStatement("insert into HoaDon values (?,?,?,?,?,?)");
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+		String formattedDate = formatter.format(hd.getNgayLap());
 		stmt.setString(1, hd.getMa());
-		stmt.setDate(2, hd.getNgayLap());
+		stmt.setString(2, formattedDate);
 		stmt.setString(3, hd.getThoiGianBH());
 		stmt.setString(4, hd.getMaKH());
 		stmt.setString(5, hd.getMaCH());
 		stmt.setString(6, hd.getMaNV());
+		stmt.executeUpdate();
 		stmt.close();
-		return stmt.executeUpdate() > 0;
+		return;
 	}
 
 	// get hoa don theo ngay
