@@ -15,12 +15,14 @@ import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 
+import dao.NhaPhanPhoi_DAO;
 import entity.NhaPhanPhoi;
 
 import java.awt.Color;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 import javax.swing.border.LineBorder;
@@ -353,5 +355,11 @@ public class NhaPhanPhoi_GUI extends JPanel {
 				}
 			}
 		});
+	}
+	public void doDuLieu(NhaPhanPhoi_DAO nhaPhanPhoi_DAO) throws SQLException{
+		for(NhaPhanPhoi npp : nhaPhanPhoi_DAO.getAllNhaPhanPhoi()){
+			Object[] row = {npp.getMa(), npp.getTenNhaPhanPhoi(), npp.getDiaChi(), npp.getSdt(), npp.getEmail()};
+			model.addRow(row);
+		}
 	}
 }

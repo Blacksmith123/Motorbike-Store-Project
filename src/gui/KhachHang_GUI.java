@@ -22,6 +22,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 
+import dao.KhachHang_DAO;
 import entity.KhachHang;
 
 import java.awt.event.ActionListener;
@@ -408,6 +409,12 @@ public class KhachHang_GUI extends JPanel{
 			}
 		});
 
+	}
+	public void doDuLieu(KhachHang_DAO khachHang_DAO){
+		for(KhachHang khachHang : khachHang_DAO.getAllKhachHang()) {
+			Object[] objects = {khachHang.getMa(), khachHang.getHo(), khachHang.getTen(), khachHang.getDiaChi(), khachHang.getSdt(), khachHang.getEmail()};
+			model.addRow(objects);
+		}
 	}
 	
 }
