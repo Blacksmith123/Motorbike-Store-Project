@@ -13,10 +13,13 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 
 import entity.KhachHang;
@@ -42,7 +45,7 @@ public class KhachHang_GUI extends JPanel{
 	private JTextField textSdt;
 	private JTextField textEmail;
 	private DefaultTableModel model;
-	private ArrayList<KhachHang> listKH;
+	private ArrayList<KhachHang> listKH = new ArrayList<KhachHang>();
 
 	/**
 	 * Create the panel.
@@ -67,8 +70,41 @@ public class KhachHang_GUI extends JPanel{
 		model = new DefaultTableModel(columns, 0);
 		table = new JTable(model);
 		table.setFont(new Font("Arial", Font.PLAIN, 16));
+		table.setRowHeight(25);
 		table.setDefaultEditor(Object.class, null);
 		scrollPane.setViewportView(table);
+		table.addMouseListener(new MouseListener() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				int row = table.getSelectedRow();
+				textMaKH.setText(table.getValueAt(row, 0).toString());
+				textHoKH.setText(table.getValueAt(row, 1).toString());
+				textTenKH.setText(table.getValueAt(row, 2).toString());
+				textDiaChi.setText(table.getValueAt(row, 3).toString());
+				textSdt.setText(table.getValueAt(row, 4).toString());
+				textEmail.setText(table.getValueAt(row, 5).toString());
+			}
+
+			@Override
+			public void mousePressed(MouseEvent e) {
+				// TODO Auto-generated method stub
+			}
+
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				// TODO Auto-generated method stub
+			}
+
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// TODO Auto-generated method stub
+			}
+
+			@Override
+			public void mouseExited(MouseEvent e) {
+				// TODO Auto-generated method stub
+			}
+		});
 		
 		JPanel panel_1 = new JPanel();
 		panel_1.setBackground(SystemColor.text);
@@ -178,7 +214,7 @@ public class KhachHang_GUI extends JPanel{
 				}
 				else {
 					listKH.add(new KhachHang(ma, ho, ten, diaChi, email, Integer.parseInt(sdt)));
-					String[] row = {ma, ho, ten, diaChi, email, sdt};
+					String[] row = {ma, ho, ten, diaChi, sdt, email};
 					model.addRow(row);
 					JOptionPane.showMessageDialog(null, "Thêm thành công");
 					textMaKH.setText("");
@@ -298,6 +334,9 @@ public class KhachHang_GUI extends JPanel{
 		cbTim.setFont(new Font("Arial", Font.PLAIN, 16));
 		cbTim.setBounds(88, 25, 125, 21);
 		add(cbTim);
+		cbTim.addItem("Tìm theo mã");
+		cbTim.addItem("Tìm theo họ");
+		cbTim.addItem("Tìm theo tên");
 		
 		textField = new JTextField();
 		textField.setFont(new Font("Arial", Font.PLAIN, 16));
@@ -322,6 +361,52 @@ public class KhachHang_GUI extends JPanel{
 		btnTim.setHorizontalTextPosition(SwingConstants.LEADING);
 		btnTim.setVerticalTextPosition(SwingConstants.CENTER);
 		add(btnTim);
+		btnTim.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String tim = textField.getText();
+				model.setRowCount(0);
+				if(cbTim.getSelectedItem().toString().equals("Tìm theo mã")) {
+					for(int i = 0; i < listKH.size(); i++) {
+						if(listKH.get(i).getMa().equals(tim)) {
+							Object[] objects = {listKH.get(i).getMa(), listKH.get(i).getHo(), listKH.get(i).getTen(),listKH.get(i).getDiaChi(), listKH.get(i).getSdt(), listKH.get(i).getEmail()};
+							model.addRow(objects);
+						}
+					}
+				}
+				else if(cbTim.getSelectedItem().toString().equals("Tìm theo họ")) {
+					for(int i = 0; i < listKH.size(); i++) {
+						if(listKH.get(i).getHo().equals(tim)) {
+							Object[] objects = {listKH.get(i).getMa(), listKH.get(i).getHo(), listKH.get(i).getTen(), listKH.get(i).getDiaChi(), listKH.get(i).getSdt(), listKH.get(i).getEmail()};
+							model.addRow(objects);
+						}
+					}
+				}
+				else if(cbTim.getSelectedItem().toString().equals("Tìm theo tên")) {
+					for(int i = 0; i < listKH.size(); i++) {
+						if(listKH.get(i).getTen().equals(tim)) {
+							Object[] objects = {listKH.get(i).getMa(), listKH.get(i).getHo(), listKH.get(i).getTen(), listKH.get(i).getDiaChi(), listKH.get(i).getSdt(), listKH.get(i).getEmail()};
+							model.addRow(objects);
+						}
+					}
+				}
+			}
+		});
+		ListSelectionModel model2 = table.getSelectionModel();
+		model2.addListSelectionListener(new ListSelectionListener() {
+			@Override
+			public void valueChanged(ListSelectionEvent e) {
+				// Check if the current cell selection is not empty
+				if (!e.getValueIsAdjusting()) {
+					// Get the row index of the selected cell
+					int rowIndex = table.getSelectedRow();
+
+					// Set the background color of the selected row
+					table.setSelectionBackground(Color.CYAN);
+					table.setRowSelectionInterval(rowIndex, rowIndex);
+				}
+			}
+		});
 
 	}
 	

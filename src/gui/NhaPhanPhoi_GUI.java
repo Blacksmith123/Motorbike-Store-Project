@@ -12,15 +12,21 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 
 import entity.NhaPhanPhoi;
 
 import java.awt.Color;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 import javax.swing.border.LineBorder;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+
 import java.awt.SystemColor;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
@@ -40,7 +46,7 @@ public class NhaPhanPhoi_GUI extends JPanel {
 	private JTextField textSdt;
 	private JTextField textEmail;
 	private DefaultTableModel model;
-	private ArrayList<NhaPhanPhoi> listNhaPhanPhoi;
+	private ArrayList<NhaPhanPhoi> listNhaPhanPhoi = new ArrayList<NhaPhanPhoi>();
 	/**
 	 * Create the panel.
 	 */
@@ -58,14 +64,46 @@ public class NhaPhanPhoi_GUI extends JPanel {
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(10, 10, 782, 525);
 		panel.add(scrollPane);
-//		nhũng cái nào m làm cmt lại nha
-		String[] columns = { "M\u00E3 c\u1EEDa h\u00E0ng", "T\u00EAn c\u1EEDa h\u00E0ng", "SDT", "Email" };
+
+		String[] columns = { "M\u00E3 c\u1EEDa h\u00E0ng", "T\u00EAn c\u1EEDa h\u00E0ng","\u0110\u1ECBa ch\u1EC9", "SDT", "Email" };
 		model = new DefaultTableModel(columns, 0);
 		table = new JTable(model);
 		table.setFont(new Font("Arial", Font.PLAIN, 16));
 		table.setDefaultEditor(Object.class, null);
 		scrollPane.setViewportView(table);
-		
+		table.addMouseListener(new MouseListener() {
+
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				int row = table.getSelectedRow();
+				textMaNhaPp.setText(table.getValueAt(row, 0).toString());
+				textTenNhaPp.setText(table.getValueAt(row, 1).toString());
+				textDiaChi.setText(table.getValueAt(row, 2).toString());
+				textSdt.setText(table.getValueAt(row, 3).toString());
+				textEmail.setText(table.getValueAt(row, 4).toString());
+			}
+
+			@Override
+			public void mousePressed(MouseEvent e) {
+				// TODO Auto-generated method stub
+			}
+
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				// TODO Auto-generated method stub
+			}
+
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// TODO Auto-generated method stub
+			}
+
+			@Override
+			public void mouseExited(MouseEvent e) {
+				// TODO Auto-generated method stub
+			}
+		});
+
 		JPanel panel_1 = new JPanel();
 		panel_1.setBackground(SystemColor.text);
 		panel_1.setBorder(new LineBorder(Color.CYAN));
@@ -273,6 +311,8 @@ public class NhaPhanPhoi_GUI extends JPanel {
 		cbTim.setFont(new Font("Arial", Font.PLAIN, 16));
 		cbTim.setBounds(88, 25, 125, 21);
 		add(cbTim);
+		cbTim.addItem("Tìm theo mã");
+		cbTim.addItem("Tìm theo tên");
 		
 		textField = new JTextField();
 		textField.setFont(new Font("Arial", Font.PLAIN, 16));
@@ -298,5 +338,20 @@ public class NhaPhanPhoi_GUI extends JPanel {
 		btnTim.setVerticalTextPosition(SwingConstants.CENTER);
 		add(btnTim);
 
+		ListSelectionModel model2 = table.getSelectionModel();
+		model2.addListSelectionListener(new ListSelectionListener() {
+			@Override
+			public void valueChanged(ListSelectionEvent e) {
+				// Check if the current cell selection is not empty
+				if (!e.getValueIsAdjusting()) {
+					// Get the row index of the selected cell
+					int rowIndex = table.getSelectedRow();
+
+					// Set the background color of the selected row
+					table.setSelectionBackground(Color.CYAN);
+					table.setRowSelectionInterval(rowIndex, rowIndex);
+				}
+			}
+		});
 	}
 }
