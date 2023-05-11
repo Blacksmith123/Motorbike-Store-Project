@@ -110,7 +110,8 @@ public class HoaDon_GUI extends JPanel {
 		for (int i = 0; i < size; i++) {
 			dsCuaHang.get(i).setDsNhanVienHc(new ArrayList<NhanVienHanhChinh>(
 					nhanVienHanhChinh_DAO.getNhanVienHanhChinhTheoMaCh(dsCuaHang.get(i).getMa())));
-			dsCuaHang.get(i).setDsXe(new ArrayList<XeTrongKho>(xeTrongKho_DAO.getXeTrongKhoTheoMaCuaHang(dsCuaHang.get(i).getMa())));
+			dsCuaHang.get(i).setDsXe(
+					new ArrayList<XeTrongKho>(xeTrongKho_DAO.getXeTrongKhoTheoMaCuaHang(dsCuaHang.get(i).getMa())));
 		}
 
 		JPanel panel = new JPanel();
@@ -173,8 +174,6 @@ public class HoaDon_GUI extends JPanel {
 		panel_2.setBounds(10, 378, 356, 147);
 		panelThongTin.add(panel_2);
 		panel_2.setLayout(null);
-
-	
 
 		JButton btnXoatrang = new JButton("Xóa Trắng");
 		btnXoatrang.setForeground(new Color(165, 42, 42));
@@ -327,19 +326,21 @@ public class HoaDon_GUI extends JPanel {
 		btnThem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				isEditable = !isEditable;
-				// Đưa combobox vào bảng
 				TableColumn column = tableHddetail.getColumnModel().getColumn(1); // Lấy cột tương ứng trong bảng
-				column.setCellEditor(new DefaultCellEditor(cbLoaiXe));
-				
 				if (isEditable) {
 					btnThemDong.setEnabled(true);
 					btnThem.setText("Xác Nhận");
+					// Đưa combobox vào bảng
+					column.setCellEditor(new DefaultCellEditor(cbLoaiXe));
 					// Bỏ cờ chỉ đọc để cho phép người dùng sửa đổi bảng JTable
 					tableHddetail.setDefaultEditor(Object.class, new DefaultCellEditor(textNhap));
 				} else {
 					btnThem.setText("Thêm");
 					// Thiết lập lại bảng JTable của bạn với giá trị chỉ đọc mặc định
+					column.setCellEditor(new DefaultCellEditor(textNhap));
+					column.setCellEditor(null);
 					tableHddetail.setDefaultEditor(Object.class, null);
+
 				}
 			}
 		});
@@ -705,7 +706,7 @@ public class HoaDon_GUI extends JPanel {
 		tableHd.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				int sum=0;
+				int sum = 0;
 				int row = tableHd.getSelectedRow();
 				textMaHD.setText(tableHd.getValueAt(row, 0).toString());
 				textNgaylap.setText(tableHd.getValueAt(row, 1).toString());
@@ -724,10 +725,10 @@ public class HoaDon_GUI extends JPanel {
 				} catch (SQLException e1) {
 					e1.printStackTrace();
 				}
-				for (int i = 0; i<tableHddetail.getRowCount();i++) {
-					sum+=Integer.valueOf(tableHddetail.getValueAt(i, 4).toString());
+				for (int i = 0; i < tableHddetail.getRowCount(); i++) {
+					sum += Integer.valueOf(tableHddetail.getValueAt(i, 4).toString());
 				}
-				textTongTien.setText(sum+"");
+				textTongTien.setText(sum + "");
 			}
 		});
 	}
