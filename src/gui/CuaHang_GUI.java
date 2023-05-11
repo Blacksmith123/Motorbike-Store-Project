@@ -277,7 +277,7 @@ public class CuaHang_GUI extends JPanel {
 		panel_2_1.setLayout(null);
 		panel_2_1.setBorder(new LineBorder(new Color(165, 42, 42)));
 		panel_2_1.setBackground(Color.WHITE);
-		panel_2_1.setBounds(393, 89, 338, 137);
+		panel_2_1.setBounds(393, 112, 338, 126);
 		jpanel.add(panel_2_1);
 
 		JButton btnThem_1 = new JButton("Thêm");
@@ -288,36 +288,43 @@ public class CuaHang_GUI extends JPanel {
 		btnThem_1.setForeground(new Color(165, 42, 42));
 		btnThem_1.setFont(new Font("Arial", Font.PLAIN, 16));
 		btnThem_1.setBackground(Color.LIGHT_GRAY);
-		btnThem_1.setBounds(56, 32, 112, 27);
+		btnThem_1.setBounds(36, 10, 112, 27);
 		panel_2_1.add(btnThem_1);
 
 		JButton btnXoatrang_1 = new JButton("Xóa Trắng");
 		btnXoatrang_1.setForeground(new Color(165, 42, 42));
 		btnXoatrang_1.setFont(new Font("Arial", Font.PLAIN, 16));
 		btnXoatrang_1.setBackground(Color.LIGHT_GRAY);
-		btnXoatrang_1.setBounds(212, 32, 112, 27);
+		btnXoatrang_1.setBounds(192, 10, 112, 27);
 		panel_2_1.add(btnXoatrang_1);
 
 		JButton btnCapnhat_1 = new JButton("Cập Nhật");
 		btnCapnhat_1.setForeground(new Color(165, 42, 42));
 		btnCapnhat_1.setFont(new Font("Arial", Font.PLAIN, 16));
 		btnCapnhat_1.setBackground(Color.LIGHT_GRAY);
-		btnCapnhat_1.setBounds(56, 69, 112, 27);
+		btnCapnhat_1.setBounds(36, 47, 112, 27);
 		panel_2_1.add(btnCapnhat_1);
 
 		JButton btnXoa_1 = new JButton("Xóa");
 		btnXoa_1.setForeground(new Color(165, 42, 42));
 		btnXoa_1.setFont(new Font("Arial", Font.PLAIN, 16));
 		btnXoa_1.setBackground(Color.LIGHT_GRAY);
-		btnXoa_1.setBounds(212, 69, 112, 27);
+		btnXoa_1.setBounds(192, 47, 112, 27);
 		panel_2_1.add(btnXoa_1);
 
 		JButton btnLuu_1 = new JButton("Lưu");
 		btnLuu_1.setForeground(new Color(165, 42, 42));
 		btnLuu_1.setFont(new Font("Arial", Font.PLAIN, 16));
 		btnLuu_1.setBackground(Color.LIGHT_GRAY);
-		btnLuu_1.setBounds(136, 106, 112, 27);
+		btnLuu_1.setBounds(192, 84, 112, 27);
 		panel_2_1.add(btnLuu_1);
+		
+		JButton btnLuu_1_1 = new JButton("Làm mới");
+		btnLuu_1_1.setForeground(new Color(165, 42, 42));
+		btnLuu_1_1.setFont(new Font("Arial", Font.PLAIN, 16));
+		btnLuu_1_1.setBackground(Color.LIGHT_GRAY);
+		btnLuu_1_1.setBounds(36, 84, 112, 27);
+		panel_2_1.add(btnLuu_1_1);
 
 		textEmail = new JTextField();
 		textEmail.setFont(new Font("Arial", Font.PLAIN, 16));
@@ -388,7 +395,7 @@ public class CuaHang_GUI extends JPanel {
 		scrollPane_1.setBounds(10, 125, 402, 466);
 		panel_3.add(scrollPane_1);
 
-		String[] columnsXeTrongKho = { "M\u00E3 c\u1EEDa h\u00E0ng", "M\u00E3 xe",
+		String[] columnsXeTrongKho = { "M\u00E3 c\u1EEDa h\u00E0ng", "M\u00E3 loại xe",
 				"S\u1ED1 l\u01B0\u1EE3ng" };
 		modelXeTrongKho = new DefaultTableModel(columnsXeTrongKho, 0);
 		tableXeTrongKho = new JTable(modelXeTrongKho);
@@ -432,13 +439,14 @@ public class CuaHang_GUI extends JPanel {
 		cbTim.setFont(new Font("Arial", Font.PLAIN, 16));
 
 		JButton btnTim = new JButton("Tìm Kiếm");
+		btnTim.setHorizontalTextPosition(SwingConstants.LEADING);
+		btnTim.setIcon(new ImageIcon(CuaHang_GUI.class.getResource("/image/magnifier.png")));
 		btnTim.setBounds(218, 90, 133, 27);
 		panel_3.add(btnTim);
 		btnTim.setHorizontalAlignment(SwingConstants.LEFT);
 		btnTim.setForeground(new Color(165, 42, 42));
 		btnTim.setFont(new Font("Arial", Font.PLAIN, 16));
 		btnTim.setBackground(Color.LIGHT_GRAY);
-		btnTim.setHorizontalTextPosition(SwingConstants.RIGHT);
 		btnTim.setVerticalTextPosition(SwingConstants.CENTER);
 		btnTim.setHorizontalAlignment(SwingConstants.LEFT);
 

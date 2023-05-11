@@ -124,21 +124,21 @@ public class Xe_GUI extends JPanel {
 			}
 		});
 		// set color for table
-				ListSelectionModel listSelectionModel = table.getSelectionModel();
-				listSelectionModel.addListSelectionListener(new ListSelectionListener() {
+		ListSelectionModel listSelectionModel = table.getSelectionModel();
+		listSelectionModel.addListSelectionListener(new ListSelectionListener() {
 
-					@Override
-					public void valueChanged(ListSelectionEvent e) {
-						// Check if the current cell selection is not empty
-						if (!e.getValueIsAdjusting()) {
-							int rowIndex = table.getSelectedRow();
-							if (rowIndex >= 0 && rowIndex < table.getRowCount()) {
-								table.setSelectionBackground(Color.CYAN);
-								table.setRowSelectionInterval(rowIndex, rowIndex);
-							}
-						}
+			@Override
+			public void valueChanged(ListSelectionEvent e) {
+				// Check if the current cell selection is not empty
+				if (!e.getValueIsAdjusting()) {
+					int rowIndex = table.getSelectedRow();
+					if (rowIndex >= 0 && rowIndex < table.getRowCount()) {
+						table.setSelectionBackground(Color.CYAN);
+						table.setRowSelectionInterval(rowIndex, rowIndex);
 					}
-				});
+				}
+			}
+		});
 
 		JPanel panel_1 = new JPanel();
 		panel_1.setBackground(SystemColor.text);
@@ -320,7 +320,7 @@ public class Xe_GUI extends JPanel {
 		add(textField);
 		textField.setColumns(10);
 
-		JLabel lblNewLabel_3 = new JLabel("Quản Lí Xe");
+		JLabel lblNewLabel_3 = new JLabel("Quản Lý Xe");
 		lblNewLabel_3.setBackground(new Color(165, 42, 42));
 		lblNewLabel_3.setForeground(Color.BLUE);
 		lblNewLabel_3.setHorizontalAlignment(SwingConstants.CENTER);
@@ -329,16 +329,13 @@ public class Xe_GUI extends JPanel {
 		add(lblNewLabel_3);
 
 		JButton btnTim = new JButton("Tìm Kiếm");
-		btnTim.setHorizontalAlignment(SwingConstants.LEFT);
-		btnTim.setIcon(new ImageIcon(
-				"D:\\Study\\OOPJava\\21091031_TrinhMinhKhaa\\Motorbike-Store-Project\\data\\image\\icons8-search-30.png"));
+		btnTim.setIcon(new ImageIcon(Xe_GUI.class.getResource("/image/magnifier.png")));
 		btnTim.setForeground(new Color(165, 42, 42));
 		btnTim.setFont(new Font("Arial", Font.PLAIN, 16));
 		btnTim.setBackground(Color.LIGHT_GRAY);
 		btnTim.setBounds(522, 20, 133, 27);
-		btnTim.setHorizontalTextPosition(SwingConstants.RIGHT);
+		btnTim.setHorizontalTextPosition(SwingConstants.LEADING);
 		btnTim.setVerticalTextPosition(SwingConstants.CENTER);
-		btnTim.setHorizontalAlignment(SwingConstants.LEFT);
 		add(btnTim);
 
 		// input data from Xe table

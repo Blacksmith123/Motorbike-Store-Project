@@ -309,16 +309,13 @@ public class ThongTinXe_GUI extends JPanel {
 		add(lblNewLabel_3);
 
 		JButton btnTim = new JButton("Tìm Kiếm");
-		btnTim.setHorizontalAlignment(SwingConstants.LEFT);
-		btnTim.setIcon(new ImageIcon(
-				"D:\\Study\\OOPJava\\21091031_TrinhMinhKhaa\\Motorbike-Store-Project\\data\\image\\icons8-search-30.png"));
+		btnTim.setIcon(new ImageIcon(ThongTinXe_GUI.class.getResource("/image/magnifier.png")));
 		btnTim.setForeground(new Color(165, 42, 42));
 		btnTim.setFont(new Font("Arial", Font.PLAIN, 16));
 		btnTim.setBackground(Color.LIGHT_GRAY);
 		btnTim.setBounds(522, 20, 133, 27);
-		btnTim.setHorizontalTextPosition(SwingConstants.RIGHT);
+		btnTim.setHorizontalTextPosition(SwingConstants.LEADING);
 		btnTim.setVerticalTextPosition(SwingConstants.CENTER);
-		btnTim.setHorizontalAlignment(SwingConstants.LEFT);
 		add(btnTim);
 
 		// input data from sql server

@@ -6,13 +6,19 @@ import javax.swing.JLabel;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.SystemColor;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.sql.SQLException;
+import java.util.jar.Attributes.Name;
 
 import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.JComboBox;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -21,7 +27,9 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 import connect.ConnectDB;
+import dao.CuaHang_DAO;
 import dao.NhanVienKiThuat_DAO;
+import entity.CuaHang;
 import entity.NhanVienKyThuat;
 
 import javax.swing.ScrollPaneConstants;
@@ -31,6 +39,7 @@ public class NhanVienKyThuat_GUI extends JPanel {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	private JComboBox cbMaCH;
 	private JTextField textField;
 	private JTable table;
 	private DefaultTableModel model;
@@ -42,14 +51,17 @@ public class NhanVienKyThuat_GUI extends JPanel {
 	private JTextField textEmail;
 	private JTextField textNamKn;
 	private JTextField textBacTho;
+	private CuaHang_DAO cuaHang_DAO;
 	private NhanVienKiThuat_DAO nhanVienKiThuat_DAO;
 
 	/**
 	 * Create the panel.
-	 * @throws SQLException 
+	 * 
+	 * @throws SQLException
 	 */
 	public NhanVienKyThuat_GUI() throws SQLException {
-		ConnectDB.getInstance().connect();;
+		ConnectDB.getInstance();
+		ConnectDB.connect();
 		setBorder(new LineBorder(new Color(0, 0, 0)));
 		setBackground(Color.LIGHT_GRAY);
 		setLayout(null);
@@ -66,7 +78,67 @@ public class NhanVienKyThuat_GUI extends JPanel {
 				"M\u00E3 C\u1EEDa H\u00E0ng" };
 		model = new DefaultTableModel(column, 0);
 		table = new JTable(model);
+		table.setRowHeight(25);
 		table.setFont(new Font("Arial", Font.PLAIN, 16));
+		table.addMouseListener(new MouseListener() {
+			
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mousePressed(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				// TODO Auto-generated method stub
+				int row = table.getSelectedRow();
+				textMaNV.setText((String) model.getValueAt(row, 0));
+				textTenNV.setText((String) model.getValueAt(row, 1));
+				textDiaChi.setText((String) model.getValueAt(row, 7));
+				textSDT.setText(model.getValueAt(row, 2) + "");
+				textChucVu.setText((String) model.getValueAt(row, 5));
+				textEmail.setText((String) model.getValueAt(row, 3));
+				textNamKn.setText(model.getValueAt(row, 6) + "");
+				cbMaCH.setSelectedItem(model.getValueAt(row, 8));
+				textBacTho.setText((String) model.getValueAt(row, 4));
+			}
+		});
+		
+		// set color for table
+		ListSelectionModel listSelectionModel = table.getSelectionModel();
+		listSelectionModel.addListSelectionListener(new ListSelectionListener() {
+
+			@Override
+			public void valueChanged(ListSelectionEvent e) {
+				// Check if the current cell selection is not empty
+				if (!e.getValueIsAdjusting()) {
+					int rowIndex = table.getSelectedRow();
+					if (rowIndex >= 0 && rowIndex < table.getRowCount()) {
+						table.setSelectionBackground(Color.CYAN);
+						table.setRowSelectionInterval(rowIndex, rowIndex);
+					}
+				}
+			}
+		});
+		
 		JScrollPane scrollPane = new JScrollPane(table, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
 				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		scrollPane.setBounds(10, 10, 782, 525);
@@ -191,8 +263,15 @@ public class NhanVienKyThuat_GUI extends JPanel {
 		btnLuu.setForeground(new Color(165, 42, 42));
 		btnLuu.setFont(new Font("Arial", Font.PLAIN, 16));
 		btnLuu.setBackground(Color.LIGHT_GRAY);
-		btnLuu.setBounds(136, 106, 112, 27);
+		btnLuu.setBounds(212, 106, 112, 27);
 		panel_2.add(btnLuu);
+		
+		JButton btnLmMi = new JButton("Làm mới");
+		btnLmMi.setForeground(new Color(165, 42, 42));
+		btnLmMi.setFont(new Font("Arial", Font.PLAIN, 16));
+		btnLmMi.setBackground(Color.LIGHT_GRAY);
+		btnLmMi.setBounds(56, 106, 112, 27);
+		panel_2.add(btnLmMi);
 
 		JLabel lblNewLabel_1_1 = new JLabel("Chức năng:");
 		lblNewLabel_1_1.setForeground(Color.BLUE);
@@ -218,9 +297,14 @@ public class NhanVienKyThuat_GUI extends JPanel {
 		textNamKn.setBounds(160, 278, 206, 24);
 		panel_1.add(textNamKn);
 
-		JComboBox cbMaCH = new JComboBox();
+		cuaHang_DAO = new CuaHang_DAO();
+		cbMaCH = new JComboBox();
 		cbMaCH.setFont(new Font("Arial", Font.PLAIN, 16));
 		cbMaCH.setBounds(109, 324, 87, 21);
+		cbMaCH.addItem("");
+		for (CuaHang cuaHang : cuaHang_DAO.getAllCuaHang()) {
+			cbMaCH.addItem(cuaHang.getMa());
+		}
 		panel_1.add(cbMaCH);
 
 		JLabel lblNewLabel_4_1_1_1_2_3 = new JLabel("Bậc Thợ:");
@@ -273,21 +357,20 @@ public class NhanVienKyThuat_GUI extends JPanel {
 		add(lblNewLabel_3);
 
 		JButton btnTim = new JButton("Tìm Kiếm");
-		btnTim.setHorizontalAlignment(SwingConstants.LEFT);
+		btnTim.setHorizontalTextPosition(SwingConstants.LEADING);
+		btnTim.setIcon(new ImageIcon(NhanVienKyThuat_GUI.class.getResource("/image/magnifier.png")));
 		btnTim.setForeground(new Color(165, 42, 42));
 		btnTim.setFont(new Font("Arial", Font.PLAIN, 16));
 		btnTim.setBackground(Color.LIGHT_GRAY);
 		btnTim.setBounds(522, 20, 133, 27);
-		btnTim.setHorizontalTextPosition(SwingConstants.RIGHT);
 		btnTim.setVerticalTextPosition(SwingConstants.CENTER);
-		btnTim.setHorizontalAlignment(SwingConstants.LEFT);
 		add(btnTim);
 		// do du lieu vao table
 		nhanVienKiThuat_DAO = new NhanVienKiThuat_DAO();
 		for (NhanVienKyThuat nVienKyThuat : nhanVienKiThuat_DAO.getAllNhanVienKyThuat()) {
 			Object[] objects = { nVienKyThuat.getMa(), nVienKyThuat.getTen(), nVienKyThuat.getSdt(),
-					nVienKyThuat.getEmail(), nVienKyThuat.getBacTho(), nVienKyThuat.getChucVu(),nVienKyThuat.getNamKinhNghiem(),
-					nVienKyThuat.getDiaChi(), nVienKyThuat.getMaCuaHang() };
+					nVienKyThuat.getEmail(), nVienKyThuat.getBacTho(), nVienKyThuat.getChucVu(),
+					nVienKyThuat.getNamKinhNghiem(), nVienKyThuat.getDiaChi(), nVienKyThuat.getMaCuaHang() };
 			model.addRow(objects);
 		}
 	}
