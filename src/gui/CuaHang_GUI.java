@@ -13,6 +13,7 @@ import javax.swing.SwingConstants;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
 
 import connect.ConnectDB;
 import dao.CuaHang_DAO;
@@ -80,6 +81,8 @@ public class CuaHang_GUI extends JPanel {
 		tableCuahang = new JTable(modelCuaHang);
 		tableCuahang.setRowHeight(25);
 		tableCuahang.setFont(new Font("Arial", Font.PLAIN, 16));
+		tableCuahang.setDefaultEditor(Object.class, null);
+		tableCuahang.setToolTipText("Chọn cửa hàng để thực hiện chức năng");
 		tableCuahang.addMouseListener(new MouseListener() {
 
 			@Override
@@ -134,8 +137,15 @@ public class CuaHang_GUI extends JPanel {
 			}
 		});
 		scrollPane.setViewportView(tableCuahang);
-
-		// set color for table
+		
+		// set color for header table
+		JTableHeader tableCuaHangHeader = tableCuahang.getTableHeader();
+		tableCuaHangHeader.setBackground(new Color(0, 163, 163));
+		tableCuaHangHeader.setForeground(Color.white);
+		tableCuaHangHeader.setFont(new Font("Arial", Font.BOLD, 14));
+		tableCuaHangHeader.setToolTipText("Danh sách thông tin cửa hàng");
+		
+		//set color for table
 		ListSelectionModel listSelectionModel = tableCuahang.getSelectionModel();
 		listSelectionModel.addListSelectionListener(new ListSelectionListener() {
 
@@ -145,7 +155,7 @@ public class CuaHang_GUI extends JPanel {
 				if (!e.getValueIsAdjusting()) {
 					int rowIndex = tableCuahang.getSelectedRow();
 					if (rowIndex >= 0 && rowIndex < tableCuahang.getRowCount()) {
-						tableCuahang.setSelectionBackground(Color.cyan);
+						tableCuahang.setSelectionBackground(new Color(138, 255, 255));
 						tableCuahang.setRowSelectionInterval(rowIndex, rowIndex);
 					}
 				}
@@ -363,8 +373,17 @@ public class CuaHang_GUI extends JPanel {
 		tableXeTrongKho = new JTable(modelXeTrongKho);
 		tableXeTrongKho.setRowHeight(25);
 		tableXeTrongKho.setFont(new Font("Arial", Font.PLAIN, 16));
+		tableXeTrongKho.setDefaultEditor(Object.class, null);
+		tableXeTrongKho.setToolTipText("Chọn xe tồn kho để thực hiện chức năng");
 		scrollPane_1.setViewportView(tableXeTrongKho);
-
+		
+		// set color for header table
+		JTableHeader tableXeTrongKhoHeader = tableXeTrongKho.getTableHeader();
+		tableXeTrongKhoHeader.setBackground(new Color(0, 163, 163));
+		tableXeTrongKhoHeader.setForeground(Color.white);
+		tableXeTrongKhoHeader.setFont(new Font("Arial", Font.BOLD, 14));
+		tableXeTrongKhoHeader.setToolTipText("Danh sách thông tin xe");
+		
 		// set color for table
 		ListSelectionModel listSelectionModel1 = tableXeTrongKho.getSelectionModel();
 		listSelectionModel1.addListSelectionListener(new ListSelectionListener() {
@@ -375,7 +394,7 @@ public class CuaHang_GUI extends JPanel {
 				if (!e.getValueIsAdjusting()) {
 					int rowIndex = tableXeTrongKho.getSelectedRow();
 					if (rowIndex >= 0 && rowIndex < tableXeTrongKho.getRowCount()) {
-						tableXeTrongKho.setSelectionBackground(Color.cyan);
+						tableXeTrongKho.setSelectionBackground(new Color(138, 255, 255));
 						tableXeTrongKho.setRowSelectionInterval(rowIndex, rowIndex);
 					}
 				}

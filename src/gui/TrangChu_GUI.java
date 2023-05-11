@@ -180,7 +180,7 @@ public class TrangChu_GUI extends JFrame implements ActionListener {
 				showMenu(new NhanVienHanhChinh_GUI());
 			} catch (SQLException e1) {
 				// TODO Auto-generated catch block
-				e1.printStackTrace();
+				System.out.println("LOI");
 			}
 		} else if (o.equals(menuitemCuaHang)) {
 			setTitle(quanLyCuaHang);
@@ -192,7 +192,12 @@ public class TrangChu_GUI extends JFrame implements ActionListener {
 			}
 		} else if (o.equals(menuitemKhachHang)) {
 			setTitle(khachHang);
-			showMenu(new KhachHang_GUI());
+			try {
+				showMenu(new KhachHang_GUI());
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 		} else if (o.equals(menuitemNhanVienKyThuat)) {
 			try {
 				setTitle(nhanVienKyThuat);
@@ -211,13 +216,18 @@ public class TrangChu_GUI extends JFrame implements ActionListener {
 			}
 		} else if (o.equals(menuitemNhaPhanPhoi)) {
 			setTitle(nhaPhanPhoi);
-			showMenu(new NhaPhanPhoi_GUI());
+			try {
+				showMenu(new NhaPhanPhoi_GUI());
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 		} else if (o.equals(menuitemQuanLyXe)) {
 			try {
 				setTitle(quanLyXe);
 				showMenu(new Xe_GUI());
 			} catch (SQLException e1) {
-				// TODO Auto-generated catch block
+				// TODO AutoX-generated catch block
 				e1.printStackTrace();
 			}
 		} else if (o.equals(menuitemThongTinXe)) {

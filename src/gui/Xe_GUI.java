@@ -4,6 +4,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -11,33 +12,38 @@ import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
+
+import com.toedter.calendar.JDateChooser;
+
+import javax.swing.border.LineBorder;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 import connect.ConnectDB;
 import dao.NhaPhanPhoi_DAO;
+import dao.PhatSinhMa_DAO;
 import dao.ThongTinXe_DAO;
 import dao.Xe_DAO;
 import entity.NhaPhanPhoi;
 import entity.ThongTinXe;
 import entity.Xe;
 
-import java.awt.Canvas;
-import java.awt.Component;
 import java.awt.Font;
-import java.awt.Panel;
 import java.awt.SystemColor;
 import java.awt.Color;
-import javax.swing.border.LineBorder;
-import javax.swing.border.TitledBorder;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
-import javax.swing.border.EtchedBorder;
+import java.awt.Cursor;
+import java.awt.Dimension;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.sql.SQLException;
-import java.text.SimpleDateFormat;
-import java.time.format.DateTimeFormatter;
 import java.awt.event.ActionEvent;
+
+import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import javax.swing.JDesktopPane;
 
 public class Xe_GUI extends JPanel {
 
@@ -50,18 +56,30 @@ public class Xe_GUI extends JPanel {
 	private JTextField textMaXe;
 	private JTextField textSoMay;
 	private JTextField textSoKhung;
-	private JTextField textNgayNhapXe;
+	private JDateChooser chooserNgayNhapXe;
 	private DefaultTableModel model;
 	private Xe_DAO xe_DAO;
 	private NhaPhanPhoi_DAO nhaPhanPhoi_DAO;
 	private ThongTinXe_DAO thongTinXe_DAO;
-	private JComboBox cbNhaPP;
-	private JComboBox cbMaLoaiXe;
+	private PhatSinhMa_DAO phatSinhMa_DAO;
+	private JComboBox<String> cbTim;
+	private JComboBox<String> cbNhaPP;
+	private JComboBox<String> cbMaLoaiXe;
 
 	/**
 	 * Create the panel.
 	 */
 	public Xe_GUI() throws SQLException {
+		
+		// connectDB
+		connect();
+		
+		// khai bao dao
+		phatSinhMa_DAO = new PhatSinhMa_DAO();
+		thongTinXe_DAO = new ThongTinXe_DAO();
+		nhaPhanPhoi_DAO = new NhaPhanPhoi_DAO();
+		xe_DAO = new Xe_DAO();
+		
 		setBorder(new LineBorder(new Color(0, 0, 0)));
 		setBackground(Color.LIGHT_GRAY);
 		setLayout(null);
@@ -80,11 +98,11 @@ public class Xe_GUI extends JPanel {
 				"M\u00E3 nh\u00E0 ph\u00E2n ph\u1ED1i", "M\u00E3 lo\u1EA1i xe" };
 		model = new DefaultTableModel(columns, 0);
 		table = new JTable(model);
-		table.setFont(new Font("Arial", Font.PLAIN, 16));
-		table.setDefaultEditor(Object.class, null);
 		scrollPane.setViewportView(table);
-		
+		table.setFont(new Font("SansSerif", Font.PLAIN, 16));
+		table.setDefaultEditor(Object.class, null);
 		table.setRowHeight(25);
+		table.setToolTipText("Chọn xe để thực hiện chức năng");
 		table.addMouseListener(new MouseListener() {
 			
 			@Override
@@ -115,14 +133,31 @@ public class Xe_GUI extends JPanel {
 			public void mouseClicked(MouseEvent e) {
 				// TODO Auto-generated method stub
 				int row = table.getSelectedRow();
+				SimpleDateFormat format = new SimpleDateFormat("dd / MM / yyyy");
+				try {
+					Date dateUtil = format.parse((String) model.getValueAt(row, 3));
+					java.sql.Date dateSql = new java.sql.Date(dateUtil.getTime());
+					chooserNgayNhapXe.setDate(dateSql);
+					
+				} catch (ParseException e2) {
+					// TODO Auto-generated catch block
+					e2.printStackTrace();
+				}
 				textMaXe.setText((String) model.getValueAt(row, 0));
 				textSoMay.setText((String) model.getValueAt(row, 1));
 				textSoKhung.setText((String) model.getValueAt(row, 2));
-				textNgayNhapXe.setText(model.getValueAt(row, 3) + "");
 				cbNhaPP.setSelectedItem(model.getValueAt(row, 4).toString());
 				cbMaLoaiXe.setSelectedItem(model.getValueAt(row, 5).toString());
 			}
 		});
+		
+		// set color for header table
+		JTableHeader tbHeader = table.getTableHeader();
+		tbHeader.setBackground(new Color(0, 163, 163));
+		tbHeader.setForeground(Color.white);
+		tbHeader.setFont(new Font("Arial", Font.BOLD, 14));
+		tbHeader.setToolTipText("Danh sách thông tin xe");
+		
 		// set color for table
 		ListSelectionModel listSelectionModel = table.getSelectionModel();
 		listSelectionModel.addListSelectionListener(new ListSelectionListener() {
@@ -133,7 +168,7 @@ public class Xe_GUI extends JPanel {
 				if (!e.getValueIsAdjusting()) {
 					int rowIndex = table.getSelectedRow();
 					if (rowIndex >= 0 && rowIndex < table.getRowCount()) {
-						table.setSelectionBackground(Color.CYAN);
+						table.setSelectionBackground(new Color(138, 255, 255));
 						table.setRowSelectionInterval(rowIndex, rowIndex);
 					}
 				}
@@ -187,6 +222,7 @@ public class Xe_GUI extends JPanel {
 		textMaXe = new JTextField();
 		textMaXe.setFont(new Font("Arial", Font.PLAIN, 16));
 		textMaXe.setBounds(160, 18, 206, 24);
+		textMaXe.setEditable(false);
 		panel_1.add(textMaXe);
 		textMaXe.setColumns(10);
 
@@ -202,11 +238,17 @@ public class Xe_GUI extends JPanel {
 		textSoKhung.setBounds(160, 97, 206, 24);
 		panel_1.add(textSoKhung);
 
-		textNgayNhapXe = new JTextField();
-		textNgayNhapXe.setFont(new Font("Arial", Font.PLAIN, 16));
-		textNgayNhapXe.setColumns(10);
-		textNgayNhapXe.setBounds(160, 141, 206, 24);
-		panel_1.add(textNgayNhapXe);
+		chooserNgayNhapXe = new JDateChooser();
+		chooserNgayNhapXe = new JDateChooser();
+		chooserNgayNhapXe.getCalendarButton().setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		chooserNgayNhapXe.setBounds(160, 141, 206, 24);
+		chooserNgayNhapXe.setDateFormatString("dd/MM/yyyy");
+		chooserNgayNhapXe.setBorder(new LineBorder(new Color(138, 255, 255), 1, true));
+		chooserNgayNhapXe.setFont(new Font("Arial", Font.PLAIN, 16));
+		chooserNgayNhapXe.getCalendarButton().setPreferredSize(new Dimension(30, 24));
+		chooserNgayNhapXe.getCalendarButton().setBackground(new Color(138, 255, 255));
+		chooserNgayNhapXe.getCalendarButton().setToolTipText("Chọn ngày nhập xe");
+		panel_1.add(chooserNgayNhapXe);
 
 		JPanel panel_2 = new JPanel();
 		panel_2.setBackground(Color.WHITE);
@@ -225,7 +267,21 @@ public class Xe_GUI extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				
+				try {
+					String maXe = phatSinhMa_DAO.getMaXe();
+					String soMay = textSoMay.getText();
+					String soKhung = textSoKhung.getText();
+					Date ngayNhap = chooserNgayNhapXe.getDate();
+					String nhaPhanPhoi = (String) cbNhaPP.getSelectedItem();
+					String maLoaiXe = (String) cbMaLoaiXe.getSelectedItem();
+					Xe xe = new Xe(maXe, soMay, soKhung, new java.sql.Date(ngayNhap.getTime()), nhaPhanPhoi, maLoaiXe);
+					xe_DAO.themXe(xe);
+					JOptionPane.showMessageDialog(null, "Thêm xe '"+ maXe +"' thành công!");
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					JOptionPane.showMessageDialog(null, "Thêm xe thất bại!");
+					e1.printStackTrace();
+				}
 			}
 		});
 		panel_2.add(btnThem);
@@ -235,6 +291,14 @@ public class Xe_GUI extends JPanel {
 		btnXoatrang.setFont(new Font("Arial", Font.PLAIN, 16));
 		btnXoatrang.setBackground(Color.LIGHT_GRAY);
 		btnXoatrang.setBounds(212, 32, 112, 27);
+		btnXoatrang.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				xoaTrang();
+			}
+		});
 		panel_2.add(btnXoatrang);
 
 		JButton btnCapnhat = new JButton("Cập Nhật");
@@ -249,20 +313,54 @@ public class Xe_GUI extends JPanel {
 		btnXoa.setFont(new Font("Arial", Font.PLAIN, 16));
 		btnXoa.setBackground(Color.LIGHT_GRAY);
 		btnXoa.setBounds(212, 69, 112, 27);
+		btnXoa.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				int row = table.getSelectedRow();
+				if (row == -1) {
+					JOptionPane.showMessageDialog(null, "Bạn phải chọn dòng cần xóa!");
+				}
+				else {
+					int option = JOptionPane.showConfirmDialog(null, "Bạn chắc chắn muốn xóa xe '"+ model.getValueAt(row, 0) +"' chứ?", "Xóa?", JOptionPane.YES_NO_OPTION);
+					if (option == JOptionPane.YES_OPTION) {
+						try {
+							xe_DAO.xoaXeTheoMa((model.getValueAt(row, 0).toString()));
+							JOptionPane.showMessageDialog(null, "Xóa xe '"+ model.getValueAt(row, 0) +"' thành công!");
+						} catch (SQLException e1) {
+							// TODO Auto-generated catch block
+							JOptionPane.showMessageDialog(null, "Xóa xe thất bại!");
+							e1.printStackTrace();
+						}
+					}
+				}
+			}
+		});
 		panel_2.add(btnXoa);
-
-		JButton btnLuu = new JButton("Lưu");
-		btnLuu.setForeground(new Color(165, 42, 42));
-		btnLuu.setFont(new Font("Arial", Font.PLAIN, 16));
-		btnLuu.setBackground(Color.LIGHT_GRAY);
-		btnLuu.setBounds(212, 106, 112, 27);
-		panel_2.add(btnLuu);
 		
 		JButton btnLmMi = new JButton("Làm mới");
 		btnLmMi.setForeground(new Color(165, 42, 42));
 		btnLmMi.setFont(new Font("Arial", Font.PLAIN, 16));
 		btnLmMi.setBackground(Color.LIGHT_GRAY);
 		btnLmMi.setBounds(56, 106, 112, 27);
+		btnLmMi.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				try {
+					loadDataXe();
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
+		
+		JDesktopPane desktopPane = new JDesktopPane();
+		desktopPane.setBounds(0, 0, 1, 1);
+		panel_2.add(desktopPane);
 		panel_2.add(btnLmMi);
 
 		JLabel lblNewLabel_1_1 = new JLabel("Chức năng:");
@@ -273,7 +371,6 @@ public class Xe_GUI extends JPanel {
 
 		cbNhaPP = new JComboBox<String>();
 		cbNhaPP.addItem("");
-		nhaPhanPhoi_DAO = new NhaPhanPhoi_DAO();
 		for (NhaPhanPhoi nhaPhanPhoi : nhaPhanPhoi_DAO.getAllNhaPhanPhoi()) {
 			cbNhaPP.addItem(nhaPhanPhoi.getMa() + "");
 		}
@@ -281,9 +378,8 @@ public class Xe_GUI extends JPanel {
 		cbNhaPP.setBounds(160, 192, 206, 21);
 		panel_1.add(cbNhaPP);
 
-		cbMaLoaiXe = new JComboBox();
+		cbMaLoaiXe = new JComboBox<String>();
 		cbMaLoaiXe.addItem("");
-		thongTinXe_DAO = new ThongTinXe_DAO();
 		for (ThongTinXe thongTinXe : thongTinXe_DAO.getAllThongTinXe()) {
 			cbMaLoaiXe.addItem(thongTinXe.getMaLoaiXe());
 		}
@@ -308,7 +404,7 @@ public class Xe_GUI extends JPanel {
 		lblNewLabel_2.setBounds(10, 6, 91, 54);
 		add(lblNewLabel_2);
 
-		JComboBox cbTim = new JComboBox();
+		cbTim = new JComboBox<String>();
 		cbTim.setForeground(Color.RED);
 		cbTim.setFont(new Font("Arial", Font.PLAIN, 16));
 		cbTim.setBounds(88, 25, 125, 21);
@@ -339,15 +435,39 @@ public class Xe_GUI extends JPanel {
 		add(btnTim);
 
 		// input data from Xe table
-		ConnectDB.getInstance();
-		ConnectDB.connect();
-		xe_DAO = new Xe_DAO();
+		loadDataXe();
+		
+	}
+	
+	public void loadDataXe() throws SQLException {
+		model.setRowCount(0);
 		SimpleDateFormat dateFormat = new SimpleDateFormat("dd / MM / yyyy");
 		for (Xe xe : xe_DAO.getAllXe()) {
 			Object[] objects = { xe.getMa(), xe.getSoMay(), xe.getSoKhung(), dateFormat.format(xe.getNgayNhap()),
 					xe.getMaNPP(), xe.getMaLoaiXe() };
 			model.addRow(objects);
 		}
-
+	}
+	
+	public void connect() throws SQLException {
+		ConnectDB.getInstance();
+		ConnectDB.connect();
+	}
+	
+	public void xoaTrang() {
+		textMaXe.setText("");
+		textSoMay.setText("");
+		textSoKhung.setText("");
+		cbNhaPP.setSelectedItem("");
+		cbMaLoaiXe.setSelectedItem("");
+		chooserNgayNhapXe.setDate(new Date());
+	}
+	
+	public boolean isNull() {
+		if (textMaXe.equals("") || textSoMay.equals("")|| textSoKhung.equals("") || cbNhaPP.getSelectedItem().toString().equals("") || cbMaLoaiXe.getSelectedItem().toString().equals(""))
+			return true;
+		return false;
 	}
 }
+
+

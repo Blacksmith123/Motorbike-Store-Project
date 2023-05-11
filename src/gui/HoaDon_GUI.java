@@ -18,6 +18,7 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
 import javax.swing.table.TableColumn;
 
 import connect.ConnectDB;
@@ -137,6 +138,13 @@ public class HoaDon_GUI extends JPanel {
 		tableHd = new JTable(modelHd);
 		tableHd.setDefaultEditor(Object.class, null);
 		tableHd.setRowHeight(25);
+		tableHd.setToolTipText("Chọn hoá đơn để thực hiện chức năng");
+		// set color for header table
+		JTableHeader tableHdHeader = tableHd.getTableHeader();
+		tableHdHeader.setBackground(new Color(0, 163, 163));
+		tableHdHeader.setForeground(Color.white);
+		tableHdHeader.setFont(new Font("Arial", Font.BOLD, 14));
+		tableHdHeader.setToolTipText("Danh sách thông tin hóa đơn");
 		// Add a ListSelectionListener to the table
 		ListSelectionModel model = tableHd.getSelectionModel();
 		model.addListSelectionListener(new ListSelectionListener() {
@@ -146,7 +154,7 @@ public class HoaDon_GUI extends JPanel {
 				if (!e.getValueIsAdjusting()) {
 					int rowIndex = tableHd.getSelectedRow();
 					if (rowIndex >= 0 && rowIndex < tableHd.getRowCount()) {
-						tableHd.setSelectionBackground(Color.CYAN);
+						tableHd.setSelectionBackground(new Color(138, 255, 255));
 						tableHd.setRowSelectionInterval(rowIndex, rowIndex);
 					}
 				}
@@ -526,6 +534,7 @@ public class HoaDon_GUI extends JPanel {
 		tableHddetail.setRowHeight(25);
 		tableHddetail.setFont(new Font("Arial", Font.PLAIN, 16));
 		tableHddetail.setDefaultEditor(Object.class, null);
+		tableHddetail.setToolTipText("Chọn chi tiết hóa đơn để thực hiện chức năng");
 		JScrollPane scrollPane_1 = new JScrollPane(tableHddetail, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
 				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		scrollPane_1.setBounds(10, 125, 402, 489);
@@ -773,6 +782,12 @@ public class HoaDon_GUI extends JPanel {
 		// Khai báo chi tiết hd dao
 		chiTietHoaDon_DAO = new ChiTietHoaDon_DAO();
 		doDuLieuChiTiet(chiTietHoaDon_DAO);
+		// set color for header table
+		JTableHeader tableHddetailHeader = tableHddetail.getTableHeader();
+		tableHddetailHeader.setBackground(new Color(0, 163, 163));
+		tableHddetailHeader.setForeground(Color.white);
+		tableHddetailHeader.setFont(new Font("Arial", Font.BOLD, 14));
+		tableHddetailHeader.setToolTipText("Danh sách thông tin chi tiết hóa đơn");
 		// Add a ListSelectionListener to the table
 		ListSelectionModel modelCthd = tableHddetail.getSelectionModel();
 		modelCthd.addListSelectionListener(new ListSelectionListener() {
@@ -782,7 +797,7 @@ public class HoaDon_GUI extends JPanel {
 				if (!e.getValueIsAdjusting()) {
 					int rowIndex = tableHddetail.getSelectedRow();
 					if (rowIndex >= 0 && rowIndex < tableHddetail.getRowCount()) {
-						tableHddetail.setSelectionBackground(Color.CYAN);
+						tableHddetail.setSelectionBackground(new Color(138, 255, 255));
 						tableHddetail.setRowSelectionInterval(rowIndex, rowIndex);
 					}
 				}

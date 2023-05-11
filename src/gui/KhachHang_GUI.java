@@ -21,13 +21,16 @@ import javax.swing.border.TitledBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
 
+import connect.ConnectDB;
 import dao.KhachHang_DAO;
 import entity.KhachHang;
 
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 
@@ -47,11 +50,19 @@ public class KhachHang_GUI extends JPanel {
 	private JTextField textEmail;
 	private DefaultTableModel model;
 	private ArrayList<KhachHang> listKH = new ArrayList<KhachHang>();
+	private KhachHang_DAO khachHang_DAO;
 
 	/**
 	 * Create the panel.
 	 */
-	public KhachHang_GUI() {
+	public KhachHang_GUI() throws SQLException {
+		
+		// connectDB
+		connect();
+		
+		// khai bao dao
+		khachHang_DAO = new KhachHang_DAO();
+		
 		setBorder(new LineBorder(new Color(0, 0, 0)));
 		setBackground(Color.LIGHT_GRAY);
 		setLayout(null);
@@ -70,9 +81,11 @@ public class KhachHang_GUI extends JPanel {
 				"T\u00EAn kh\u00E1ch h\u00E0ng", "\u0110\u1ECBa ch\u1EC9", "SDT", "Email" };
 		model = new DefaultTableModel(columns, 0);
 		table = new JTable(model);
+		loadKhachHang();
 		table.setFont(new Font("Arial", Font.PLAIN, 16));
 		table.setRowHeight(25);
 		table.setDefaultEditor(Object.class, null);
+		table.setToolTipText("Chọn khách hàng để thực hiện chức năng");
 		scrollPane.setViewportView(table);
 		table.addMouseListener(new MouseListener() {
 			@Override
@@ -104,6 +117,30 @@ public class KhachHang_GUI extends JPanel {
 			@Override
 			public void mouseExited(MouseEvent e) {
 				// TODO Auto-generated method stub
+			}
+		});
+		// set color for header table
+		JTableHeader tbHeader = table.getTableHeader();
+		tbHeader.setBackground(new Color(0, 163, 163));
+		tbHeader.setForeground(Color.white);
+		tbHeader.setFont(new Font("Arial", Font.BOLD, 14));
+		tbHeader.setToolTipText("Danh sách thông tin khách hàng");
+		// set color for table
+		ListSelectionModel model2 = table.getSelectionModel();
+		model2.addListSelectionListener(new ListSelectionListener() {
+			@Override
+			public void valueChanged(ListSelectionEvent e) {
+				// Check if the current cell selection is not empty
+				if (!e.getValueIsAdjusting()) {
+					// Check if the current cell selection is not empty
+					if (!e.getValueIsAdjusting()) {
+						int rowIndex = table.getSelectedRow();
+						if (rowIndex >= 0 && rowIndex < table.getRowCount()) {
+							table.setSelectionBackground(new Color(138, 255, 255));
+							table.setRowSelectionInterval(rowIndex, rowIndex);
+						}
+					}
+				}
 			}
 		});
 
@@ -391,27 +428,15 @@ public class KhachHang_GUI extends JPanel {
 				}
 			}
 		});
-		ListSelectionModel model2 = table.getSelectionModel();
-		model2.addListSelectionListener(new ListSelectionListener() {
-			@Override
-			public void valueChanged(ListSelectionEvent e) {
-				// Check if the current cell selection is not empty
-				if (!e.getValueIsAdjusting()) {
-					// Check if the current cell selection is not empty
-					if (!e.getValueIsAdjusting()) {
-						int rowIndex = table.getSelectedRow();
-						if (rowIndex >= 0 && rowIndex < table.getRowCount()) {
-							table.setSelectionBackground(Color.CYAN);
-							table.setRowSelectionInterval(rowIndex, rowIndex);
-						}
-					}
-				}
-			}
-		});
 
 	}
 
-	public void doDuLieu(KhachHang_DAO khachHang_DAO) {
+	public void connect() throws SQLException {
+		ConnectDB.getInstance();
+		ConnectDB.connect();
+	}
+	
+	public void loadKhachHang() {
 		for (KhachHang khachHang : khachHang_DAO.getAllKhachHang()) {
 			Object[] objects = { khachHang.getMa(), khachHang.getHo(), khachHang.getTen(), khachHang.getDiaChi(),
 					khachHang.getSdt(), khachHang.getEmail() };

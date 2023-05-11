@@ -18,25 +18,38 @@ public class Xe_DAO {
 	public boolean themXe(Xe xe) throws SQLException {
 		ConnectDB.getInstance();
 		Connection con = ConnectDB.getConnection();
-		PreparedStatement ps = con.prepareStatement("insert into Xe values (?, ?, ?, ?, ?, ?)");
-		ps.setString(1, xe.getMa());
-		ps.setString(2, xe.getSoMay());
-		ps.setString(3, xe.getSoKhung());
-		ps.setDate(4, xe.getNgayNhap());
-		ps.setString(5, xe.getMaNPP());
-		ps.setString(6, xe.getMaLoaiXe());
+		try {
+			PreparedStatement ps = con.prepareStatement("insert into Xe values (?, ?, ?, ?, ?, ?)");
+			ps.setString(1, xe.getMa());
+			ps.setString(2, xe.getSoMay());
+			ps.setString(3, xe.getSoKhung());
+			ps.setDate(4, xe.getNgayNhap());
+			ps.setString(5, xe.getMaNPP());
+			ps.setString(6, xe.getMaLoaiXe());
 
-		ps.close();
-		return ps.executeUpdate() > 0;
+			return ps.executeUpdate() > 0;
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		con.close();
+		return false;
 	}
 
 	// xoa xe theo ma
 	public boolean xoaXeTheoMa(String ma) throws SQLException {
-		ConnectDB.getInstance();
 		Connection con = ConnectDB.getConnection();
-		PreparedStatement ps = con.prepareStatement("delete from Xe where maXe = '" + ma + "'");
-		ps.close();
-		return ps.executeUpdate() > 0;
+		try {
+			PreparedStatement ps = con.prepareStatement("delete from Xe where maXe = '" + ma + "'");
+			ps.close();
+			return ps.executeUpdate() > 0;
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		con.close();
+		return false;
+
 	}
 
 	// sua thong tin xe

@@ -12,6 +12,7 @@ import javax.swing.border.TitledBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
 
 import connect.ConnectDB;
 import dao.CuaHang_DAO;
@@ -81,6 +82,16 @@ public class NhanVienHanhChinh_GUI extends JPanel {
 		table = new JTable(model);
 		table.setFont(new Font("Arial", Font.PLAIN, 16));
 		table.setRowHeight(25);
+		table.setDefaultEditor(Object.class, null);
+		table.setToolTipText("Chọn nhân viên để thực hiện chức năng");
+		
+		// set color for header table
+		JTableHeader tbHeader = table.getTableHeader();
+		tbHeader.setBackground(new Color(0, 163, 163));
+		tbHeader.setForeground(Color.white);
+		tbHeader.setFont(new Font("Arial", Font.BOLD, 14));
+		tbHeader.setToolTipText("Danh sách thông tin nhân viên");
+		
 		//set color for table 
 		ListSelectionModel listSelectionModel = table.getSelectionModel();
 		listSelectionModel.addListSelectionListener(new ListSelectionListener() {
@@ -91,7 +102,7 @@ public class NhanVienHanhChinh_GUI extends JPanel {
 				if (!e.getValueIsAdjusting()) {
 					int rowIndex = table.getSelectedRow();
 					if (rowIndex >= 0 && rowIndex < table.getRowCount()) {
-						table.setSelectionBackground(Color.cyan);
+						table.setSelectionBackground(new Color(138, 255, 255));
 						table.setRowSelectionInterval(rowIndex, rowIndex);
 					}
 				}
