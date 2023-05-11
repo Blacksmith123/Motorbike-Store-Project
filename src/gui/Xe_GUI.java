@@ -4,6 +4,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -42,6 +43,7 @@ import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import javax.swing.JDesktopPane;
 
 public class Xe_GUI extends JPanel {
 
@@ -55,7 +57,6 @@ public class Xe_GUI extends JPanel {
 	private JTextField textSoMay;
 	private JTextField textSoKhung;
 	private JDateChooser chooserNgayNhapXe;
-	private JTextField textNgayNhapXe;
 	private DefaultTableModel model;
 	private Xe_DAO xe_DAO;
 	private NhaPhanPhoi_DAO nhaPhanPhoi_DAO;
@@ -221,6 +222,7 @@ public class Xe_GUI extends JPanel {
 		textMaXe = new JTextField();
 		textMaXe.setFont(new Font("Arial", Font.PLAIN, 16));
 		textMaXe.setBounds(160, 18, 206, 24);
+		textMaXe.setEditable(false);
 		panel_1.add(textMaXe);
 		textMaXe.setColumns(10);
 
@@ -265,7 +267,21 @@ public class Xe_GUI extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-			
+				try {
+					String maXe = phatSinhMa_DAO.getMaXe();
+					String soMay = textSoMay.getText();
+					String soKhung = textSoKhung.getText();
+					Date ngayNhap = chooserNgayNhapXe.getDate();
+					String nhaPhanPhoi = (String) cbNhaPP.getSelectedItem();
+					String maLoaiXe = (String) cbMaLoaiXe.getSelectedItem();
+					Xe xe = new Xe(maXe, soMay, soKhung, new java.sql.Date(ngayNhap.getTime()), nhaPhanPhoi, maLoaiXe);
+					xe_DAO.themXe(xe);
+					JOptionPane.showMessageDialog(null, "Thêm xe '"+ maXe +"' thành công!");
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					JOptionPane.showMessageDialog(null, "Thêm xe thất bại!");
+					e1.printStackTrace();
+				}
 			}
 		});
 		panel_2.add(btnThem);
@@ -297,6 +313,30 @@ public class Xe_GUI extends JPanel {
 		btnXoa.setFont(new Font("Arial", Font.PLAIN, 16));
 		btnXoa.setBackground(Color.LIGHT_GRAY);
 		btnXoa.setBounds(212, 69, 112, 27);
+		btnXoa.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				int row = table.getSelectedRow();
+				if (row == -1) {
+					JOptionPane.showMessageDialog(null, "Bạn phải chọn dòng cần xóa!");
+				}
+				else {
+					int option = JOptionPane.showConfirmDialog(null, "Bạn chắc chắn muốn xóa xe '"+ model.getValueAt(row, 0) +"' chứ?", "Xóa?", JOptionPane.YES_NO_OPTION);
+					if (option == JOptionPane.YES_OPTION) {
+						try {
+							xe_DAO.xoaXeTheoMa((model.getValueAt(row, 0).toString()));
+							JOptionPane.showMessageDialog(null, "Xóa xe '"+ model.getValueAt(row, 0) +"' thành công!");
+						} catch (SQLException e1) {
+							// TODO Auto-generated catch block
+							JOptionPane.showMessageDialog(null, "Xóa xe thất bại!");
+							e1.printStackTrace();
+						}
+					}
+				}
+			}
+		});
 		panel_2.add(btnXoa);
 		
 		JButton btnLmMi = new JButton("Làm mới");
@@ -317,6 +357,10 @@ public class Xe_GUI extends JPanel {
 				}
 			}
 		});
+		
+		JDesktopPane desktopPane = new JDesktopPane();
+		desktopPane.setBounds(0, 0, 1, 1);
+		panel_2.add(desktopPane);
 		panel_2.add(btnLmMi);
 
 		JLabel lblNewLabel_1_1 = new JLabel("Chức năng:");
@@ -414,13 +458,13 @@ public class Xe_GUI extends JPanel {
 		textMaXe.setText("");
 		textSoMay.setText("");
 		textSoKhung.setText("");
-		textNgayNhapXe.setText("");
 		cbNhaPP.setSelectedItem("");
 		cbMaLoaiXe.setSelectedItem("");
+		chooserNgayNhapXe.setDate(new Date());
 	}
 	
 	public boolean isNull() {
-		if (textMaXe.equals("") || textSoMay.equals("")|| textSoKhung.equals("")|| textNgayNhapXe.equals("")|| cbNhaPP.getSelectedItem().toString().equals("") || cbMaLoaiXe.getSelectedItem().toString().equals(""))
+		if (textMaXe.equals("") || textSoMay.equals("")|| textSoKhung.equals("") || cbNhaPP.getSelectedItem().toString().equals("") || cbMaLoaiXe.getSelectedItem().toString().equals(""))
 			return true;
 		return false;
 	}
