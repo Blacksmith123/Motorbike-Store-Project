@@ -1,7 +1,7 @@
 package entity;
 
 public class XeTrongKho {
-	private String maCuaHang, maXe;
+	private String maCuaHang, maLoaiXe;
 	private int soLuong;
 	public XeTrongKho() {
 		super();
@@ -9,12 +9,12 @@ public class XeTrongKho {
 	public XeTrongKho(String maCuaHang, String maXe) { 
 		super();
 		this.maCuaHang = maCuaHang;
-		this.maXe = maXe;
+		this.maLoaiXe = maXe;
 	}
 	public XeTrongKho(String maCuaHang, String maXe, int soLuong) {
 		super();
 		this.maCuaHang = maCuaHang;
-		this.maXe = maXe;
+		this.maLoaiXe = maXe;
 		this.soLuong = soLuong;
 	}
 	public String getMaCuaHang() {
@@ -24,10 +24,10 @@ public class XeTrongKho {
 		this.maCuaHang = maCuaHang;
 	}
 	public String getMaXe() {
-		return maXe;
+		return maLoaiXe;
 	}
 	public void setMaXe(String maXe) {
-		this.maXe = maXe;
+		this.maLoaiXe = maXe;
 	}
 	public int getSoLuong() {
 		return soLuong;

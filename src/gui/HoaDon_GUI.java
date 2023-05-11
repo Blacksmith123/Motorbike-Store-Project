@@ -18,6 +18,7 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
 
 import connect.ConnectDB;
 import dao.ChiTietHoaDon_DAO;
@@ -25,11 +26,13 @@ import dao.CuaHang_DAO;
 import dao.HoaDon_DAO;
 import dao.KhachHang_DAO;
 import dao.NhanVienHanhChinh_DAO;
+import dao.XeTrongKho_DAO;
 import entity.ChiTietHoaDon;
 import entity.CuaHang;
 import entity.HoaDon;
 import entity.KhachHang;
 import entity.NhanVienHanhChinh;
+import entity.XeTrongKho;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -39,12 +42,14 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Date;
+import java.util.Iterator;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.awt.event.ActionEvent;
 import javax.swing.border.LineBorder;
 import javax.swing.DropMode;
+import javax.swing.DefaultCellEditor;
 import javax.swing.DefaultComboBoxModel;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -67,6 +72,7 @@ public class HoaDon_GUI extends JPanel {
 	private ChiTietHoaDon_DAO chiTietHoaDon_DAO;
 	private CuaHang_DAO cuaHang_DAO;
 	private KhachHang_DAO khachHang_DAO;
+	private XeTrongKho_DAO xeTrongKho_DAO;
 	private NhanVienHanhChinh_DAO nhanVienHanhChinh_DAO;
 	private List<CuaHang> dsCuaHang;
 	// xetrongkhodao
@@ -76,6 +82,10 @@ public class HoaDon_GUI extends JPanel {
 	private JButton btnTim;
 	private JComboBox cbTimTheo;
 	private SimpleDateFormat dateFormat;
+	private JTextField textNhap;
+	private boolean isEditable;
+	private JComboBox cbLoaiXe;
+	private JButton btnThemDong;
 
 	/**
 	 * Create the panel.
@@ -91,6 +101,7 @@ public class HoaDon_GUI extends JPanel {
 		setLayout(null);
 		// chang
 		dsCuaHang = new ArrayList<CuaHang>();
+		xeTrongKho_DAO = new XeTrongKho_DAO();
 		cuaHang_DAO = new CuaHang_DAO();
 		dsCuaHang = cuaHang_DAO.getAllCuaHang();
 		// ========== cb nhan vien hành chánh
@@ -99,6 +110,7 @@ public class HoaDon_GUI extends JPanel {
 		for (int i = 0; i < size; i++) {
 			dsCuaHang.get(i).setDsNhanVienHc(new ArrayList<NhanVienHanhChinh>(
 					nhanVienHanhChinh_DAO.getNhanVienHanhChinhTheoMaCh(dsCuaHang.get(i).getMa())));
+			dsCuaHang.get(i).setDsXe(new ArrayList<XeTrongKho>(xeTrongKho_DAO.getXeTrongKhoTheoMaCuaHang(dsCuaHang.get(i).getMa())));
 		}
 
 		JPanel panel = new JPanel();
@@ -162,12 +174,7 @@ public class HoaDon_GUI extends JPanel {
 		panelThongTin.add(panel_2);
 		panel_2.setLayout(null);
 
-		JButton btnThem = new JButton("Thêm");
-		btnThem.setBackground(Color.LIGHT_GRAY);
-		btnThem.setForeground(new Color(165, 42, 42));
-		btnThem.setFont(new Font("Arial", Font.PLAIN, 16));
-		btnThem.setBounds(56, 32, 112, 27);
-		panel_2.add(btnThem);
+	
 
 		JButton btnXoatrang = new JButton("Xóa Trắng");
 		btnXoatrang.setForeground(new Color(165, 42, 42));
@@ -269,10 +276,14 @@ public class HoaDon_GUI extends JPanel {
 		cbMacuahang.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				cbManhanvien.removeAllItems();
+				cbLoaiXe.removeAllItems();
 				for (CuaHang ch : dsCuaHang) {
 					if (cbMacuahang.getSelectedItem().equals(ch.getMa())) {
 						for (NhanVienHanhChinh nv : ch.getDsNhanVienHc()) {
 							cbManhanvien.addItem(nv.getMa());
+						}
+						for (XeTrongKho xe : ch.getDsXe()) {
+							cbLoaiXe.addItem(xe.getMaXe());
 						}
 						break;
 					}
@@ -294,7 +305,6 @@ public class HoaDon_GUI extends JPanel {
 		panelThongTin.add(lblNewLabel_4_1_4_1);
 
 		textTongTien = new JTextField();
-		textTongTien.setEnabled(false);
 		textTongTien.setEditable(false);
 		textTongTien.setFont(new Font("Arial", Font.PLAIN, 16));
 		textTongTien.setColumns(10);
@@ -308,16 +318,36 @@ public class HoaDon_GUI extends JPanel {
 		panel_2_1.setBounds(393, 89, 338, 137);
 		panelThongTin.add(panel_2_1);
 
-		JButton btnThem_1 = new JButton("Thêm");
-		btnThem_1.addActionListener(new ActionListener() {
+		textNhap = new JTextField();
+		textNhap.setFont(new Font("Arial", Font.PLAIN, 16));
+		cbLoaiXe = new JComboBox();
+		cbLoaiXe.setFont(new Font("Arial", Font.PLAIN, 16));
+		isEditable = false;
+		JButton btnThem = new JButton("Thêm");
+		btnThem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				isEditable = !isEditable;
+				// Đưa combobox vào bảng
+				TableColumn column = tableHddetail.getColumnModel().getColumn(1); // Lấy cột tương ứng trong bảng
+				column.setCellEditor(new DefaultCellEditor(cbLoaiXe));
+				
+				if (isEditable) {
+					btnThemDong.setEnabled(true);
+					btnThem.setText("Xác Nhận");
+					// Bỏ cờ chỉ đọc để cho phép người dùng sửa đổi bảng JTable
+					tableHddetail.setDefaultEditor(Object.class, new DefaultCellEditor(textNhap));
+				} else {
+					btnThem.setText("Thêm");
+					// Thiết lập lại bảng JTable của bạn với giá trị chỉ đọc mặc định
+					tableHddetail.setDefaultEditor(Object.class, null);
+				}
 			}
 		});
-		btnThem_1.setForeground(new Color(165, 42, 42));
-		btnThem_1.setFont(new Font("Arial", Font.PLAIN, 16));
-		btnThem_1.setBackground(Color.LIGHT_GRAY);
-		btnThem_1.setBounds(56, 32, 112, 27);
-		panel_2_1.add(btnThem_1);
+		btnThem.setForeground(new Color(165, 42, 42));
+		btnThem.setFont(new Font("Arial", Font.PLAIN, 16));
+		btnThem.setBackground(Color.LIGHT_GRAY);
+		btnThem.setBounds(56, 32, 112, 27);
+		panel_2_1.add(btnThem);
 
 		JButton btnXoatrang_1 = new JButton("Xóa Trắng");
 		btnXoatrang_1.addActionListener(new ActionListener() {
@@ -329,6 +359,7 @@ public class HoaDon_GUI extends JPanel {
 				cbMacuahang.setSelectedItem(" ");
 				cbMakhachhang.setSelectedItem(" ");
 				textTim.setText("");
+				textTongTien.setText("");
 
 			}
 		});
@@ -635,7 +666,12 @@ public class HoaDon_GUI extends JPanel {
 		panel_3.add(cbTimTheo);
 
 		// thêm dòng khi để thêm hóa đơn
-		JButton btnThemDong = new JButton("Thêm Dòng");
+		btnThemDong = new JButton("Thêm Dòng");
+		btnThemDong.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		btnThemDong.setEnabled(false);
 		btnThemDong.setForeground(new Color(165, 42, 42));
 		btnThemDong.setFont(new Font("Arial", Font.PLAIN, 16));
 		btnThemDong.setBackground(Color.LIGHT_GRAY);
@@ -669,6 +705,7 @@ public class HoaDon_GUI extends JPanel {
 		tableHd.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				int sum=0;
 				int row = tableHd.getSelectedRow();
 				textMaHD.setText(tableHd.getValueAt(row, 0).toString());
 				textNgaylap.setText(tableHd.getValueAt(row, 1).toString());
@@ -687,6 +724,10 @@ public class HoaDon_GUI extends JPanel {
 				} catch (SQLException e1) {
 					e1.printStackTrace();
 				}
+				for (int i = 0; i<tableHddetail.getRowCount();i++) {
+					sum+=Integer.valueOf(tableHddetail.getValueAt(i, 4).toString());
+				}
+				textTongTien.setText(sum+"");
 			}
 		});
 	}
