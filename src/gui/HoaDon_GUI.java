@@ -26,12 +26,15 @@ import dao.CuaHang_DAO;
 import dao.HoaDon_DAO;
 import dao.KhachHang_DAO;
 import dao.NhanVienHanhChinh_DAO;
+import dao.PhatSinhMa_DAO;
+import dao.ThongTinXe_DAO;
 import dao.XeTrongKho_DAO;
 import entity.ChiTietHoaDon;
 import entity.CuaHang;
 import entity.HoaDon;
 import entity.KhachHang;
 import entity.NhanVienHanhChinh;
+import entity.ThongTinXe;
 import entity.XeTrongKho;
 
 import javax.swing.ImageIcon;
@@ -41,6 +44,7 @@ import javax.swing.JComboBox;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.IntToDoubleFunction;
 import java.util.Date;
 import java.util.Iterator;
 import java.sql.SQLException;
@@ -53,6 +57,8 @@ import javax.swing.DefaultCellEditor;
 import javax.swing.DefaultComboBoxModel;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import javax.swing.event.AncestorListener;
+import javax.swing.event.AncestorEvent;
 
 public class HoaDon_GUI extends JPanel {
 	/**
@@ -74,6 +80,8 @@ public class HoaDon_GUI extends JPanel {
 	private KhachHang_DAO khachHang_DAO;
 	private XeTrongKho_DAO xeTrongKho_DAO;
 	private NhanVienHanhChinh_DAO nhanVienHanhChinh_DAO;
+	private ThongTinXe_DAO thongTinXe_DAO;
+	private PhatSinhMa_DAO phatSinhMa_DAO;
 	private List<CuaHang> dsCuaHang;
 	// xetrongkhodao
 	private JComboBox cbMakhachhang;
@@ -101,8 +109,10 @@ public class HoaDon_GUI extends JPanel {
 		setLayout(null);
 		// chang
 		dsCuaHang = new ArrayList<CuaHang>();
+		thongTinXe_DAO = new ThongTinXe_DAO();
 		xeTrongKho_DAO = new XeTrongKho_DAO();
 		cuaHang_DAO = new CuaHang_DAO();
+		phatSinhMa_DAO = new PhatSinhMa_DAO();
 		dsCuaHang = cuaHang_DAO.getAllCuaHang();
 		// ========== cb nhan vien hành chánh
 		nhanVienHanhChinh_DAO = new NhanVienHanhChinh_DAO();
@@ -163,6 +173,7 @@ public class HoaDon_GUI extends JPanel {
 		panelThongTin.add(lblNewLabel_4);
 
 		textMaHD = new JTextField();
+		textMaHD.setEditable(false);
 		textMaHD.setFont(new Font("Arial", Font.PLAIN, 16));
 		textMaHD.setBounds(160, 18, 206, 24);
 		panelThongTin.add(textMaHD);
@@ -321,26 +332,65 @@ public class HoaDon_GUI extends JPanel {
 		textNhap.setFont(new Font("Arial", Font.PLAIN, 16));
 		cbLoaiXe = new JComboBox();
 		cbLoaiXe.setFont(new Font("Arial", Font.PLAIN, 16));
+//		cbLoaiXe.addActionListener(new ActionListener() {
+//			public void actionPerformed(ActionEvent e) {
+//				int rowIndex = tableHddetail.getSelectedRow();
+//				if (rowIndex >= 0 && rowIndex < tableHddetail.getRowCount()) {
+//					try {
+//						tableHddetail.setValueAt(
+//								thongTinXe_DAO.getThongTinXeTheoMa(cbLoaiXe.getSelectedItem() + "").getGiaNiemYet(),
+//								rowIndex, 3);
+//					} catch (SQLException e1) {
+//						e1.printStackTrace();
+//					}
+//				}
+//			}
+//		});
 		isEditable = false;
 		JButton btnThem = new JButton("Thêm");
 		btnThem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				isEditable = !isEditable;
 				TableColumn column = tableHddetail.getColumnModel().getColumn(1); // Lấy cột tương ứng trong bảng
+				TableColumn column1 = tableHddetail.getColumnModel().getColumn(2); // Lấy cột tương ứng trong bảng
 				if (isEditable) {
 					btnThemDong.setEnabled(true);
 					btnThem.setText("Xác Nhận");
+					// set lại dòng trong table hd detail
+					modelHdDetail.setRowCount(0);
+					modelHd.setRowCount(0);
 					// Đưa combobox vào bảng
 					column.setCellEditor(new DefaultCellEditor(cbLoaiXe));
 					// Bỏ cờ chỉ đọc để cho phép người dùng sửa đổi bảng JTable
-					tableHddetail.setDefaultEditor(Object.class, new DefaultCellEditor(textNhap));
+					column1.setCellEditor(new DefaultCellEditor(textNhap));
+					Date currentDate = new Date();
+					textNgaylap.setText(dateFormat.format(currentDate));
 				} else {
 					btnThem.setText("Thêm");
+					btnThemDong.setEnabled(false);
+					int sum = 0;
 					// Thiết lập lại bảng JTable của bạn với giá trị chỉ đọc mặc định
-					column.setCellEditor(new DefaultCellEditor(textNhap));
+					column.setCellEditor(new DefaultCellEditor(new JTextField()));
+					column1.setCellEditor(null);
 					column.setCellEditor(null);
-					tableHddetail.setDefaultEditor(Object.class, null);
-
+					if (tableHddetail.getRowCount() >= 0) {
+						for (int i = 0; i < tableHddetail.getRowCount(); i++) {
+							int value1 = Integer.valueOf(tableHddetail.getValueAt(i, 2).toString());
+							int value2 = Integer.valueOf(tableHddetail.getValueAt(i, 3).toString());
+							// sử dụng giá trị đó ở đây
+							tableHddetail.setValueAt(value1 * value2, i, 4);
+						}
+						for (int i = 0; i < tableHddetail.getRowCount(); i++) {
+							sum += Integer.valueOf(tableHddetail.getValueAt(i, 4).toString());
+						}
+						textTongTien.setText(sum + "");
+					}
+					try {
+						modelHd.addRow(layDuLieu());
+						themSql();
+					} catch (SQLException e1) {
+						e1.printStackTrace();
+					}
 				}
 			}
 		});
@@ -353,14 +403,7 @@ public class HoaDon_GUI extends JPanel {
 		JButton btnXoatrang_1 = new JButton("Xóa Trắng");
 		btnXoatrang_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				textMaHD.setText("");
-				textNgaylap.setText("");
-				textThoigianbaohanh.setText("");
-				cbMakhachhang.setSelectedItem(" ");
-				cbMacuahang.setSelectedItem(" ");
-				cbMakhachhang.setSelectedItem(" ");
-				textTim.setText("");
-				textTongTien.setText("");
+				xoaTrang();
 
 			}
 		});
@@ -437,6 +480,25 @@ public class HoaDon_GUI extends JPanel {
 		String[] column_1 = { "Mã hóa đơn", "Mã loại xe", "Số lượng", "Đơn giá", "Thành tiền" };
 		modelHdDetail = new DefaultTableModel(column_1, 0);
 		tableHddetail = new JTable(modelHdDetail);
+		tableHddetail.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				int rowIndex = tableHddetail.getSelectedRow();
+				if (rowIndex >= 0 && rowIndex < tableHddetail.getRowCount()) {
+					String string = tableHddetail.getValueAt(rowIndex, 1).toString();
+					if (!string.isEmpty()) {
+						try {
+							tableHddetail.setValueAt(
+									thongTinXe_DAO.getThongTinXeTheoMa(string).getGiaNiemYet(),
+									rowIndex, 3);
+						} catch (SQLException e1) {
+							e1.printStackTrace();
+						}
+					}
+				}
+			}
+		});
+
 		tableHddetail.setRowHeight(25);
 		tableHddetail.setFont(new Font("Arial", Font.PLAIN, 16));
 		tableHddetail.setDefaultEditor(Object.class, null);
@@ -475,6 +537,7 @@ public class HoaDon_GUI extends JPanel {
 						if (cbTim.getSelectedItem().equals("Mã hóa đơn")) {
 							HoaDon hd;
 							try {
+								// lấy du liệu từ sql
 								hd = hoaDon_DAO.getHDTheoMa(textTim.getText());
 								modelHd.setRowCount(0);
 								Object[] objects = { hd.getMa(), dateFormat.format(hd.getNgayLap()), hd.getThoiGianBH(),
@@ -670,6 +733,7 @@ public class HoaDon_GUI extends JPanel {
 		btnThemDong = new JButton("Thêm Dòng");
 		btnThemDong.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				modelHdDetail.addRow(new Object[] {});
 			}
 		});
 		btnThemDong.setEnabled(false);
@@ -747,6 +811,49 @@ public class HoaDon_GUI extends JPanel {
 			Object[] objects = { chiTietHoaDon.getMa(), chiTietHoaDon.getMaLoaiXe(), chiTietHoaDon.getSoLuong(),
 					chiTietHoaDon.getDonGia(), chiTietHoaDon.getThanhTien() };
 			modelHdDetail.addRow(objects);
+		}
+	}
+
+	public void xoaTrang() {
+		textMaHD.setText("");
+		textNgaylap.setText("");
+		textThoigianbaohanh.setText("");
+		cbMakhachhang.setSelectedItem(" ");
+		cbMacuahang.setSelectedItem(" ");
+		cbMakhachhang.setSelectedItem(" ");
+		textTim.setText("");
+		textTongTien.setText("");
+	}
+
+	public Object[] layDuLieu() throws SQLException {
+		Object[] objects = { phatSinhMa_DAO.getMaHoaDon(), textNgaylap.getText(), textThoigianbaohanh.getText(),
+				cbMakhachhang.getSelectedItem(), cbMacuahang.getSelectedItem(), cbManhanvien.getSelectedItem() };
+		return objects;
+	}
+
+	public void themSql() {
+		if (tableHddetail.getRowCount() > 0 && tableHd.getRowCount() > 0) {
+			Date date;
+			try {
+				date = dateFormat.parse(tableHd.getValueAt(0, 1).toString());
+				HoaDon hDon = new HoaDon(tableHd.getValueAt(0, 0).toString(), date, tableHd.getValueAt(0, 2).toString(),
+						tableHd.getValueAt(0, 3).toString(), tableHd.getValueAt(0, 4).toString(),
+						tableHd.getValueAt(0, 5).toString());
+				hoaDon_DAO.themHoaDon(hDon);
+
+				for (int i = 0; i < tableHddetail.getRowCount(); i++) {
+					chiTietHoaDon_DAO.themChiTietHoaDon(new ChiTietHoaDon(tableHd.getValueAt(0, 0).toString(),
+							thongTinXe_DAO.getThongTinXeTheoMa(tableHddetail.getValueAt(i, 1).toString()),
+							Integer.valueOf(tableHddetail.getValueAt(i, 2).toString()),
+							Integer.valueOf(tableHddetail.getValueAt(i, 3).toString())));
+				}
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 }
