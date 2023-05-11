@@ -8,6 +8,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -17,10 +18,16 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
+
+import entity.KhachHang;
+
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 
-public class KhachHang_GUI extends JPanel {
+public class KhachHang_GUI extends JPanel{
 
 	/**
 	 * 
@@ -34,6 +41,8 @@ public class KhachHang_GUI extends JPanel {
 	private JTextField textDiaChi;
 	private JTextField textSdt;
 	private JTextField textEmail;
+	private DefaultTableModel model;
+	private ArrayList<KhachHang> listKH;
 
 	/**
 	 * Create the panel.
@@ -52,18 +61,13 @@ public class KhachHang_GUI extends JPanel {
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(10, 10, 782, 525);
 		panel.add(scrollPane);
-		
-		table = new JTable();
+
+		String[] columns = { "M\u00E3 kh\u00E1ch h\u00E0ng", "H\u1ECD kh\u00E1ch h\u00E0ng",
+				"T\u00EAn kh\u00E1ch h\u00E0ng", "\u0110\u1ECBa ch\u1EC9", "SDT", "Email" };
+		model = new DefaultTableModel(columns, 0);
+		table = new JTable(model);
 		table.setFont(new Font("Arial", Font.PLAIN, 16));
-		table.setModel(new DefaultTableModel(
-			new Object[][] {
-				{null, null, null, null, null, ""},
-				{null, null, null, null, null, null},
-			},
-			new String[] {
-				"M\u00E3 kh\u00E1ch h\u00E0ng", "H\u1ECD kh\u00E1ch h\u00E0ng", "T\u00EAn kh\u00E1ch h\u00E0ng", "\u0110\u1ECBa ch\u1EC9", "SDT", "Email"
-			}
-		));
+		table.setDefaultEditor(Object.class, null);
 		scrollPane.setViewportView(table);
 		
 		JPanel panel_1 = new JPanel();
@@ -159,6 +163,33 @@ public class KhachHang_GUI extends JPanel {
 		btnThem.setFont(new Font("Arial", Font.PLAIN, 16));
 		btnThem.setBounds(56, 32, 112, 27);
 		panel_2.add(btnThem);
+		btnThem.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String ma = textMaKH.getText();
+				String ho = textHoKH.getText();
+				String ten = textTenKH.getText();
+				String diaChi = textDiaChi.getText();
+				String sdt = textSdt.getText();
+				String email = textEmail.getText();
+				if(listKH.contains(new KhachHang(ma))){
+					JOptionPane.showMessageDialog(null, "Mã khách hàng đã tồn tại");
+				}
+				else {
+					listKH.add(new KhachHang(ma, ho, ten, diaChi, email, Integer.parseInt(sdt)));
+					String[] row = {ma, ho, ten, diaChi, email, sdt};
+					model.addRow(row);
+					JOptionPane.showMessageDialog(null, "Thêm thành công");
+					textMaKH.setText("");
+					textHoKH.setText("");
+					textTenKH.setText("");
+					textDiaChi.setText("");
+					textSdt.setText("");
+					textEmail.setText("");
+				}
+			}
+		});
 		
 		JButton btnXoatrang = new JButton("Xóa Trắng");
 		btnXoatrang.setForeground(new Color(165, 42, 42));
@@ -166,21 +197,72 @@ public class KhachHang_GUI extends JPanel {
 		btnXoatrang.setBackground(Color.LIGHT_GRAY);
 		btnXoatrang.setBounds(212, 32, 112, 27);
 		panel_2.add(btnXoatrang);
-		
+		btnXoatrang.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				textMaKH.setText("");
+				textHoKH.setText("");
+				textTenKH.setText("");
+				textDiaChi.setText("");
+				textSdt.setText("");
+				textEmail.setText("");
+			}
+		});
+
 		JButton btnCapnhat = new JButton("Cập Nhật");
 		btnCapnhat.setForeground(new Color(165, 42, 42));
 		btnCapnhat.setFont(new Font("Arial", Font.PLAIN, 16));
 		btnCapnhat.setBackground(Color.LIGHT_GRAY);
 		btnCapnhat.setBounds(56, 69, 112, 27);
 		panel_2.add(btnCapnhat);
-		
+		btnCapnhat.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e){
+				int index = table.getSelectedRow();
+				String maMoi = textMaKH.getText();
+				String ma = model.getValueAt(index, 0).toString();
+				if(ma.equals(maMoi)) {
+					String ho = textHoKH.getText();
+					String ten = textTenKH.getText();
+					String diaChi = textDiaChi.getText();
+					String sdt = textSdt.getText();
+					String email = textEmail.getText();
+					listKH.set(index, new KhachHang(ma, ho, ten, diaChi, email, Integer.parseInt(sdt)));
+					model.setValueAt(ho, index, 1);
+					model.setValueAt(ten, index, 2);
+					model.setValueAt(diaChi, index, 3);
+					model.setValueAt(sdt, index, 4);
+					model.setValueAt(email, index, 5);
+					JOptionPane.showMessageDialog(null, "Cập nhật thành công");
+				}
+				else {
+					JOptionPane.showMessageDialog(null, "Không được thay đổi mã");
+				}
+			}
+		});
+
 		JButton btnXoa = new JButton("Xóa");
 		btnXoa.setForeground(new Color(165, 42, 42));
 		btnXoa.setFont(new Font("Arial", Font.PLAIN, 16));
 		btnXoa.setBackground(Color.LIGHT_GRAY);
 		btnXoa.setBounds(212, 69, 112, 27);
 		panel_2.add(btnXoa);
-		
+		btnXoa.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				int index = table.getSelectedRow();
+				if(index == -1) {
+					JOptionPane.showMessageDialog(null, "Vui lòng chọn khách hàng cần xóa");
+				}
+				else {
+					listKH.remove(index);
+					model.removeRow(index);
+					JOptionPane.showMessageDialog(null, "Xóa thành công");
+				}
+			}
+		});
+
 		JButton btnLuu = new JButton("Lưu");
 		btnLuu.setForeground(new Color(165, 42, 42));
 		btnLuu.setFont(new Font("Arial", Font.PLAIN, 16));
@@ -244,4 +326,5 @@ public class KhachHang_GUI extends JPanel {
 		add(btnTim);
 
 	}
+	
 }

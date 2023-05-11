@@ -7,13 +7,18 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
+
+import entity.NhaPhanPhoi;
+
 import java.awt.Color;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 import javax.swing.border.LineBorder;
 import java.awt.SystemColor;
@@ -34,7 +39,8 @@ public class NhaPhanPhoi_GUI extends JPanel {
 	private JTextField textDiaChi;
 	private JTextField textSdt;
 	private JTextField textEmail;
-
+	private DefaultTableModel model;
+	private ArrayList<NhaPhanPhoi> listNhaPhanPhoi;
 	/**
 	 * Create the panel.
 	 */
@@ -52,18 +58,12 @@ public class NhaPhanPhoi_GUI extends JPanel {
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(10, 10, 782, 525);
 		panel.add(scrollPane);
-		
-		table = new JTable();
+
+		String[] columns = { "M\u00E3 c\u1EEDa h\u00E0ng", "T\u00EAn c\u1EEDa h\u00E0ng", "SDT", "Email" };
+		model = new DefaultTableModel(columns, 0);
+		table = new JTable(model);
 		table.setFont(new Font("Arial", Font.PLAIN, 16));
-		table.setModel(new DefaultTableModel(
-			new Object[][] {
-				{null, null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null, null},
-			},
-			new String[] {
-				"M\u00E3 c\u1EEDa h\u00E0ng", "T\u00EAn c\u1EEDa h\u00E0ng", "SDT", "Email", "\u0110\u01B0\u1EDDng", "Th\u00E0nh ph\u1ED1", "T\u00ECnh tr\u1EA1ng", "M\u00E3 b\u01B0u \u0111i\u1EC7n"
-			}
-		));
+		table.setDefaultEditor(Object.class, null);
 		scrollPane.setViewportView(table);
 		
 		JPanel panel_1 = new JPanel();
@@ -147,27 +147,96 @@ public class NhaPhanPhoi_GUI extends JPanel {
 		btnThem.setFont(new Font("Arial", Font.PLAIN, 16));
 		btnThem.setBounds(56, 32, 112, 27);
 		panel_2.add(btnThem);
-		
+		btnThem.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e){
+				String maNhaPP = textMaNhaPp.getText();
+				String tenNhaPP = textTenNhaPp.getText();
+				String diaChi = textDiaChi.getText();
+				String sdt = textSdt.getText();
+				String email = textEmail.getText();
+				if(listNhaPhanPhoi.contains(new NhaPhanPhoi(maNhaPP))){
+					JOptionPane.showMessageDialog(null, "Mã nhà phân phối đã tồn tại");
+				}
+				else{
+					NhaPhanPhoi nhaPhanPhoi = new NhaPhanPhoi(maNhaPP, tenNhaPP, diaChi, Integer.parseInt(sdt), email);
+					listNhaPhanPhoi.add(nhaPhanPhoi);
+					String[] row = {maNhaPP, tenNhaPP, diaChi, sdt, email};
+					model.addRow(row);
+					JOptionPane.showMessageDialog(null, "Thêm thành công");
+				}
+			}
+		});
+
 		JButton btnXoatrang = new JButton("Xóa Trắng");
 		btnXoatrang.setForeground(new Color(165, 42, 42));
 		btnXoatrang.setFont(new Font("Arial", Font.PLAIN, 16));
 		btnXoatrang.setBackground(Color.LIGHT_GRAY);
 		btnXoatrang.setBounds(212, 32, 112, 27);
 		panel_2.add(btnXoatrang);
-		
+		btnXoatrang.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e){
+				textMaNhaPp.setText("");
+				textTenNhaPp.setText("");
+				textDiaChi.setText("");
+				textSdt.setText("");
+				textEmail.setText("");
+			}
+		});
+
 		JButton btnCapnhat = new JButton("Cập Nhật");
 		btnCapnhat.setForeground(new Color(165, 42, 42));
 		btnCapnhat.setFont(new Font("Arial", Font.PLAIN, 16));
 		btnCapnhat.setBackground(Color.LIGHT_GRAY);
 		btnCapnhat.setBounds(56, 69, 112, 27);
 		panel_2.add(btnCapnhat);
-		
+		btnCapnhat.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e){
+				int i = table.getSelectedRow();
+				String maMoi = textMaNhaPp.getText();
+				String ma = model.getValueAt(i, 0).toString();
+				if(ma.equals(equals(maMoi))){
+					String tenNhaPP = textTenNhaPp.getText();
+					String diaChi = textDiaChi.getText();
+					String sdt = textSdt.getText();
+					String email = textEmail.getText();
+					NhaPhanPhoi nhaPhanPhoi = new NhaPhanPhoi(maMoi, tenNhaPP, diaChi, Integer.parseInt(sdt), email);
+					listNhaPhanPhoi.set(i, nhaPhanPhoi);
+					model.setValueAt(maMoi, i, 0);
+					model.setValueAt(tenNhaPP, i, 1);
+					model.setValueAt(diaChi, i, 2);
+					model.setValueAt(sdt, i, 3);
+					model.setValueAt(email, i, 4);
+					JOptionPane.showMessageDialog(null, "Cập nhật thành công");
+				}
+				else{
+					JOptionPane.showMessageDialog(null, "Không được thay đổi mã");
+				}
+			}
+		});
+
 		JButton btnXoa = new JButton("Xóa");
 		btnXoa.setForeground(new Color(165, 42, 42));
 		btnXoa.setFont(new Font("Arial", Font.PLAIN, 16));
 		btnXoa.setBackground(Color.LIGHT_GRAY);
 		btnXoa.setBounds(212, 69, 112, 27);
 		panel_2.add(btnXoa);
+		btnXoa.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e){
+				int i = table.getSelectedRow();
+				if(i >= 0){
+					model.removeRow(i);
+					listNhaPhanPhoi.remove(i);
+					JOptionPane.showMessageDialog(null, "Xóa thành công");
+				}
+				else{
+					JOptionPane.showMessageDialog(null, "Bạn chưa chọn dòng để xóa");
+				}
+			}
+		});
 		
 		JButton btnLuu = new JButton("Lưu");
 		btnLuu.setForeground(new Color(165, 42, 42));
