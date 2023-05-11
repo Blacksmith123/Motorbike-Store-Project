@@ -4,14 +4,19 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 
 import connect.ConnectDB;
+import dao.CuaHang_DAO;
 import dao.NhanVienHanhChinh_DAO;
+import entity.CuaHang;
 import entity.NhanVienHanhChinh;
 
 import java.awt.Color;
@@ -24,7 +29,10 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.sql.SQLException;
+import java.util.jar.Attributes.Name;
 import java.awt.event.ActionEvent;
 
 public class NhanVienHanhChinh_GUI extends JPanel {
@@ -33,6 +41,7 @@ public class NhanVienHanhChinh_GUI extends JPanel {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	private JComboBox cbMaCH;
 	private JTextField textField;
 	private JTable table;
 	private DefaultTableModel model;
@@ -43,6 +52,7 @@ public class NhanVienHanhChinh_GUI extends JPanel {
 	private JTextField textChucVu;
 	private JTextField textEmail;
 	private JTextField textNamKn;
+	private CuaHang_DAO cuaHang_DAO;
 	private NhanVienHanhChinh_DAO nhanVienHanhChinh_DAO;
 
 	/**
@@ -50,7 +60,8 @@ public class NhanVienHanhChinh_GUI extends JPanel {
 	 * @throws SQLException 
 	 */
 	public NhanVienHanhChinh_GUI() throws SQLException {
-		ConnectDB.getInstance().connect();
+		ConnectDB.getInstance();
+		ConnectDB.connect();
 		setBorder(new LineBorder(new Color(0, 0, 0)));
 		setBackground(Color.LIGHT_GRAY);
 		setLayout(null);
@@ -66,9 +77,66 @@ public class NhanVienHanhChinh_GUI extends JPanel {
 		String[] column = {
 				"M\u00E3 Nh\u00E2n vi\u00EAn", "T\u00EAn Nh\u00E2n Vi\u00EAn", "\u0110\u1ECBa Ch\u1EC9", "SDT", "Ch\u1EE9c V\u1EE5", "Email", "S\u1ED1 N\u0103m Kn", "M\u00E3 C\u1EEDa H\u00E0ng"
 			};
-		model = new DefaultTableModel(column,0);
+		model = new DefaultTableModel(column, 0);
 		table = new JTable(model);
 		table.setFont(new Font("Arial", Font.PLAIN, 16));
+		table.setRowHeight(25);
+		//set color for table 
+		ListSelectionModel listSelectionModel = table.getSelectionModel();
+		listSelectionModel.addListSelectionListener(new ListSelectionListener() {
+			
+			@Override
+			public void valueChanged(ListSelectionEvent e) {
+				// TODO Auto-generated method stub
+				if (!e.getValueIsAdjusting()) {
+					int rowIndex = table.getSelectedRow();
+					if (rowIndex >= 0 && rowIndex < table.getRowCount()) {
+						table.setSelectionBackground(Color.cyan);
+						table.setRowSelectionInterval(rowIndex, rowIndex);
+					}
+				}
+			}
+		});;
+		table.addMouseListener(new MouseListener() {
+			
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mousePressed(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				// TODO Auto-generated method stub
+				int row = table.getSelectedRow();
+				textMaNV.setText((String) model.getValueAt(row, 0));
+				textTenNV.setText((String) model.getValueAt(row, 1));
+				textDiaChi.setText((String) model.getValueAt(row, 2));
+				textSDT.setText(model.getValueAt(row, 3).toString());
+				textChucVu.setText((String) model.getValueAt(row, 4));
+				textEmail.setText((String) model.getValueAt(row, 5));
+				textNamKn.setText(model.getValueAt(row, 6).toString());
+				cbMaCH.setSelectedItem((String) model.getValueAt(row, 7));
+			}
+		});
 		JScrollPane scrollPane = new JScrollPane(table, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		scrollPane.setBounds(10, 10, 782, 525);
 		panel.add(scrollPane);
@@ -192,8 +260,15 @@ public class NhanVienHanhChinh_GUI extends JPanel {
 		btnLuu.setForeground(new Color(165, 42, 42));
 		btnLuu.setFont(new Font("Arial", Font.PLAIN, 16));
 		btnLuu.setBackground(Color.LIGHT_GRAY);
-		btnLuu.setBounds(136, 106, 112, 27);
+		btnLuu.setBounds(212, 106, 112, 27);
 		panel_2.add(btnLuu);
+		
+		JButton btnLafm = new JButton("Làm mới");
+		btnLafm.setForeground(new Color(165, 42, 42));
+		btnLafm.setFont(new Font("Arial", Font.PLAIN, 16));
+		btnLafm.setBackground(Color.LIGHT_GRAY);
+		btnLafm.setBounds(56, 106, 112, 27);
+		panel_2.add(btnLafm);
 		
 		JLabel lblNewLabel_1_1 = new JLabel("Chức năng:");
 		lblNewLabel_1_1.setForeground(Color.blue);
@@ -219,9 +294,14 @@ public class NhanVienHanhChinh_GUI extends JPanel {
 		textNamKn.setBounds(160, 278, 206, 24);
 		panel_1.add(textNamKn);
 		
-		JComboBox cbMaCH = new JComboBox();
+		cuaHang_DAO = new CuaHang_DAO();
+		cbMaCH = new JComboBox();
 		cbMaCH.setFont(new Font("Arial", Font.PLAIN, 16));
 		cbMaCH.setBounds(160, 326, 206, 21);
+		cbMaCH.addItem("");
+		for (CuaHang cuaHang : cuaHang_DAO.getAllCuaHang()) {
+			cbMaCH.addItem(cuaHang.getMa());
+		}
 		panel_1.add(cbMaCH);
 		
 		JLabel lblNewLabel = new JLabel("Danh Sách Nhân Viên:");
@@ -262,15 +342,13 @@ public class NhanVienHanhChinh_GUI extends JPanel {
 		add(lblNewLabel_3);
 		
 		JButton btnTim = new JButton("Tìm Kiếm");
-		btnTim.setHorizontalAlignment(SwingConstants.LEFT);
-		btnTim.setIcon(new ImageIcon("D:\\Study\\OOPJava\\21091031_TrinhMinhKhaa\\Motorbike-Store-Project\\data\\image\\icons8-search-30.png"));
+		btnTim.setIcon(new ImageIcon(NhanVienHanhChinh_GUI.class.getResource("/image/magnifier.png")));
 		btnTim.setForeground(new Color(165, 42, 42));
 		btnTim.setFont(new Font("Arial", Font.PLAIN, 16));
 		btnTim.setBackground(Color.LIGHT_GRAY);
 		btnTim.setBounds(522, 20, 133, 27);
-		btnTim.setHorizontalTextPosition(SwingConstants.RIGHT);
+		btnTim.setHorizontalTextPosition(SwingConstants.LEADING);
 		btnTim.setVerticalTextPosition(SwingConstants.CENTER);
-		btnTim.setHorizontalAlignment(SwingConstants.LEFT);
 		add(btnTim);
 		
 		//do du lieu nhan vien hanh chinh
