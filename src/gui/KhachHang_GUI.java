@@ -21,17 +21,20 @@ import javax.swing.border.TitledBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
 
+import connect.ConnectDB;
 import dao.KhachHang_DAO;
 import entity.KhachHang;
 
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 
-public class KhachHang_GUI extends JPanel{
+public class KhachHang_GUI extends JPanel {
 
 	/**
 	 * 
@@ -47,15 +50,23 @@ public class KhachHang_GUI extends JPanel{
 	private JTextField textEmail;
 	private DefaultTableModel model;
 	private ArrayList<KhachHang> listKH = new ArrayList<KhachHang>();
+	private KhachHang_DAO khachHang_DAO;
 
 	/**
 	 * Create the panel.
 	 */
-	public KhachHang_GUI() {
+	public KhachHang_GUI() throws SQLException {
+		
+		// connectDB
+		connect();
+		
+		// khai bao dao
+		khachHang_DAO = new KhachHang_DAO();
+		
 		setBorder(new LineBorder(new Color(0, 0, 0)));
 		setBackground(Color.LIGHT_GRAY);
 		setLayout(null);
-		
+
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(165, 42, 42));
 		panel.setBorder(new LineBorder(Color.CYAN));
@@ -70,9 +81,11 @@ public class KhachHang_GUI extends JPanel{
 				"T\u00EAn kh\u00E1ch h\u00E0ng", "\u0110\u1ECBa ch\u1EC9", "SDT", "Email" };
 		model = new DefaultTableModel(columns, 0);
 		table = new JTable(model);
+		loadKhachHang();
 		table.setFont(new Font("Arial", Font.PLAIN, 16));
 		table.setRowHeight(25);
 		table.setDefaultEditor(Object.class, null);
+		table.setToolTipText("Chọn khách hàng để thực hiện chức năng");
 		scrollPane.setViewportView(table);
 		table.addMouseListener(new MouseListener() {
 			@Override
@@ -106,94 +119,118 @@ public class KhachHang_GUI extends JPanel{
 				// TODO Auto-generated method stub
 			}
 		});
-		
+		// set color for header table
+		JTableHeader tbHeader = table.getTableHeader();
+		tbHeader.setBackground(new Color(0, 163, 163));
+		tbHeader.setForeground(Color.white);
+		tbHeader.setFont(new Font("Arial", Font.BOLD, 14));
+		tbHeader.setToolTipText("Danh sách thông tin khách hàng");
+		// set color for table
+		ListSelectionModel model2 = table.getSelectionModel();
+		model2.addListSelectionListener(new ListSelectionListener() {
+			@Override
+			public void valueChanged(ListSelectionEvent e) {
+				// Check if the current cell selection is not empty
+				if (!e.getValueIsAdjusting()) {
+					// Check if the current cell selection is not empty
+					if (!e.getValueIsAdjusting()) {
+						int rowIndex = table.getSelectedRow();
+						if (rowIndex >= 0 && rowIndex < table.getRowCount()) {
+							table.setSelectionBackground(new Color(138, 255, 255));
+							table.setRowSelectionInterval(rowIndex, rowIndex);
+						}
+					}
+				}
+			}
+		});
+
 		JPanel panel_1 = new JPanel();
 		panel_1.setBackground(SystemColor.text);
 		panel_1.setBorder(new LineBorder(Color.CYAN));
 		panel_1.setBounds(812, 148, 376, 545);
 		add(panel_1);
 		panel_1.setLayout(null);
-		
+
 		JLabel lblNewLabel_4 = new JLabel("Mã khách hàng:");
 		lblNewLabel_4.setForeground(new Color(165, 42, 42));
 		lblNewLabel_4.setBackground(new Color(255, 255, 255));
 		lblNewLabel_4.setFont(new Font("Arial", Font.PLAIN, 16));
 		lblNewLabel_4.setBounds(10, 10, 122, 34);
 		panel_1.add(lblNewLabel_4);
-		
+
 		JLabel lblNewLabel_4_1 = new JLabel("Họ khách hàng:");
 		lblNewLabel_4_1.setForeground(new Color(165, 42, 42));
 		lblNewLabel_4_1.setFont(new Font("Arial", Font.PLAIN, 16));
 		lblNewLabel_4_1.setBounds(10, 45, 122, 34);
 		panel_1.add(lblNewLabel_4_1);
-		
+
 		JLabel lblNewLabel_4_1_1 = new JLabel("Tên khách hàng:");
 		lblNewLabel_4_1_1.setForeground(new Color(165, 42, 42));
 		lblNewLabel_4_1_1.setFont(new Font("Arial", Font.PLAIN, 16));
 		lblNewLabel_4_1_1.setBounds(10, 89, 115, 34);
 		panel_1.add(lblNewLabel_4_1_1);
-		
+
 		JLabel lblNewLabel_4_1_1_1 = new JLabel("Địa chỉ:");
 		lblNewLabel_4_1_1_1.setForeground(new Color(165, 42, 42));
 		lblNewLabel_4_1_1_1.setFont(new Font("Arial", Font.PLAIN, 16));
 		lblNewLabel_4_1_1_1.setBounds(10, 133, 105, 34);
 		panel_1.add(lblNewLabel_4_1_1_1);
-		
+
 		JLabel lblNewLabel_4_1_1_1_1 = new JLabel("Số điện thoại:");
 		lblNewLabel_4_1_1_1_1.setForeground(new Color(165, 42, 42));
 		lblNewLabel_4_1_1_1_1.setFont(new Font("Arial", Font.PLAIN, 16));
 		lblNewLabel_4_1_1_1_1.setBounds(10, 185, 105, 34);
 		panel_1.add(lblNewLabel_4_1_1_1_1);
-		
+
 		JLabel lblNewLabel_4_1_1_1_2 = new JLabel("Email:");
 		lblNewLabel_4_1_1_1_2.setForeground(new Color(165, 42, 42));
 		lblNewLabel_4_1_1_1_2.setFont(new Font("Arial", Font.PLAIN, 16));
 		lblNewLabel_4_1_1_1_2.setBounds(10, 229, 105, 34);
 		panel_1.add(lblNewLabel_4_1_1_1_2);
-		
+
 		textMaKH = new JTextField();
 		textMaKH.setFont(new Font("Arial", Font.PLAIN, 16));
 		textMaKH.setBounds(160, 18, 206, 24);
 		panel_1.add(textMaKH);
 		textMaKH.setColumns(10);
-		
+
 		textHoKH = new JTextField();
 		textHoKH.setFont(new Font("Arial", Font.PLAIN, 16));
 		textHoKH.setColumns(10);
 		textHoKH.setBounds(160, 53, 206, 24);
 		panel_1.add(textHoKH);
-		
+
 		textTenKH = new JTextField();
 		textTenKH.setFont(new Font("Arial", Font.PLAIN, 16));
 		textTenKH.setColumns(10);
 		textTenKH.setBounds(160, 97, 206, 24);
 		panel_1.add(textTenKH);
-		
+
 		textDiaChi = new JTextField();
 		textDiaChi.setFont(new Font("Arial", Font.PLAIN, 16));
 		textDiaChi.setColumns(10);
 		textDiaChi.setBounds(160, 141, 206, 24);
 		panel_1.add(textDiaChi);
-		
+
 		textSdt = new JTextField();
 		textSdt.setFont(new Font("Arial", Font.PLAIN, 16));
 		textSdt.setColumns(10);
 		textSdt.setBounds(160, 185, 206, 24);
 		panel_1.add(textSdt);
-		
+
 		textEmail = new JTextField();
 		textEmail.setFont(new Font("Arial", Font.PLAIN, 16));
 		textEmail.setColumns(10);
 		textEmail.setBounds(160, 229, 206, 24);
 		panel_1.add(textEmail);
-		
+
 		JPanel panel_2 = new JPanel();
 		panel_2.setBackground(Color.WHITE);
 		panel_2.setBorder(new LineBorder(new Color(165, 42, 42)));
 		panel_2.setBounds(10, 378, 356, 147);
 		panel_1.add(panel_2);
 		panel_2.setLayout(null);
-		
+
 		JButton btnThem = new JButton("Thêm");
 		btnThem.setBackground(Color.LIGHT_GRAY);
 		btnThem.setForeground(new Color(165, 42, 42));
@@ -201,7 +238,7 @@ public class KhachHang_GUI extends JPanel{
 		btnThem.setBounds(56, 32, 112, 27);
 		panel_2.add(btnThem);
 		btnThem.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				String ma = textMaKH.getText();
@@ -210,12 +247,11 @@ public class KhachHang_GUI extends JPanel{
 				String diaChi = textDiaChi.getText();
 				String sdt = textSdt.getText();
 				String email = textEmail.getText();
-				if(listKH.contains(new KhachHang(ma))){
+				if (listKH.contains(new KhachHang(ma))) {
 					JOptionPane.showMessageDialog(null, "Mã khách hàng đã tồn tại");
-				}
-				else {
+				} else {
 					listKH.add(new KhachHang(ma, ho, ten, diaChi, email, Integer.parseInt(sdt)));
-					String[] row = {ma, ho, ten, diaChi, sdt, email};
+					String[] row = { ma, ho, ten, diaChi, sdt, email };
 					model.addRow(row);
 					JOptionPane.showMessageDialog(null, "Thêm thành công");
 					textMaKH.setText("");
@@ -227,7 +263,7 @@ public class KhachHang_GUI extends JPanel{
 				}
 			}
 		});
-		
+
 		JButton btnXoatrang = new JButton("Xóa Trắng");
 		btnXoatrang.setForeground(new Color(165, 42, 42));
 		btnXoatrang.setFont(new Font("Arial", Font.PLAIN, 16));
@@ -235,7 +271,7 @@ public class KhachHang_GUI extends JPanel{
 		btnXoatrang.setBounds(212, 32, 112, 27);
 		panel_2.add(btnXoatrang);
 		btnXoatrang.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				textMaKH.setText("");
@@ -255,11 +291,11 @@ public class KhachHang_GUI extends JPanel{
 		panel_2.add(btnCapnhat);
 		btnCapnhat.addActionListener(new ActionListener() {
 			@Override
-			public void actionPerformed(ActionEvent e){
+			public void actionPerformed(ActionEvent e) {
 				int index = table.getSelectedRow();
 				String maMoi = textMaKH.getText();
 				String ma = model.getValueAt(index, 0).toString();
-				if(ma.equals(maMoi)) {
+				if (ma.equals(maMoi)) {
 					String ho = textHoKH.getText();
 					String ten = textTenKH.getText();
 					String diaChi = textDiaChi.getText();
@@ -272,8 +308,7 @@ public class KhachHang_GUI extends JPanel{
 					model.setValueAt(sdt, index, 4);
 					model.setValueAt(email, index, 5);
 					JOptionPane.showMessageDialog(null, "Cập nhật thành công");
-				}
-				else {
+				} else {
 					JOptionPane.showMessageDialog(null, "Không được thay đổi mã");
 				}
 			}
@@ -289,10 +324,9 @@ public class KhachHang_GUI extends JPanel{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				int index = table.getSelectedRow();
-				if(index == -1) {
+				if (index == -1) {
 					JOptionPane.showMessageDialog(null, "Vui lòng chọn khách hàng cần xóa");
-				}
-				else {
+				} else {
 					listKH.remove(index);
 					model.removeRow(index);
 					JOptionPane.showMessageDialog(null, "Xóa thành công");
@@ -306,30 +340,30 @@ public class KhachHang_GUI extends JPanel{
 		btnLuu.setBackground(Color.LIGHT_GRAY);
 		btnLuu.setBounds(136, 106, 112, 27);
 		panel_2.add(btnLuu);
-		
+
 		JLabel lblNewLabel_1_1 = new JLabel("Chức năng:");
 		lblNewLabel_1_1.setForeground(Color.BLUE);
 		lblNewLabel_1_1.setFont(new Font("Arial", Font.BOLD | Font.ITALIC, 14));
 		lblNewLabel_1_1.setBounds(10, 352, 322, 27);
 		panel_1.add(lblNewLabel_1_1);
-		
+
 		JLabel lblNewLabel = new JLabel("Danh Sách Khách Hàng:");
 		lblNewLabel.setForeground(Color.BLUE);
 		lblNewLabel.setFont(new Font("Arial", Font.BOLD | Font.ITALIC, 16));
 		lblNewLabel.setBounds(10, 123, 322, 27);
 		add(lblNewLabel);
-		
+
 		JLabel lblNewLabel_1 = new JLabel("Thông Tin:");
 		lblNewLabel_1.setForeground(Color.BLUE);
 		lblNewLabel_1.setFont(new Font("Arial", Font.BOLD | Font.ITALIC, 16));
 		lblNewLabel_1.setBounds(809, 123, 322, 27);
 		add(lblNewLabel_1);
-		
+
 		JLabel lblNewLabel_2 = new JLabel("Tìm Kiếm:");
 		lblNewLabel_2.setFont(new Font("Arial", Font.BOLD, 16));
 		lblNewLabel_2.setBounds(10, 6, 91, 54);
 		add(lblNewLabel_2);
-		
+
 		JComboBox cbTim = new JComboBox();
 		cbTim.setForeground(Color.RED);
 		cbTim.setFont(new Font("Arial", Font.PLAIN, 16));
@@ -338,13 +372,13 @@ public class KhachHang_GUI extends JPanel{
 		cbTim.addItem("Tìm theo mã");
 		cbTim.addItem("Tìm theo họ");
 		cbTim.addItem("Tìm theo tên");
-		
+
 		textField = new JTextField();
 		textField.setFont(new Font("Arial", Font.PLAIN, 16));
 		textField.setBounds(223, 19, 289, 27);
 		add(textField);
 		textField.setColumns(10);
-		
+
 		JLabel lblNewLabel_3 = new JLabel("Quản Lí Khách hàng\r\n");
 		lblNewLabel_3.setBackground(new Color(165, 42, 42));
 		lblNewLabel_3.setForeground(Color.BLUE);
@@ -352,7 +386,7 @@ public class KhachHang_GUI extends JPanel{
 		lblNewLabel_3.setFont(new Font("Arial", Font.BOLD, 24));
 		lblNewLabel_3.setBounds(0, 70, 1198, 37);
 		add(lblNewLabel_3);
-		
+
 		JButton btnTim = new JButton("Tìm Kiếm");
 		btnTim.setIcon(new ImageIcon(KhachHang_GUI.class.getResource("/image/magnifier.png")));
 		btnTim.setForeground(new Color(165, 42, 42));
@@ -367,54 +401,47 @@ public class KhachHang_GUI extends JPanel{
 			public void actionPerformed(ActionEvent e) {
 				String tim = textField.getText();
 				model.setRowCount(0);
-				if(cbTim.getSelectedItem().toString().equals("Tìm theo mã")) {
-					for(int i = 0; i < listKH.size(); i++) {
-						if(listKH.get(i).getMa().equals(tim)) {
-							Object[] objects = {listKH.get(i).getMa(), listKH.get(i).getHo(), listKH.get(i).getTen(),listKH.get(i).getDiaChi(), listKH.get(i).getSdt(), listKH.get(i).getEmail()};
+				if (cbTim.getSelectedItem().toString().equals("Tìm theo mã")) {
+					for (int i = 0; i < listKH.size(); i++) {
+						if (listKH.get(i).getMa().equals(tim)) {
+							Object[] objects = { listKH.get(i).getMa(), listKH.get(i).getHo(), listKH.get(i).getTen(),
+									listKH.get(i).getDiaChi(), listKH.get(i).getSdt(), listKH.get(i).getEmail() };
 							model.addRow(objects);
 						}
 					}
-				}
-				else if(cbTim.getSelectedItem().toString().equals("Tìm theo họ")) {
-					for(int i = 0; i < listKH.size(); i++) {
-						if(listKH.get(i).getHo().equals(tim)) {
-							Object[] objects = {listKH.get(i).getMa(), listKH.get(i).getHo(), listKH.get(i).getTen(), listKH.get(i).getDiaChi(), listKH.get(i).getSdt(), listKH.get(i).getEmail()};
+				} else if (cbTim.getSelectedItem().toString().equals("Tìm theo họ")) {
+					for (int i = 0; i < listKH.size(); i++) {
+						if (listKH.get(i).getHo().equals(tim)) {
+							Object[] objects = { listKH.get(i).getMa(), listKH.get(i).getHo(), listKH.get(i).getTen(),
+									listKH.get(i).getDiaChi(), listKH.get(i).getSdt(), listKH.get(i).getEmail() };
 							model.addRow(objects);
 						}
 					}
-				}
-				else if(cbTim.getSelectedItem().toString().equals("Tìm theo tên")) {
-					for(int i = 0; i < listKH.size(); i++) {
-						if(listKH.get(i).getTen().equals(tim)) {
-							Object[] objects = {listKH.get(i).getMa(), listKH.get(i).getHo(), listKH.get(i).getTen(), listKH.get(i).getDiaChi(), listKH.get(i).getSdt(), listKH.get(i).getEmail()};
+				} else if (cbTim.getSelectedItem().toString().equals("Tìm theo tên")) {
+					for (int i = 0; i < listKH.size(); i++) {
+						if (listKH.get(i).getTen().equals(tim)) {
+							Object[] objects = { listKH.get(i).getMa(), listKH.get(i).getHo(), listKH.get(i).getTen(),
+									listKH.get(i).getDiaChi(), listKH.get(i).getSdt(), listKH.get(i).getEmail() };
 							model.addRow(objects);
 						}
 					}
-				}
-			}
-		});
-		ListSelectionModel model2 = table.getSelectionModel();
-		model2.addListSelectionListener(new ListSelectionListener() {
-			@Override
-			public void valueChanged(ListSelectionEvent e) {
-				// Check if the current cell selection is not empty
-				if (!e.getValueIsAdjusting()) {
-					// Get the row index of the selected cell
-					int rowIndex = table.getSelectedRow();
-
-					// Set the background color of the selected row
-					table.setSelectionBackground(Color.CYAN);
-					table.setRowSelectionInterval(rowIndex, rowIndex);
 				}
 			}
 		});
 
 	}
-	public void doDuLieu(KhachHang_DAO khachHang_DAO){
-		for(KhachHang khachHang : khachHang_DAO.getAllKhachHang()) {
-			Object[] objects = {khachHang.getMa(), khachHang.getHo(), khachHang.getTen(), khachHang.getDiaChi(), khachHang.getSdt(), khachHang.getEmail()};
+
+	public void connect() throws SQLException {
+		ConnectDB.getInstance();
+		ConnectDB.connect();
+	}
+	
+	public void loadKhachHang() {
+		for (KhachHang khachHang : khachHang_DAO.getAllKhachHang()) {
+			Object[] objects = { khachHang.getMa(), khachHang.getHo(), khachHang.getTen(), khachHang.getDiaChi(),
+					khachHang.getSdt(), khachHang.getEmail() };
 			model.addRow(objects);
 		}
 	}
-	
+
 }

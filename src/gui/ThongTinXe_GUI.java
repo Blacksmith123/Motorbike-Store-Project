@@ -1,10 +1,10 @@
 package gui;
 
-import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -12,30 +12,25 @@ import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
-
-import connect.ConnectDB;
-import dao.ThongTinXe_DAO;
-import dao.Xe_DAO;
-import entity.ThongTinXe;
-import entity.Xe;
-
-import java.awt.Canvas;
-import java.awt.Component;
-import java.awt.Font;
-import java.awt.Panel;
-import java.awt.SystemColor;
-import java.awt.Color;
+import javax.swing.table.JTableHeader;
 import javax.swing.border.LineBorder;
-import javax.swing.border.TitledBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-import javax.swing.border.EtchedBorder;
+import javax.swing.JTextArea;
+
+import connect.ConnectDB;
+import dao.PhatSinhMa_DAO;
+import dao.ThongTinXe_DAO;
+import entity.ThongTinXe;
+
+import java.awt.Font;
+import java.awt.SystemColor;
+import java.awt.Color;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.sql.SQLException;
-import java.awt.event.ActionEvent;
-import javax.swing.JTextArea;
 
 public class ThongTinXe_GUI extends JPanel {
 
@@ -53,10 +48,21 @@ public class ThongTinXe_GUI extends JPanel {
 	private JTextArea textMoTa;
 	private DefaultTableModel model;
 	private ThongTinXe_DAO thongTinXe_DAO;
+	private PhatSinhMa_DAO phatSinhMa_DAO;
+	private JComboBox<String> cbTim;
+
 	/**
 	 * Create the panel.
 	 */
 	public ThongTinXe_GUI() throws SQLException {
+
+		// connect
+		connect();
+
+		// khai bao dao
+		thongTinXe_DAO = new ThongTinXe_DAO();
+		phatSinhMa_DAO = new PhatSinhMa_DAO();
+
 		setBorder(new LineBorder(new Color(0, 0, 0)));
 		setBackground(Color.LIGHT_GRAY);
 		setLayout(null);
@@ -77,6 +83,8 @@ public class ThongTinXe_GUI extends JPanel {
 		table = new JTable(model);
 		table.setFont(new Font("Arial", Font.PLAIN, 16));
 		table.setRowHeight(25);
+		table.setDefaultEditor(Object.class, null);
+		table.setToolTipText("Chọn thông tin xe để thực hiện chức năng");
 		table.addMouseListener(new MouseListener() {
 
 			@Override
@@ -118,6 +126,13 @@ public class ThongTinXe_GUI extends JPanel {
 
 		scrollPane.setViewportView(table);
 
+		// set color for header table
+		JTableHeader tbHeader = table.getTableHeader();
+		tbHeader.setBackground(new Color(0, 163, 163));
+		tbHeader.setForeground(Color.white);
+		tbHeader.setFont(new Font("Arial", Font.BOLD, 14));
+		tbHeader.setToolTipText("Danh sách thông tin xe");
+
 		// set color for table
 		ListSelectionModel listSelectionModel = table.getSelectionModel();
 		listSelectionModel.addListSelectionListener(new ListSelectionListener() {
@@ -128,7 +143,7 @@ public class ThongTinXe_GUI extends JPanel {
 				if (!e.getValueIsAdjusting()) {
 					int rowIndex = table.getSelectedRow();
 					if (rowIndex >= 0 && rowIndex < table.getRowCount()) {
-						table.setSelectionBackground(Color.cyan);
+						table.setSelectionBackground(new Color(138, 255, 255));
 						table.setRowSelectionInterval(rowIndex, rowIndex);
 					}
 				}
@@ -182,6 +197,7 @@ public class ThongTinXe_GUI extends JPanel {
 		textMaLoaiXe = new JTextField();
 		textMaLoaiXe.setFont(new Font("Arial", Font.PLAIN, 16));
 		textMaLoaiXe.setBounds(160, 18, 206, 24);
+		textMaLoaiXe.setEditable(false);
 		panel_1.add(textMaLoaiXe);
 		textMaLoaiXe.setColumns(10);
 
@@ -215,20 +231,89 @@ public class ThongTinXe_GUI extends JPanel {
 		btnThem.setForeground(new Color(165, 42, 42));
 		btnThem.setFont(new Font("Arial", Font.PLAIN, 16));
 		btnThem.setBounds(56, 32, 112, 27);
+		btnThem.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				if (!isNull()) {
+					try {
+						String maLoaiXe = phatSinhMa_DAO.getMaLoaiXe();
+						String tenLoaiXe = textTenLoaiXe.getText();
+						int giaNiemYet = Integer.parseInt(textGiaNiemYet.getText());
+						int giaGiam = Integer.parseInt(textGiaGiam.getText());
+						String moTa = textMoTa.getText();
+						String phienBan = textPhienBan.getText();
+						ThongTinXe thongTinXe = new ThongTinXe(maLoaiXe, tenLoaiXe, giaNiemYet, giaGiam, moTa,
+								phienBan);
+						thongTinXe_DAO.themThongTinXe(thongTinXe);
+						JOptionPane.showMessageDialog(null, "Thêm thành công!");
+					} catch (SQLException e1) {
+						// TODO Auto-generated catch block
+						JOptionPane.showMessageDialog(null, "Thêm thất bại");
+						e1.printStackTrace();
+					}
+				}
+			}
+		});
 		panel_2.add(btnThem);
 
-		JButton btnXoatrang = new JButton("Xóa Trắng");
-		btnXoatrang.setForeground(new Color(165, 42, 42));
-		btnXoatrang.setFont(new Font("Arial", Font.PLAIN, 16));
-		btnXoatrang.setBackground(Color.LIGHT_GRAY);
-		btnXoatrang.setBounds(212, 32, 112, 27);
-		panel_2.add(btnXoatrang);
+		JButton btnXoaTrang = new JButton("Xóa Trắng");
+		btnXoaTrang.setForeground(new Color(165, 42, 42));
+		btnXoaTrang.setFont(new Font("Arial", Font.PLAIN, 16));
+		btnXoaTrang.setBackground(Color.LIGHT_GRAY);
+		btnXoaTrang.setBounds(212, 32, 112, 27);
+		btnXoaTrang.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				xoaTrang();
+			}
+		});
+		panel_2.add(btnXoaTrang);
 
 		JButton btnCapnhat = new JButton("Cập Nhật");
 		btnCapnhat.setForeground(new Color(165, 42, 42));
 		btnCapnhat.setFont(new Font("Arial", Font.PLAIN, 16));
 		btnCapnhat.setBackground(Color.LIGHT_GRAY);
 		btnCapnhat.setBounds(56, 69, 112, 27);
+		btnCapnhat.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				int row = table.getSelectedRow();
+				if (row == -1) {
+					JOptionPane.showInternalMessageDialog(null, "Bạn phải chọn dòng cần cập nhật!");
+				} else {
+					int option = JOptionPane.showConfirmDialog(null,
+							"Bạn có chắc muốn cập nhật loại xe '" + model.getValueAt(row, 0) + "' chứ?", "Xóa?",
+							JOptionPane.YES_NO_OPTION);
+					if (option == JOptionPane.YES_OPTION) {
+						try {
+							String maLoaiXe = textMaLoaiXe.getText();
+							String tenLoaiXe = textTenLoaiXe.getText();
+							int giaNiemYet = Integer.parseInt(textGiaNiemYet.getText());
+							int giaGiam = Integer.parseInt(textGiaGiam.getText());
+							String moTa = textMoTa.getText();
+							String phienBan = textPhienBan.getText();
+							ThongTinXe thongTinXe = new ThongTinXe(maLoaiXe, tenLoaiXe, giaNiemYet, giaGiam, moTa,
+									phienBan);
+							thongTinXe_DAO.suaThongTinXe(thongTinXe, maLoaiXe);
+							JOptionPane.showMessageDialog(null,
+									"Cập nhật thành công loại xe '" + model.getValueAt(row, 0) + "'!");
+						} catch (SQLException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+							JOptionPane.showMessageDialog(null,
+									"Cập nhật không thành công loại xe '" + model.getValueAt(row, 0) + "'!");
+
+						}
+					}
+				}
+			}
+		});
 		panel_2.add(btnCapnhat);
 
 		JButton btnXoa = new JButton("Xóa");
@@ -236,20 +321,55 @@ public class ThongTinXe_GUI extends JPanel {
 		btnXoa.setFont(new Font("Arial", Font.PLAIN, 16));
 		btnXoa.setBackground(Color.LIGHT_GRAY);
 		btnXoa.setBounds(212, 69, 112, 27);
+		btnXoa.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				int row = table.getSelectedRow();
+				if (row == -1) {
+					JOptionPane.showInternalMessageDialog(null, "Bạn phải chọn dòng cần xóa!");
+				} else {
+					int option = JOptionPane.showConfirmDialog(null,
+							"Bạn có chắc muốn xóa loại xe '" + model.getValueAt(row, 0) + "' chứ?", "Xóa?",
+							JOptionPane.YES_NO_OPTION);
+					if (option == JOptionPane.YES_OPTION) {
+						try {
+							thongTinXe_DAO.xoaThongTinXeTheoMaLoaiXe((String) model.getValueAt(row, 0));
+							JOptionPane.showMessageDialog(null,
+									"Xóa thành công loại xe '" + model.getValueAt(row, 0) + "'!");
+						} catch (SQLException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+							JOptionPane.showMessageDialog(null,
+									"Bạn phải xóa các xe, xe trong kho và chi tiết hóa đơn có mã loại xe '"
+											+ model.getValueAt(row, 0) + "' trước!");
+
+						}
+					}
+				}
+			}
+		});
 		panel_2.add(btnXoa);
 
-		JButton btnLuu = new JButton("Lưu");
-		btnLuu.setForeground(new Color(165, 42, 42));
-		btnLuu.setFont(new Font("Arial", Font.PLAIN, 16));
-		btnLuu.setBackground(Color.LIGHT_GRAY);
-		btnLuu.setBounds(212, 106, 112, 27);
-		panel_2.add(btnLuu);
-		
 		JButton btnLmMi = new JButton("Làm mới");
 		btnLmMi.setForeground(new Color(165, 42, 42));
 		btnLmMi.setFont(new Font("Arial", Font.PLAIN, 16));
 		btnLmMi.setBackground(Color.LIGHT_GRAY);
 		btnLmMi.setBounds(56, 106, 112, 27);
+		btnLmMi.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				try {
+					loadDataThongTinXe(thongTinXe_DAO);
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
 		panel_2.add(btnLmMi);
 
 		JLabel lblNewLabel_1_1 = new JLabel("Chức năng:");
@@ -288,10 +408,14 @@ public class ThongTinXe_GUI extends JPanel {
 		lblNewLabel_2.setBounds(10, 6, 91, 54);
 		add(lblNewLabel_2);
 
-		JComboBox cbTim = new JComboBox();
+		cbTim = new JComboBox<String>();
 		cbTim.setForeground(Color.RED);
 		cbTim.setFont(new Font("Arial", Font.PLAIN, 16));
 		cbTim.setBounds(88, 25, 125, 21);
+		cbTim.addItem("");
+		cbTim.addItem("Mã loại xe");
+		cbTim.addItem("Tên loại xe");
+		cbTim.setToolTipText("Tìm theo mã loại và tên loại của xe");
 		add(cbTim);
 
 		textField = new JTextField();
@@ -316,16 +440,82 @@ public class ThongTinXe_GUI extends JPanel {
 		btnTim.setBounds(522, 20, 133, 27);
 		btnTim.setHorizontalTextPosition(SwingConstants.LEADING);
 		btnTim.setVerticalTextPosition(SwingConstants.CENTER);
+		btnTim.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				if (cbTim.getSelectedItem().toString().equals("")) {
+					JOptionPane.showMessageDialog(null, "Bạn chưa chọn thuộc tính để tìm kiếm!");
+				} else {
+					if (cbTim.getSelectedItem().toString().equals("Mã loại xe")) {
+						try {
+							loadDataThongTinXeTheoMaLoaiXe(thongTinXe_DAO, textField.getText());
+						} catch (SQLException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+					} else {
+						try {
+							loadDataThongTinXeTheoTenLoaiXe(thongTinXe_DAO, textField.getText());
+						} catch (SQLException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+					}
+				}
+			}
+		});
 		add(btnTim);
 
 		// input data from sql server
+		loadDataThongTinXe(thongTinXe_DAO);
+	}
+
+	public void connect() throws SQLException {
 		ConnectDB.getInstance();
 		ConnectDB.connect();
-		thongTinXe_DAO = new ThongTinXe_DAO();
+	}
+
+	public void loadDataThongTinXe(ThongTinXe_DAO thongTinXe_DAO) throws SQLException {
+		model.setRowCount(0);
 		for (ThongTinXe thongTinXe : thongTinXe_DAO.getAllThongTinXe()) {
 			Object[] objects = { thongTinXe.getMaLoaiXe(), thongTinXe.getTenLoaiXe(), thongTinXe.getGiaNiemYet(),
 					thongTinXe.getGiaGiam(), thongTinXe.getMoTaXe(), thongTinXe.getPhienBan() };
 			model.addRow(objects);
 		}
+	}
+
+	public void loadDataThongTinXeTheoMaLoaiXe(ThongTinXe_DAO thongTinXe_DAO, String maLoaiXe) throws SQLException {
+		model.setRowCount(0);
+		ThongTinXe thongTinXe = thongTinXe_DAO.getThongTinXeTheoMa(maLoaiXe);
+		Object[] objects = { thongTinXe.getMaLoaiXe(), thongTinXe.getTenLoaiXe(), thongTinXe.getGiaNiemYet(),
+				thongTinXe.getGiaGiam(), thongTinXe.getMoTaXe(), thongTinXe.getPhienBan() };
+		model.addRow(objects);
+	}
+	
+	public void loadDataThongTinXeTheoTenLoaiXe(ThongTinXe_DAO thongTinXe_DAO, String tenLoaiXe) throws SQLException {
+		model.setRowCount(0);
+		ThongTinXe thongTinXe = thongTinXe_DAO.getThongTinXeTheoTen(tenLoaiXe);
+		Object[] objects = { thongTinXe.getMaLoaiXe(), thongTinXe.getTenLoaiXe(), thongTinXe.getGiaNiemYet(),
+				thongTinXe.getGiaGiam(), thongTinXe.getMoTaXe(), thongTinXe.getPhienBan() };
+		model.addRow(objects);
+	}
+
+	public boolean isNull() {
+		if (textTenLoaiXe.getText().equals("") || textGiaNiemYet.getText().equals("")
+				|| textGiaGiam.getText().equals("") || textMoTa.getText().equals("")
+				|| textPhienBan.getText().equals(""))
+			return true;
+		return false;
+	}
+
+	public void xoaTrang() {
+		textMaLoaiXe.setText("");
+		textTenLoaiXe.setText("");
+		textGiaNiemYet.setText("");
+		textGiaGiam.setText("");
+		textMoTa.setText("");
+		textPhienBan.setText("");
 	}
 }

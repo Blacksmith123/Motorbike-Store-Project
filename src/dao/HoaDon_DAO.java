@@ -37,19 +37,70 @@ public class HoaDon_DAO {
 		return dsHoaDon;
 	}
 
-	public boolean themHoaDon(HoaDon hd) throws SQLException {
+//	thêm hóa đơn
+	public void themHoaDon(HoaDon hd) {
 		ConnectDB.getInstance();
 		Connection con = ConnectDB.getConnection();
 		PreparedStatement stmt = null;
-		stmt = con.prepareStatement("insert into HoaDon values (?,?,?,?,?,?)");
-		stmt.setString(1, hd.getMa());
-		stmt.setDate(2, hd.getNgayLap());
-		stmt.setString(3, hd.getThoiGianBH());
-		stmt.setString(4, hd.getMaKH());
-		stmt.setString(5, hd.getMaCH());
-		stmt.setString(6, hd.getMaNV());
-		stmt.close();
-		return stmt.executeUpdate() > 0;
+		try {
+			stmt = con.prepareStatement("insert into HoaDon values (?,?,?,?,?,?)");
+			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+			String formattedDate = formatter.format(hd.getNgayLap());
+			stmt.setString(1, hd.getMa());
+			stmt.setString(2, formattedDate);
+			stmt.setString(3, hd.getThoiGianBH());
+			stmt.setString(4, hd.getMaKH());
+			stmt.setString(5, hd.getMaCH());
+			stmt.setString(6, hd.getMaNV());
+			stmt.executeUpdate();
+			stmt.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return;
+	}
+
+	// Cap nhat hóa đơn
+	public void capNhatHoaDon(HoaDon hd) {
+		ConnectDB.getInstance();
+		Connection con = ConnectDB.getConnection();
+		PreparedStatement stmt = null;
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+		String formattedDate = formatter.format(hd.getNgayLap());
+		String sqlString = "update HoaDon set ngayLap = ?, thoiGianBaoHanh = ?, maKhachHang = ?, maCuaHang = ?, maNhanVien = ?  WHERE maHoaDon = ? ";
+		try {
+			stmt = con.prepareStatement(sqlString);
+			stmt.setString(1, formattedDate);
+			stmt.setString(2, hd.getThoiGianBH());
+			stmt.setString(3, hd.getMaKH());
+			stmt.setString(4, hd.getMaCH());
+			stmt.setString(5, hd.getMaNV());
+			stmt.setString(6, hd.getMa());
+			stmt.executeUpdate();
+			stmt.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+
+	// xoa chi tiet hoa don
+	public void xoaHoaDon(String id) {
+		ConnectDB.getInstance();
+		Connection connection = ConnectDB.getConnection();
+		PreparedStatement stmPreparedStatement = null;
+		String sqlString = "delete from HoaDon where maHoaDon = ?";
+		try {
+			stmPreparedStatement = connection.prepareStatement(sqlString);
+			stmPreparedStatement.setString(1, id);
+			stmPreparedStatement.executeUpdate();
+			stmPreparedStatement.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
 	// get hoa don theo ngay
