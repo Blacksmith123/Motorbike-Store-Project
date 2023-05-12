@@ -53,6 +53,8 @@ public class CuaHang_DAO {
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(null,
 					"Bạn cần xóa hóa đơn chứa mã " +  ma);
+		}finally {
+			
 		}
 		return false;
 	}

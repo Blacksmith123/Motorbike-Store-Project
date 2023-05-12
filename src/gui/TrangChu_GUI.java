@@ -53,19 +53,19 @@ public class TrangChu_GUI extends JFrame implements ActionListener {
 	
 
 	public static void main(String[] args) {
-<<<<<<< HEAD
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					TrangChu_GUI frame = new TrangChu_GUI();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-=======
->>>>>>> 436b691b3fcf790ff23f734c124a02736e1e42aa
+//<<<<<<< HEAD
+//		EventQueue.invokeLater(new Runnable() {
+//			public void run() {
+//				try {
+//					TrangChu_GUI frame = new TrangChu_GUI();
+//					frame.setVisible(true);
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
+//			}
+//		});
+//=======
+//>>>>>>> 436b691b3fcf790ff23f734c124a02736e1e42aa
 		new TrangChu_GUI().setVisible(true);
 	}
 
@@ -178,7 +178,7 @@ public class TrangChu_GUI extends JFrame implements ActionListener {
 
 		JLabel lblNewLabel = new JLabel("");
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel.setIcon(new ImageIcon("C:\\java\\workspace\\workspace\\Motorbike-Store-Project\\data\\image\\TrangChu.jpg"));
+		lblNewLabel.setIcon(new ImageIcon(TrangChu_GUI.class.getResource("/image/TrangChu.jpg")));
 		// lblNewLabel.setIcon(new
 
 		// ImageIcon(TrangChu_GUI.class.getResource("/image/TrangChu.jpg")));

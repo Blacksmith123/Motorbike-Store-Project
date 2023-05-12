@@ -598,8 +598,8 @@ public class CuaHang_GUI extends JPanel {
 									check = true;
 								}
 							} catch (SQLException e1) {
-								JOptionPane.showMessageDialog(null, "Không tìm thấy Tên CH trong bảng");
-
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
 							}
 							if (check == false) {
 								JOptionPane.showMessageDialog(null, "Không tìm thấy Tên CH trong bảng");
