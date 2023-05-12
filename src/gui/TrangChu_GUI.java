@@ -13,6 +13,8 @@ import javax.swing.JLabel;
 import javax.swing.ImageIcon;
 import java.awt.Font;
 import java.awt.Color;
+import java.awt.EventQueue;
+
 import javax.swing.SwingConstants;
 
 public class TrangChu_GUI extends JFrame implements ActionListener {
@@ -34,6 +36,7 @@ public class TrangChu_GUI extends JFrame implements ActionListener {
 	private JMenuItem menuitemNhaPhanPhoi;
 	private JMenuItem menuitemQuanLyXe;
 	private JMenuItem menuitemKhachHang;
+
 	private JMenuItem menuitemNhanVienKyThuat;
 
 	private JPanel tongJPanel;
@@ -47,8 +50,22 @@ public class TrangChu_GUI extends JFrame implements ActionListener {
 	String quanLyXe = "Quản Lý Xe";
 	String nhaPhanPhoi = "Nhà Phân Phối";
 	String khachHang = "Khách Hàng";
+	
 
 	public static void main(String[] args) {
+<<<<<<< HEAD
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					TrangChu_GUI frame = new TrangChu_GUI();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+=======
+>>>>>>> 436b691b3fcf790ff23f734c124a02736e1e42aa
 		new TrangChu_GUI().setVisible(true);
 	}
 
@@ -143,6 +160,16 @@ public class TrangChu_GUI extends JFrame implements ActionListener {
 		menuitemKhachHang.setIcon(new ImageIcon(TrangChu_GUI.class.getResource("/image/customer.png")));
 		menuKhachHang.add(menuitemKhachHang);
 
+		
+		JMenu menuThongKe = new JMenu("Thống kê");
+		menuThongKe.setForeground(new Color(0, 0, 255));
+		menuThongKe.setFont(new Font("Segoe UI", Font.BOLD, 18));
+		menuBar.add(menuThongKe);
+		
+		JMenuItem mntmNewMenuItem = new JMenuItem("Thống kê ");
+		menuThongKe.add(mntmNewMenuItem);
+
+
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
@@ -150,9 +177,16 @@ public class TrangChu_GUI extends JFrame implements ActionListener {
 		contentPane.setLayout(null);
 
 		JLabel lblNewLabel = new JLabel("");
+		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel.setIcon(new ImageIcon("C:\\java\\workspace\\workspace\\Motorbike-Store-Project\\data\\image\\TrangChu.jpg"));
 		// lblNewLabel.setIcon(new
+
+		// ImageIcon(TrangChu_GUI.class.getResource("/image/TrangChu.jpg")));
+		lblNewLabel.setBounds(79, 156, 1003, 476);
+
 		// ImageIcon(TrangChu_GUI.class.getResource("/image/TrangChu_GUI.jpg")));
 		lblNewLabel.setBounds(54, 123, 830, 476);
+
 		contentPane.add(lblNewLabel);
 
 		JLabel lblNewLabel_1 = new JLabel("QUẢN LÝ BÁN XE MÁY", SwingConstants.CENTER);
