@@ -316,11 +316,12 @@ public class HoaDon_GUI extends JPanel {
 		JButton btnThem = new JButton("Thêm");
 		btnThem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				xoaTrang();
 				isEditable = !isEditable;
 				TableColumn column = tableHddetail.getColumnModel().getColumn(1); // Lấy cột tương ứng trong bảng
 				TableColumn column1 = tableHddetail.getColumnModel().getColumn(2); // Lấy cột tương ứng trong bảng
 				if (isEditable) {
+					xoaTrang();
+
 					btnThemDong.setEnabled(true);
 					btnThem.setText("Xác Nhận");
 					// set lại dòng trong table hd detail
