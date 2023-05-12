@@ -18,7 +18,7 @@ public class KhachHang {
 		this.ma = ma;
 	}
 	
-	public KhachHang(String ma, String ho, String ten, String diaChi, String email, int sdt) {
+	public KhachHang(String ma, String ho, String ten, String diaChi, int sdt, String email) {
 		super();
 		this.ma = ma;
 		this.ho = ho;

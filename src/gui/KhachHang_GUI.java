@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.SystemColor;
 
+import javax.sound.sampled.AudioFileFormat;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -25,6 +26,7 @@ import javax.swing.table.JTableHeader;
 
 import connect.ConnectDB;
 import dao.KhachHang_DAO;
+import dao.PhatSinhMa_DAO;
 import entity.KhachHang;
 
 import java.awt.event.ActionListener;
@@ -49,20 +51,21 @@ public class KhachHang_GUI extends JPanel {
 	private JTextField textSdt;
 	private JTextField textEmail;
 	private DefaultTableModel model;
-	private ArrayList<KhachHang> listKH = new ArrayList<KhachHang>();
 	private KhachHang_DAO khachHang_DAO;
+	private PhatSinhMa_DAO phatSinhMa_DAO;
 
 	/**
 	 * Create the panel.
 	 */
 	public KhachHang_GUI() throws SQLException {
-		
+
 		// connectDB
 		connect();
-		
+
 		// khai bao dao
 		khachHang_DAO = new KhachHang_DAO();
-		
+		phatSinhMa_DAO = new PhatSinhMa_DAO();
+
 		setBorder(new LineBorder(new Color(0, 0, 0)));
 		setBackground(Color.LIGHT_GRAY);
 		setLayout(null);
@@ -81,7 +84,7 @@ public class KhachHang_GUI extends JPanel {
 				"T\u00EAn kh\u00E1ch h\u00E0ng", "\u0110\u1ECBa ch\u1EC9", "SDT", "Email" };
 		model = new DefaultTableModel(columns, 0);
 		table = new JTable(model);
-		loadKhachHang();
+		loadDataKhachHang();
 		table.setFont(new Font("Arial", Font.PLAIN, 16));
 		table.setRowHeight(25);
 		table.setDefaultEditor(Object.class, null);
@@ -191,6 +194,7 @@ public class KhachHang_GUI extends JPanel {
 		textMaKH = new JTextField();
 		textMaKH.setFont(new Font("Arial", Font.PLAIN, 16));
 		textMaKH.setBounds(160, 18, 206, 24);
+		textMaKH.setEditable(false);
 		panel_1.add(textMaKH);
 		textMaKH.setColumns(10);
 
@@ -236,33 +240,31 @@ public class KhachHang_GUI extends JPanel {
 		btnThem.setForeground(new Color(165, 42, 42));
 		btnThem.setFont(new Font("Arial", Font.PLAIN, 16));
 		btnThem.setBounds(56, 32, 112, 27);
-		panel_2.add(btnThem);
 		btnThem.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				String ma = textMaKH.getText();
-				String ho = textHoKH.getText();
-				String ten = textTenKH.getText();
-				String diaChi = textDiaChi.getText();
-				String sdt = textSdt.getText();
-				String email = textEmail.getText();
-				if (listKH.contains(new KhachHang(ma))) {
-					JOptionPane.showMessageDialog(null, "Mã khách hàng đã tồn tại");
-				} else {
-					listKH.add(new KhachHang(ma, ho, ten, diaChi, email, Integer.parseInt(sdt)));
-					String[] row = { ma, ho, ten, diaChi, sdt, email };
-					model.addRow(row);
-					JOptionPane.showMessageDialog(null, "Thêm thành công");
-					textMaKH.setText("");
-					textHoKH.setText("");
-					textTenKH.setText("");
-					textDiaChi.setText("");
-					textSdt.setText("");
-					textEmail.setText("");
+				// TODO Auto-generated method stub
+				try {
+					String maKhachHang = phatSinhMa_DAO.getMaKhachHang();
+					String hoKhachHang = textHoKH.getText();
+					String tenKhachHang = textTenKH.getText();
+					String diaChi = textDiaChi.getText();
+					int soDienThoai = Integer.parseInt(textSdt.getText());
+					String email = textEmail.getText();
+					KhachHang khachHang = new KhachHang(maKhachHang, hoKhachHang, tenKhachHang, diaChi, soDienThoai,
+							email);
+					khachHang_DAO.themKhachHang(khachHang);
+					JOptionPane.showMessageDialog(null, "Thêm khách hàng '" + maKhachHang + "' thành công!");
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+					JOptionPane.showMessageDialog(null, "Thêm thất bại!");
 				}
+
 			}
 		});
+		panel_2.add(btnThem);
 
 		JButton btnXoatrang = new JButton("Xóa Trắng");
 		btnXoatrang.setForeground(new Color(165, 42, 42));
@@ -292,24 +294,30 @@ public class KhachHang_GUI extends JPanel {
 		btnCapnhat.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				int index = table.getSelectedRow();
-				String maMoi = textMaKH.getText();
-				String ma = model.getValueAt(index, 0).toString();
-				if (ma.equals(maMoi)) {
-					String ho = textHoKH.getText();
-					String ten = textTenKH.getText();
-					String diaChi = textDiaChi.getText();
-					String sdt = textSdt.getText();
-					String email = textEmail.getText();
-					listKH.set(index, new KhachHang(ma, ho, ten, diaChi, email, Integer.parseInt(sdt)));
-					model.setValueAt(ho, index, 1);
-					model.setValueAt(ten, index, 2);
-					model.setValueAt(diaChi, index, 3);
-					model.setValueAt(sdt, index, 4);
-					model.setValueAt(email, index, 5);
-					JOptionPane.showMessageDialog(null, "Cập nhật thành công");
+				int row = table.getSelectedRow();
+				if (row == -1) {
+					JOptionPane.showInternalMessageDialog(null, "Bạn phải chọn dòng cần cập nhật!");
 				} else {
-					JOptionPane.showMessageDialog(null, "Không được thay đổi mã");
+					int option = JOptionPane.showConfirmDialog(null,
+							"Bạn có chắc muốn cập nhật khách hàng '" + model.getValueAt(row, 0) + "' chứ?", "Cập nhật?",
+							JOptionPane.YES_NO_OPTION);
+					if (option == JOptionPane.YES_OPTION) {
+						try {
+							KhachHang khachHang = new KhachHang((String) textMaKH.getText(),
+									(String) textHoKH.getText(), (String) textTenKH.getText(),
+									(String) textDiaChi.getText(), Integer.parseInt((String) textSdt.getText()),
+									(String) textEmail.getText());
+							khachHang_DAO.suaThongTinKhachHang(khachHang, (String) textMaKH.getText());
+							JOptionPane.showMessageDialog(null,
+									"Cập nhật thành công khách hàng '" + model.getValueAt(row, 0) + "'!");
+						} catch (SQLException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+							JOptionPane.showMessageDialog(null,
+									"Cập nhật khách hàng '" + model.getValueAt(row, 0) + "' không thành công!");
+
+						}
+					}
 				}
 			}
 		});
@@ -323,23 +331,44 @@ public class KhachHang_GUI extends JPanel {
 		btnXoa.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				int index = table.getSelectedRow();
-				if (index == -1) {
-					JOptionPane.showMessageDialog(null, "Vui lòng chọn khách hàng cần xóa");
+				int row = table.getSelectedRow();
+				if (row == -1) {
+					JOptionPane.showInternalMessageDialog(null, "Bạn phải chọn dòng cần xóa!");
 				} else {
-					listKH.remove(index);
-					model.removeRow(index);
-					JOptionPane.showMessageDialog(null, "Xóa thành công");
+					int option = JOptionPane.showConfirmDialog(null,
+							"Bạn có chắc muốn xóa khách hàng '" + model.getValueAt(row, 0) + "' chứ?", "Xóa?",
+							JOptionPane.YES_NO_OPTION);
+					if (option == JOptionPane.YES_OPTION) {
+						try {
+							khachHang_DAO.xoaKhachHangTheoMa((String) model.getValueAt(row, 0));
+							JOptionPane.showMessageDialog(null,
+									"Xóa thành công khách hàng '" + model.getValueAt(row, 0) + "'!");
+						} catch (SQLException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+							JOptionPane.showMessageDialog(null,
+									"Xóa khách hàng '\" + model.getValueAt(row, 0) + \"' không thành công!");
+
+						}
+					}
 				}
 			}
 		});
 
-		JButton btnLuu = new JButton("Lưu");
-		btnLuu.setForeground(new Color(165, 42, 42));
-		btnLuu.setFont(new Font("Arial", Font.PLAIN, 16));
-		btnLuu.setBackground(Color.LIGHT_GRAY);
-		btnLuu.setBounds(136, 106, 112, 27);
-		panel_2.add(btnLuu);
+		JButton btnLamMoi = new JButton("Làm mới");
+		btnLamMoi.setForeground(new Color(165, 42, 42));
+		btnLamMoi.setFont(new Font("Arial", Font.PLAIN, 16));
+		btnLamMoi.setBackground(Color.LIGHT_GRAY);
+		btnLamMoi.setBounds(136, 106, 112, 27);
+		btnLamMoi.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				loadDataKhachHang();
+			}
+		});
+		panel_2.add(btnLamMoi);
 
 		JLabel lblNewLabel_1_1 = new JLabel("Chức năng:");
 		lblNewLabel_1_1.setForeground(Color.BLUE);
@@ -364,14 +393,15 @@ public class KhachHang_GUI extends JPanel {
 		lblNewLabel_2.setBounds(10, 6, 91, 54);
 		add(lblNewLabel_2);
 
-		JComboBox cbTim = new JComboBox();
+		JComboBox<String> cbTim = new JComboBox<String>();
 		cbTim.setForeground(Color.RED);
 		cbTim.setFont(new Font("Arial", Font.PLAIN, 16));
 		cbTim.setBounds(88, 25, 125, 21);
 		add(cbTim);
-		cbTim.addItem("Tìm theo mã");
-		cbTim.addItem("Tìm theo họ");
-		cbTim.addItem("Tìm theo tên");
+		cbTim.addItem("");
+		cbTim.addItem("Mã khách hàng");
+		cbTim.addItem("Tên khách hàng");
+		cbTim.addItem("Số điện thoại");
 
 		textField = new JTextField();
 		textField.setFont(new Font("Arial", Font.PLAIN, 16));
@@ -395,37 +425,39 @@ public class KhachHang_GUI extends JPanel {
 		btnTim.setBounds(522, 20, 133, 27);
 		btnTim.setHorizontalTextPosition(SwingConstants.LEADING);
 		btnTim.setVerticalTextPosition(SwingConstants.CENTER);
+		btnTim.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				if (cbTim.getSelectedItem().toString().equals("")) {
+					JOptionPane.showMessageDialog(null, "Bạn chưa chọn chức nằng để tìm kiếm!");
+				} else {
+					if (cbTim.getSelectedItem().toString().equals("Mã khách hàng")) {
+						try {
+							loadDataKhachHangTheoMa(khachHang_DAO, textField.getText());
+						} catch (SQLException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();    
+						}
+					} else if (cbTim.getSelectedItem().toString().equals("Tên khách hàng")) {
+						loadDataKhachHangTheoTen(khachHang_DAO, textField.getText());
+					} else if (cbTim.getSelectedItem().toString().equals("Số điện thoại")) {
+						try {
+							loadDataKhachHangTheoSoDienThoai(khachHang_DAO, Integer.parseInt(textField.getText()));
+						} catch (NumberFormatException | SQLException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+					}
+				}
+			}
+		});
 		add(btnTim);
 		btnTim.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				String tim = textField.getText();
-				model.setRowCount(0);
-				if (cbTim.getSelectedItem().toString().equals("Tìm theo mã")) {
-					for (int i = 0; i < listKH.size(); i++) {
-						if (listKH.get(i).getMa().equals(tim)) {
-							Object[] objects = { listKH.get(i).getMa(), listKH.get(i).getHo(), listKH.get(i).getTen(),
-									listKH.get(i).getDiaChi(), listKH.get(i).getSdt(), listKH.get(i).getEmail() };
-							model.addRow(objects);
-						}
-					}
-				} else if (cbTim.getSelectedItem().toString().equals("Tìm theo họ")) {
-					for (int i = 0; i < listKH.size(); i++) {
-						if (listKH.get(i).getHo().equals(tim)) {
-							Object[] objects = { listKH.get(i).getMa(), listKH.get(i).getHo(), listKH.get(i).getTen(),
-									listKH.get(i).getDiaChi(), listKH.get(i).getSdt(), listKH.get(i).getEmail() };
-							model.addRow(objects);
-						}
-					}
-				} else if (cbTim.getSelectedItem().toString().equals("Tìm theo tên")) {
-					for (int i = 0; i < listKH.size(); i++) {
-						if (listKH.get(i).getTen().equals(tim)) {
-							Object[] objects = { listKH.get(i).getMa(), listKH.get(i).getHo(), listKH.get(i).getTen(),
-									listKH.get(i).getDiaChi(), listKH.get(i).getSdt(), listKH.get(i).getEmail() };
-							model.addRow(objects);
-						}
-					}
-				}
+
 			}
 		});
 
@@ -435,8 +467,9 @@ public class KhachHang_GUI extends JPanel {
 		ConnectDB.getInstance();
 		ConnectDB.connect();
 	}
-	
-	public void loadKhachHang() {
+
+	public void loadDataKhachHang() {
+		model.setRowCount(0);
 		for (KhachHang khachHang : khachHang_DAO.getAllKhachHang()) {
 			Object[] objects = { khachHang.getMa(), khachHang.getHo(), khachHang.getTen(), khachHang.getDiaChi(),
 					khachHang.getSdt(), khachHang.getEmail() };
@@ -444,4 +477,26 @@ public class KhachHang_GUI extends JPanel {
 		}
 	}
 
+	public void loadDataKhachHangTheoTen(KhachHang_DAO khachHang_DAO, String ten) {
+		model.setRowCount(0);
+		for (KhachHang khachHang : khachHang_DAO.getKhachHangTheoTen(ten)) {
+			Object[] objects = { khachHang.getMa(), khachHang.getHo(), khachHang.getTen(), khachHang.getDiaChi(),
+					khachHang.getSdt(), khachHang.getEmail() };
+			model.addRow(objects);
+		}
+	}
+
+	public void loadDataKhachHangTheoMa(KhachHang_DAO khachHang_DAO, String maKhachHang) throws SQLException {
+		model.setRowCount(0);
+		KhachHang khachHang = khachHang_DAO.getKhachHangTheoMa(maKhachHang);
+		Object[] objects = { khachHang.getMa(), khachHang.getHo(), khachHang.getTen(), khachHang.getDiaChi(), khachHang.getSdt(), khachHang.getEmail()};
+		model.addRow(objects);
+	}
+
+	public void loadDataKhachHangTheoSoDienThoai(KhachHang_DAO khachHang_DAO, int soDienThoai) throws SQLException {
+		model.setRowCount(0);
+		KhachHang khachHang = khachHang_DAO.getKhachHangTheoSoDienThoai(soDienThoai);
+		Object[] objects = { khachHang.getMa(), khachHang.getHo(), khachHang.getTen(), khachHang.getDiaChi(), khachHang.getSdt(), khachHang.getEmail()};
+		model.addRow(objects);
+	}
 }
