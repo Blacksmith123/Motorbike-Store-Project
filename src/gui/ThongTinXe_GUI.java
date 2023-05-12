@@ -9,6 +9,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 
@@ -26,6 +27,8 @@ import java.awt.SystemColor;
 import java.awt.Color;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.border.EtchedBorder;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -50,7 +53,6 @@ public class ThongTinXe_GUI extends JPanel {
 	private JTextArea textMoTa;
 	private DefaultTableModel model;
 	private ThongTinXe_DAO thongTinXe_DAO;
-	
 	/**
 	 * Create the panel.
 	 */
@@ -74,46 +76,64 @@ public class ThongTinXe_GUI extends JPanel {
 		model = new DefaultTableModel(columns, 0);
 		table = new JTable(model);
 		table.setFont(new Font("Arial", Font.PLAIN, 16));
+		table.setRowHeight(25);
 		table.addMouseListener(new MouseListener() {
-			
+
 			@Override
 			public void mouseReleased(MouseEvent e) {
 				// TODO Auto-generated method stub
-				
+
 			}
-			
+
 			@Override
 			public void mousePressed(MouseEvent e) {
 				// TODO Auto-generated method stub
-				
+
 			}
-			
+
 			@Override
 			public void mouseExited(MouseEvent e) {
 				// TODO Auto-generated method stub
-				
+
 			}
-			
+
 			@Override
 			public void mouseEntered(MouseEvent e) {
 				// TODO Auto-generated method stub
-				
+
 			}
-			
+
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				// TODO Auto-generated method stub
 				int row = table.getSelectedRow();
 				textMaLoaiXe.setText((String) model.getValueAt(row, 0));
 				textTenLoaiXe.setText((String) model.getValueAt(row, 1));
-				textGiaNiemYet.setText((String) model.getValueAt(row, 2));
-				textGiaGiam.setText((String) model.getValueAt(row, 3));
+				textGiaNiemYet.setText(model.getValueAt(row, 2) + "");
+				textGiaGiam.setText(model.getValueAt(row, 3) + "");
 				textMoTa.setText((String) model.getValueAt(row, 4));
 				textPhienBan.setText((String) model.getValueAt(row, 5));
 			}
 		});
 
 		scrollPane.setViewportView(table);
+
+		// set color for table
+		ListSelectionModel listSelectionModel = table.getSelectionModel();
+		listSelectionModel.addListSelectionListener(new ListSelectionListener() {
+
+			@Override
+			public void valueChanged(ListSelectionEvent e) {
+				// TODO Auto-generated method stub
+				if (!e.getValueIsAdjusting()) {
+					int rowIndex = table.getSelectedRow();
+					if (rowIndex >= 0 && rowIndex < table.getRowCount()) {
+						table.setSelectionBackground(Color.cyan);
+						table.setRowSelectionInterval(rowIndex, rowIndex);
+					}
+				}
+			}
+		});
 
 		JPanel panel_1 = new JPanel();
 		panel_1.setBackground(SystemColor.text);
@@ -222,20 +242,26 @@ public class ThongTinXe_GUI extends JPanel {
 		btnLuu.setForeground(new Color(165, 42, 42));
 		btnLuu.setFont(new Font("Arial", Font.PLAIN, 16));
 		btnLuu.setBackground(Color.LIGHT_GRAY);
-		btnLuu.setBounds(136, 106, 112, 27);
+		btnLuu.setBounds(212, 106, 112, 27);
 		panel_2.add(btnLuu);
+		
+		JButton btnLmMi = new JButton("Làm mới");
+		btnLmMi.setForeground(new Color(165, 42, 42));
+		btnLmMi.setFont(new Font("Arial", Font.PLAIN, 16));
+		btnLmMi.setBackground(Color.LIGHT_GRAY);
+		btnLmMi.setBounds(56, 106, 112, 27);
+		panel_2.add(btnLmMi);
 
 		JLabel lblNewLabel_1_1 = new JLabel("Chức năng:");
 		lblNewLabel_1_1.setForeground(Color.BLUE);
 		lblNewLabel_1_1.setFont(new Font("Arial", Font.BOLD | Font.ITALIC, 14));
 		lblNewLabel_1_1.setBounds(10, 352, 322, 27);
 		panel_1.add(lblNewLabel_1_1);
-		
 
 		textMoTa = new JTextArea();
 		textMoTa.setColumns(3);
 		textMoTa.setBorder(new LineBorder(Color.LIGHT_GRAY));
-		textMoTa.setFont(new Font("Arial", Font.PLAIN, 12));
+		textMoTa.setFont(new Font("Arial", Font.PLAIN, 16));
 		textMoTa.setBounds(160, 192, 206, 85);
 		panel_1.add(textMoTa);
 
@@ -300,7 +326,8 @@ public class ThongTinXe_GUI extends JPanel {
 		ConnectDB.connect();
 		thongTinXe_DAO = new ThongTinXe_DAO();
 		for (ThongTinXe thongTinXe : thongTinXe_DAO.getAllThongTinXe()) {
-			Object[] objects = {thongTinXe.getMaLoaiXe(), thongTinXe.getTenLoaiXe(), thongTinXe.getGiaNiemYet(), thongTinXe.getGiaGiam(), thongTinXe.getMoTaXe(), thongTinXe.getPhienBan()};
+			Object[] objects = { thongTinXe.getMaLoaiXe(), thongTinXe.getTenLoaiXe(), thongTinXe.getGiaNiemYet(),
+					thongTinXe.getGiaGiam(), thongTinXe.getMoTaXe(), thongTinXe.getPhienBan() };
 			model.addRow(objects);
 		}
 	}

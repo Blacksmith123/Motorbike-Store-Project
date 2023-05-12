@@ -28,7 +28,6 @@ public class ChiTietHoaDon_DAO {
 				thongTinXe = thongTinXe_DAO.getThongTinXeTheoMa(rsResultSet.getString(2));
 				dsChiTietHoaDon.add(new ChiTietHoaDon(rsResultSet.getString("maHoaDon"), thongTinXe,
 						Integer.valueOf(rsResultSet.getString(3)), Integer.valueOf(rsResultSet.getString(4))));
-
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -56,7 +55,7 @@ public class ChiTietHoaDon_DAO {
 		List<ChiTietHoaDon> dsChiTietHoaDon = new ArrayList<ChiTietHoaDon>();
 		ConnectDB.getInstance();
 		Connection connection = ConnectDB.getConnection();
-		String sqlString = "SELECT * FROM [dbo].[ChiTietHoaDon] where maHoaDon = '"+maString+"'";
+		String sqlString = "SELECT * FROM [dbo].[ChiTietHoaDon] where maHoaDon = '" + maString + "'";
 
 		Statement statement = connection.createStatement();
 		ResultSet resultSet = statement.executeQuery(sqlString);
@@ -69,12 +68,51 @@ public class ChiTietHoaDon_DAO {
 		}
 		return dsChiTietHoaDon;
 	}
+
 	// get theo mã loại xe
 	public List<ChiTietHoaDon> getChiTietHoaDonTheoMaLoaiXe(String maString) throws SQLException {
 		List<ChiTietHoaDon> dsChiTietHoaDon = new ArrayList<ChiTietHoaDon>();
 		ConnectDB.getInstance();
 		Connection connection = ConnectDB.getConnection();
-		String sqlString = "SELECT * FROM [dbo].[ChiTietHoaDon] where maLoaiXe = '"+maString+"'";
+		String sqlString = "SELECT * FROM [dbo].[ChiTietHoaDon] where maLoaiXe = '" + maString + "'";
+
+		Statement statement = connection.createStatement();
+		ResultSet resultSet = statement.executeQuery(sqlString);
+		ThongTinXe_DAO thongTinXe_DAO = new ThongTinXe_DAO();
+		ThongTinXe thongTinXe = new ThongTinXe();
+		while (resultSet.next()) {
+			thongTinXe = thongTinXe_DAO.getThongTinXeTheoMa(resultSet.getString(2));
+			dsChiTietHoaDon.add(new ChiTietHoaDon(resultSet.getString(1), thongTinXe,
+					Integer.valueOf(resultSet.getString(3)), Integer.valueOf(resultSet.getString(4))));
+		}
+		return dsChiTietHoaDon;
+	}
+
+	// get theo số lương
+	public List<ChiTietHoaDon> getChiTietHoaDonTheoSoLuong(String maString) throws SQLException {
+		List<ChiTietHoaDon> dsChiTietHoaDon = new ArrayList<ChiTietHoaDon>();
+		ConnectDB.getInstance();
+		Connection connection = ConnectDB.getConnection();
+		String sqlString = "SELECT * FROM [dbo].[ChiTietHoaDon] where soLuong = '" + maString + "'";
+
+		Statement statement = connection.createStatement();
+		ResultSet resultSet = statement.executeQuery(sqlString);
+		ThongTinXe_DAO thongTinXe_DAO = new ThongTinXe_DAO();
+		ThongTinXe thongTinXe = new ThongTinXe();
+		while (resultSet.next()) {
+			thongTinXe = thongTinXe_DAO.getThongTinXeTheoMa(resultSet.getString(2));
+			dsChiTietHoaDon.add(new ChiTietHoaDon(resultSet.getString(1), thongTinXe,
+					Integer.valueOf(resultSet.getString(3)), Integer.valueOf(resultSet.getString(4))));
+		}
+		return dsChiTietHoaDon;
+	}
+
+	// get theo don gia
+	public List<ChiTietHoaDon> getChiTietHoaDonTheoDonGia(String maString) throws SQLException {
+		List<ChiTietHoaDon> dsChiTietHoaDon = new ArrayList<ChiTietHoaDon>();
+		ConnectDB.getInstance();
+		Connection connection = ConnectDB.getConnection();
+		String sqlString = "SELECT * FROM [dbo].[ChiTietHoaDon] where donGia = '" + maString + "'";
 
 		Statement statement = connection.createStatement();
 		ResultSet resultSet = statement.executeQuery(sqlString);

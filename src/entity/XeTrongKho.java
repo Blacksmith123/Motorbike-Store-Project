@@ -3,6 +3,14 @@ package entity;
 public class XeTrongKho {
 	private String maCuaHang, maXe;
 	private int soLuong;
+	public XeTrongKho() {
+		super();
+	}
+	public XeTrongKho(String maCuaHang, String maXe) { 
+		super();
+		this.maCuaHang = maCuaHang;
+		this.maXe = maXe;
+	}
 	public XeTrongKho(String maCuaHang, String maXe, int soLuong) {
 		super();
 		this.maCuaHang = maCuaHang;
