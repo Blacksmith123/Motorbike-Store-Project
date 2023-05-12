@@ -364,9 +364,13 @@ public class NhanVienHanhChinh_GUI extends JPanel {
 		
 		//do du lieu nhan vien hanh chinh
 		nhanVienHanhChinh_DAO = new NhanVienHanhChinh_DAO();
-		for (NhanVienHanhChinh nhanVienHanhChinh: nhanVienHanhChinh_DAO.getAlListNhanVienHanhChinhChinh()) {
-			Object[] objects = {nhanVienHanhChinh.getMa(), nhanVienHanhChinh.getTen(), nhanVienHanhChinh.getDiaChi(), nhanVienHanhChinh.getSdt(), nhanVienHanhChinh.getChucVu(), nhanVienHanhChinh.getEmail(),nhanVienHanhChinh.getNamKinhNghiem(), nhanVienHanhChinh.getMaCuaHang()};
-			model.addRow(objects);
-		}
+//		for (NhanVienHanhChinh nhanVienHanhChinh: nhanVienHanhChinh_DAO.getAlListNhanVienHanhChinhChinh()) {
+//<<<<<<< HEAD
+//			Object[] objects = {nhanVienHanhChinh.getMa(), nhanVienHanhChinh.getTen(), };
+//=======
+//			Object[] objects = {nhanVienHanhChinh.getMa(), nhanVienHanhChinh.getTen(), nhanVienHanhChinh.getDiaChi(), nhanVienHanhChinh.getSdt(), nhanVienHanhChinh.getChucVu(), nhanVienHanhChinh.getEmail(),nhanVienHanhChinh.getNamKinhNghiem(), nhanVienHanhChinh.getMaCuaHang()};
+//			model.addRow(objects);
+//>>>>>>> ca95dea5fb1c2d51b8bce9d3d643e0b094e0de48
+//		}
 	}
 }
