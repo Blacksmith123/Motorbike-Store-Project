@@ -79,15 +79,12 @@ public class TaiKhoan_DAO {
 			ConnectDB.getInstance();
 			TaiKhoan tk = new TaiKhoan();
 			Connection con = ConnectDB.getConnection();
-			String sql = "select * from TaiKhoan where taiKhoan = '"+maTK+"'";
-			
 			try {
 				Statement stm = con.createStatement();
-				ResultSet rs = stm.executeQuery(sql);
+				ResultSet rs = stm.executeQuery("select * from TaiKhoan where taiKhoan = '"+ maTK +"'");
 				while(rs.next()) {
 					tk.setMaTK(rs.getString(1));
 					tk.setMatKhau(rs.getString(2));
-					
 				}
 			}
 			catch (SQLException e) {

@@ -50,11 +50,6 @@ public class TrangChu_GUI extends JFrame implements ActionListener {
 	String quanLyXe = "Quản Lý Xe";
 	String nhaPhanPhoi = "Nhà Phân Phối";
 	String khachHang = "Khách Hàng";
-	
-
-	public static void main(String[] args) {
-		new TrangChu_GUI().setVisible(true);
-	}
 
 	/**
 	 * Create the frame.
@@ -249,8 +244,8 @@ public class TrangChu_GUI extends JFrame implements ActionListener {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
-		} else if (o.equals(menuitemTrangChu)) {
-			
+		} else if (o.equals(menuitemThongTinXe)) {
+			showMenu(new ThongKe());
 		}
 
 	}

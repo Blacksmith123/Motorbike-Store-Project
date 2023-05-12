@@ -131,4 +131,28 @@ public class NhanVienHanhChinh_DAO {
 		}
 		return NhanVien;
 	}
+	
+	// get nhân viên theo tai khoan
+	public NhanVienHanhChinh getNhanVienHanhChinhTheoMaTaiKhoan(String maTaiKhoan) throws SQLException {
+		ConnectDB.getInstance();
+		NhanVienHanhChinh NhanVien = null;
+		Connection connection = ConnectDB.getConnection();
+		try {
+			Statement statement = connection.createStatement();
+			ResultSet resultSet = statement.executeQuery("SELECT * FROM [dbo].[NhanVienHanhChanh] where maNhanVien ='" + maTaiKhoan + "'");
+			TaiKhoan_DAO tKhoan_DAO = new TaiKhoan_DAO();
+			TaiKhoan tKhoan;
+			while (resultSet.next()) {
+				tKhoan = tKhoan_DAO.getTaiKhoanTheoMa(resultSet.getString(10));
+				NhanVien = new NhanVienHanhChinh(resultSet.getString(1), resultSet.getString(2), resultSet.getString(3),
+						resultSet.getString(5), resultSet.getString(6), Integer.valueOf(resultSet.getString(4)),
+						resultSet.getString(8), Integer.valueOf(resultSet.getString(7)), tKhoan);
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		
+		return NhanVien;
+	}
 }
