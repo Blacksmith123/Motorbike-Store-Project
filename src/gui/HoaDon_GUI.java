@@ -352,8 +352,9 @@ public class HoaDon_GUI extends JPanel {
 						}
 						textTongTien.setText(sum + "");
 					}
-					if (textNgaylap.getText().isEmpty()||textThoigianbaohanh.getText().isEmpty()||cbMacuahang.getSelectedItem().equals("")||
-							cbManhanvien.getSelectedItem().equals("")||cbManhanvien.getSelectedItem().equals("")) {
+					if (textNgaylap.getText().isEmpty() || textThoigianbaohanh.getText().isEmpty()
+							|| cbMacuahang.getSelectedItem().equals("") || cbManhanvien.getSelectedItem().equals("")
+							|| cbManhanvien.getSelectedItem().equals("")) {
 						JOptionPane.showMessageDialog(null, "Thêm Thất bại");
 					} else {
 						modelHd.addRow(layDuLieu());
@@ -448,7 +449,7 @@ public class HoaDon_GUI extends JPanel {
 								tableHddetail.getValueAt(k, 1).toString(), tableHddetail.getValueAt(k, 2).toString());
 						JOptionPane.showMessageDialog(null, "Xóa thành công");
 					}
-				} else if (i >= 0 && i < tableHddetail.getRowCount() && k == -1) {
+				} else if (i >= 0 && i < tableHd.getRowCount() && k == -1) {
 					j = JOptionPane.showConfirmDialog(null, "Bạn có chắc chắn muốn xóa?", "Xác nhận",
 							JOptionPane.YES_NO_OPTION);
 					if (j == JOptionPane.YES_OPTION) {
@@ -567,12 +568,12 @@ public class HoaDon_GUI extends JPanel {
 				} else {
 					boolean check = false;
 					if (cbTimTheo.getSelectedItem().equals("Hóa Đơn")) {
+						modelHd.setRowCount(0);
 						if (cbTim.getSelectedItem().equals("Mã hóa đơn")) {
 							HoaDon hd;
 							try {
 								// lấy du liệu từ sql
 								hd = hoaDon_DAO.getHDTheoMa(textTim.getText());
-								modelHd.setRowCount(0);
 								Object[] objects = { hd.getMa(), dateFormat.format(hd.getNgayLap()), hd.getThoiGianBH(),
 										hd.getMaKH(), hd.getMaCH(), hd.getMaNV() };
 								modelHd.addRow(objects);
@@ -581,7 +582,6 @@ public class HoaDon_GUI extends JPanel {
 							}
 						} else if (cbTim.getSelectedItem().equals("Ngày lập")) {
 							try {
-								modelHd.setRowCount(0);
 								Date date = dateFormat.parse(textTim.getText());
 								for (HoaDon hd : hoaDon_DAO.getHDtheoNgay(date)) {
 									Object[] objects = { hd.getMa(), dateFormat.format(hd.getNgayLap()),
@@ -599,7 +599,6 @@ public class HoaDon_GUI extends JPanel {
 							}
 						} else if (cbTim.getSelectedItem().equals("Tên khách hàng")) {
 							try {
-								modelHd.setRowCount(0);
 								for (HoaDon hd : hoaDon_DAO.getHDTheoTenKH(textTim.getText())) {
 									Object[] objects = { hd.getMa(), dateFormat.format(hd.getNgayLap()),
 											hd.getThoiGianBH(), hd.getMaKH(), hd.getMaCH(), hd.getMaNV() };
@@ -614,7 +613,6 @@ public class HoaDon_GUI extends JPanel {
 							}
 						} else if (cbTim.getSelectedItem().equals("Mã cửa hàng")) {
 							try {
-								modelHd.setRowCount(0);
 								for (HoaDon hd : hoaDon_DAO.getHDTheoMaCH(textTim.getText())) {
 									Object[] objects = { hd.getMa(), dateFormat.format(hd.getNgayLap()),
 											hd.getThoiGianBH(), hd.getMaKH(), hd.getMaCH(), hd.getMaNV() };
@@ -629,7 +627,6 @@ public class HoaDon_GUI extends JPanel {
 							}
 						} else if (cbTim.getSelectedItem().equals("Mã nhân viên")) {
 							try {
-								modelHd.setRowCount(0);
 								for (HoaDon hd : hoaDon_DAO.getHDTheoMaNV(textTim.getText())) {
 									Object[] objects = { hd.getMa(), dateFormat.format(hd.getNgayLap()),
 											hd.getThoiGianBH(), hd.getMaKH(), hd.getMaCH(), hd.getMaNV() };
@@ -644,8 +641,8 @@ public class HoaDon_GUI extends JPanel {
 							}
 						}
 					} else {
+						modelHdDetail.setRowCount(0);
 						if (cbTim.getSelectedItem().equals("Mã hóa đơn")) {
-							modelHdDetail.setRowCount(0);
 							try {
 								for (ChiTietHoaDon chiTietHoaDon : chiTietHoaDon_DAO
 										.getChiTietHoaDonTheoMa(textTim.getText())) {
@@ -663,7 +660,6 @@ public class HoaDon_GUI extends JPanel {
 							}
 						} else if (cbTim.getSelectedItem().equals("Mã loại xe")) {
 							try {
-								modelHdDetail.setRowCount(0);
 								for (ChiTietHoaDon chiTietHoaDon : chiTietHoaDon_DAO
 										.getChiTietHoaDonTheoMaLoaiXe(textTim.getText())) {
 									Object[] objects = { chiTietHoaDon.getMa(), chiTietHoaDon.getMaLoaiXe(),
@@ -681,7 +677,6 @@ public class HoaDon_GUI extends JPanel {
 							}
 						} else if (cbTim.getSelectedItem().equals("Số lượng")) {
 							try {
-								modelHdDetail.setRowCount(0);
 								for (ChiTietHoaDon chiTietHoaDon : chiTietHoaDon_DAO
 										.getChiTietHoaDonTheoSoLuong(textTim.getText())) {
 									Object[] objects = { chiTietHoaDon.getMa(), chiTietHoaDon.getMaLoaiXe(),
@@ -699,7 +694,6 @@ public class HoaDon_GUI extends JPanel {
 							}
 						} else if (cbTim.getSelectedItem().equals("Đơn giá")) {
 							try {
-								modelHdDetail.setRowCount(0);
 								for (ChiTietHoaDon chiTietHoaDon : chiTietHoaDon_DAO
 										.getChiTietHoaDonTheoDonGia(textTim.getText())) {
 									Object[] objects = { chiTietHoaDon.getMa(), chiTietHoaDon.getMaLoaiXe(),
@@ -737,6 +731,7 @@ public class HoaDon_GUI extends JPanel {
 		btnTim.setHorizontalAlignment(SwingConstants.LEFT);
 
 		cbTimTheo = new JComboBox<Object>();
+		cbTimTheo.setForeground(Color.RED);
 		cbTimTheo.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
@@ -757,7 +752,7 @@ public class HoaDon_GUI extends JPanel {
 		});
 		cbTimTheo.setFont(new Font("Arial", Font.PLAIN, 16));
 		cbTimTheo.setModel(new DefaultComboBoxModel(new String[] { "Hóa Đơn", "Chi Tiết Hóa Đơn" }));
-		cbTimTheo.setBounds(90, 29, 133, 21);
+		cbTimTheo.setBounds(90, 23, 133, 27);
 		panel_3.add(cbTimTheo);
 
 		// thêm dòng khi để thêm hóa đơn
