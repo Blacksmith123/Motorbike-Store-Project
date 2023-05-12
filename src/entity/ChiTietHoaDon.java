@@ -12,6 +12,7 @@ public class ChiTietHoaDon {
 	public ChiTietHoaDon(String ma) {
 		super();
 		this.ma = ma;
+		this.maLoaiXe = ttXE.getMaLoaiXe();
 	}
 	
 	public ChiTietHoaDon(String ma, ThongTinXe ttXE, int soLuong, int donGia) {
@@ -22,7 +23,6 @@ public class ChiTietHoaDon {
 		this.soLuong = soLuong;
 		this.thanhTien = soLuong * donGia;
 	}
-
 	public String getMa() {
 		return ma;
 	}

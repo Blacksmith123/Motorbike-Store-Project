@@ -13,6 +13,7 @@ import javax.swing.SwingConstants;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
 
 import connect.ConnectDB;
 import dao.CuaHang_DAO;
@@ -70,7 +71,7 @@ public class CuaHang_GUI extends JPanel {
 		add(panel);
 		panel.setLayout(null);
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 10, 728, 381);
+		scrollPane.setBounds(10, 10, 728, 342);
 		panel.add(scrollPane);
 
 		String[] columnsCuaHang = { "M\u00E3 c\u1EEDa h\u00E0ng", "T\u00EAn c\u1EEDa h\u00E0ng",
@@ -80,37 +81,39 @@ public class CuaHang_GUI extends JPanel {
 		tableCuahang = new JTable(modelCuaHang);
 		tableCuahang.setRowHeight(25);
 		tableCuahang.setFont(new Font("Arial", Font.PLAIN, 16));
+		tableCuahang.setDefaultEditor(Object.class, null);
+		tableCuahang.setToolTipText("Chọn cửa hàng để thực hiện chức năng");
 		tableCuahang.addMouseListener(new MouseListener() {
-			
+
 			@Override
 			public void mouseReleased(MouseEvent e) {
 				// TODO Auto-generated method stub
-				
+
 			}
-			
+
 			@Override
 			public void mousePressed(MouseEvent e) {
 				// TODO Auto-generated method stub
-				
+
 			}
-			
+
 			@Override
 			public void mouseExited(MouseEvent e) {
 				// TODO Auto-generated method stub
-				
+
 			}
-			
+
 			@Override
 			public void mouseEntered(MouseEvent e) {
 				// TODO Auto-generated method stub
-				
+
 			}
-			
+
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				// TODO Auto-generated method stub
 				int row = tableCuahang.getSelectedRow();
-				
+
 				textMaCH.setText((String) modelCuaHang.getValueAt(row, 0));
 				textTenCH.setText((String) modelCuaHang.getValueAt(row, 1));
 				textSdt.setText(modelCuaHang.getValueAt(row, 2) + "");
@@ -119,11 +122,12 @@ public class CuaHang_GUI extends JPanel {
 				textThanhPho.setText((String) modelCuaHang.getValueAt(row, 5));
 				textTinhTrang.setText((String) modelCuaHang.getValueAt(row, 6));
 				textMaBuuDien.setText(modelCuaHang.getValueAt(row, 7) + "");
-				
+
 				try {
 					modelXeTrongKho.setRowCount(0);
-					for (XeTrongKho xeTrongKho : xeTrongKho_DAO.getXeTrongKhoTheoMaCuaHang((String) modelCuaHang.getValueAt(row, 0))) {
-						Object[] objects = {xeTrongKho.getMaCuaHang(), xeTrongKho.getMaXe(), xeTrongKho.getSoLuong()};
+					for (XeTrongKho xeTrongKho : xeTrongKho_DAO
+							.getXeTrongKhoTheoMaCuaHang((String) modelCuaHang.getValueAt(row, 0))) {
+						Object[] objects = { xeTrongKho.getMaCuaHang(), xeTrongKho.getMaXe(), xeTrongKho.getSoLuong() };
 						modelXeTrongKho.addRow(objects);
 					}
 				} catch (SQLException e1) {
@@ -133,6 +137,13 @@ public class CuaHang_GUI extends JPanel {
 			}
 		});
 		scrollPane.setViewportView(tableCuahang);
+		
+		// set color for header table
+		JTableHeader tableCuaHangHeader = tableCuahang.getTableHeader();
+		tableCuaHangHeader.setBackground(new Color(0, 163, 163));
+		tableCuaHangHeader.setForeground(Color.white);
+		tableCuaHangHeader.setFont(new Font("Arial", Font.BOLD, 14));
+		tableCuaHangHeader.setToolTipText("Danh sách thông tin cửa hàng");
 		
 		//set color for table
 		ListSelectionModel listSelectionModel = tableCuahang.getSelectionModel();
@@ -144,7 +155,7 @@ public class CuaHang_GUI extends JPanel {
 				if (!e.getValueIsAdjusting()) {
 					int rowIndex = tableCuahang.getSelectedRow();
 					if (rowIndex >= 0 && rowIndex < tableCuahang.getRowCount()) {
-						tableCuahang.setSelectionBackground(Color.cyan);
+						tableCuahang.setSelectionBackground(new Color(138, 255, 255));
 						tableCuahang.setRowSelectionInterval(rowIndex, rowIndex);
 					}
 				}
@@ -177,41 +188,6 @@ public class CuaHang_GUI extends JPanel {
 		panel_2.setBounds(10, 378, 356, 147);
 		jpanel.add(panel_2);
 		panel_2.setLayout(null);
-
-		JButton btnThem = new JButton("Thêm");
-		btnThem.setBackground(Color.LIGHT_GRAY);
-		btnThem.setForeground(new Color(165, 42, 42));
-		btnThem.setFont(new Font("Arial", Font.PLAIN, 16));
-		btnThem.setBounds(56, 32, 112, 27);
-		panel_2.add(btnThem);
-
-		JButton btnXoatrang = new JButton("Xóa Trắng");
-		btnXoatrang.setForeground(new Color(165, 42, 42));
-		btnXoatrang.setFont(new Font("Arial", Font.PLAIN, 16));
-		btnXoatrang.setBackground(Color.LIGHT_GRAY);
-		btnXoatrang.setBounds(212, 32, 112, 27);
-		panel_2.add(btnXoatrang);
-
-		JButton btnCapnhat = new JButton("Cập Nhật");
-		btnCapnhat.setForeground(new Color(165, 42, 42));
-		btnCapnhat.setFont(new Font("Arial", Font.PLAIN, 16));
-		btnCapnhat.setBackground(Color.LIGHT_GRAY);
-		btnCapnhat.setBounds(56, 69, 112, 27);
-		panel_2.add(btnCapnhat);
-
-		JButton btnXoa = new JButton("Xóa");
-		btnXoa.setForeground(new Color(165, 42, 42));
-		btnXoa.setFont(new Font("Arial", Font.PLAIN, 16));
-		btnXoa.setBackground(Color.LIGHT_GRAY);
-		btnXoa.setBounds(212, 69, 112, 27);
-		panel_2.add(btnXoa);
-
-		JButton btnLuu = new JButton("Lưu");
-		btnLuu.setForeground(new Color(165, 42, 42));
-		btnLuu.setFont(new Font("Arial", Font.PLAIN, 16));
-		btnLuu.setBackground(Color.LIGHT_GRAY);
-		btnLuu.setBounds(136, 106, 112, 27);
-		panel_2.add(btnLuu);
 
 		JLabel lblNewLabel_1_1 = new JLabel("Chức năng:");
 		lblNewLabel_1_1.setForeground(Color.BLUE);
@@ -277,47 +253,51 @@ public class CuaHang_GUI extends JPanel {
 		panel_2_1.setLayout(null);
 		panel_2_1.setBorder(new LineBorder(new Color(165, 42, 42)));
 		panel_2_1.setBackground(Color.WHITE);
-		panel_2_1.setBounds(393, 89, 338, 137);
+		panel_2_1.setBounds(393, 112, 338, 126);
 		jpanel.add(panel_2_1);
 
-		JButton btnThem_1 = new JButton("Thêm");
-		btnThem_1.addActionListener(new ActionListener() {
+		JButton btnThem = new JButton("Thêm");
+		btnThem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			}
 		});
-		btnThem_1.setForeground(new Color(165, 42, 42));
-		btnThem_1.setFont(new Font("Arial", Font.PLAIN, 16));
-		btnThem_1.setBackground(Color.LIGHT_GRAY);
-		btnThem_1.setBounds(56, 32, 112, 27);
-		panel_2_1.add(btnThem_1);
+		btnThem.setForeground(new Color(165, 42, 42));
+		btnThem.setFont(new Font("Arial", Font.PLAIN, 16));
+		btnThem.setBackground(Color.LIGHT_GRAY);
+		btnThem.setBounds(36, 10, 112, 27);
+		panel_2_1.add(btnThem);
 
 		JButton btnXoatrang_1 = new JButton("Xóa Trắng");
 		btnXoatrang_1.setForeground(new Color(165, 42, 42));
 		btnXoatrang_1.setFont(new Font("Arial", Font.PLAIN, 16));
 		btnXoatrang_1.setBackground(Color.LIGHT_GRAY);
-		btnXoatrang_1.setBounds(212, 32, 112, 27);
+		btnXoatrang_1.setBounds(192, 10, 112, 27);
 		panel_2_1.add(btnXoatrang_1);
 
-		JButton btnCapnhat_1 = new JButton("Cập Nhật");
-		btnCapnhat_1.setForeground(new Color(165, 42, 42));
-		btnCapnhat_1.setFont(new Font("Arial", Font.PLAIN, 16));
-		btnCapnhat_1.setBackground(Color.LIGHT_GRAY);
-		btnCapnhat_1.setBounds(56, 69, 112, 27);
-		panel_2_1.add(btnCapnhat_1);
+		JButton btnCapnhat = new JButton("Cập Nhật");
+		btnCapnhat.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		btnCapnhat.setForeground(new Color(165, 42, 42));
+		btnCapnhat.setFont(new Font("Arial", Font.PLAIN, 16));
+		btnCapnhat.setBackground(Color.LIGHT_GRAY);
+		btnCapnhat.setBounds(36, 47, 112, 27);
+		panel_2_1.add(btnCapnhat);
 
-		JButton btnXoa_1 = new JButton("Xóa");
-		btnXoa_1.setForeground(new Color(165, 42, 42));
-		btnXoa_1.setFont(new Font("Arial", Font.PLAIN, 16));
-		btnXoa_1.setBackground(Color.LIGHT_GRAY);
-		btnXoa_1.setBounds(212, 69, 112, 27);
-		panel_2_1.add(btnXoa_1);
+		JButton btnXoa = new JButton("Xóa");
+		btnXoa.setForeground(new Color(165, 42, 42));
+		btnXoa.setFont(new Font("Arial", Font.PLAIN, 16));
+		btnXoa.setBackground(Color.LIGHT_GRAY);
+		btnXoa.setBounds(192, 47, 112, 27);
+		panel_2_1.add(btnXoa);
 
-		JButton btnLuu_1 = new JButton("Lưu");
-		btnLuu_1.setForeground(new Color(165, 42, 42));
-		btnLuu_1.setFont(new Font("Arial", Font.PLAIN, 16));
-		btnLuu_1.setBackground(Color.LIGHT_GRAY);
-		btnLuu_1.setBounds(136, 106, 112, 27);
-		panel_2_1.add(btnLuu_1);
+		JButton btnLamMoi = new JButton("Làm Mới");
+		btnLamMoi.setForeground(new Color(165, 42, 42));
+		btnLamMoi.setFont(new Font("Arial", Font.PLAIN, 16));
+		btnLamMoi.setBackground(Color.LIGHT_GRAY);
+		btnLamMoi.setBounds(117, 89, 112, 27);
+		panel_2_1.add(btnLamMoi);
 
 		textEmail = new JTextField();
 		textEmail.setFont(new Font("Arial", Font.PLAIN, 16));
@@ -388,13 +368,21 @@ public class CuaHang_GUI extends JPanel {
 		scrollPane_1.setBounds(10, 125, 402, 466);
 		panel_3.add(scrollPane_1);
 
-		String[] columnsXeTrongKho = { "M\u00E3 c\u1EEDa h\u00E0ng", "M\u00E3 xe",
-				"S\u1ED1 l\u01B0\u1EE3ng" };
+		String[] columnsXeTrongKho = { "M\u00E3 c\u1EEDa h\u00E0ng", "M\u00E3 loại xe", "S\u1ED1 l\u01B0\u1EE3ng" };
 		modelXeTrongKho = new DefaultTableModel(columnsXeTrongKho, 0);
 		tableXeTrongKho = new JTable(modelXeTrongKho);
 		tableXeTrongKho.setRowHeight(25);
 		tableXeTrongKho.setFont(new Font("Arial", Font.PLAIN, 16));
+		tableXeTrongKho.setDefaultEditor(Object.class, null);
+		tableXeTrongKho.setToolTipText("Chọn xe tồn kho để thực hiện chức năng");
 		scrollPane_1.setViewportView(tableXeTrongKho);
+		
+		// set color for header table
+		JTableHeader tableXeTrongKhoHeader = tableXeTrongKho.getTableHeader();
+		tableXeTrongKhoHeader.setBackground(new Color(0, 163, 163));
+		tableXeTrongKhoHeader.setForeground(Color.white);
+		tableXeTrongKhoHeader.setFont(new Font("Arial", Font.BOLD, 14));
+		tableXeTrongKhoHeader.setToolTipText("Danh sách thông tin xe");
 		
 		// set color for table
 		ListSelectionModel listSelectionModel1 = tableXeTrongKho.getSelectionModel();
@@ -406,7 +394,7 @@ public class CuaHang_GUI extends JPanel {
 				if (!e.getValueIsAdjusting()) {
 					int rowIndex = tableXeTrongKho.getSelectedRow();
 					if (rowIndex >= 0 && rowIndex < tableXeTrongKho.getRowCount()) {
-						tableXeTrongKho.setSelectionBackground(Color.cyan);
+						tableXeTrongKho.setSelectionBackground(new Color(138, 255, 255));
 						tableXeTrongKho.setRowSelectionInterval(rowIndex, rowIndex);
 					}
 				}
@@ -432,13 +420,14 @@ public class CuaHang_GUI extends JPanel {
 		cbTim.setFont(new Font("Arial", Font.PLAIN, 16));
 
 		JButton btnTim = new JButton("Tìm Kiếm");
+		btnTim.setHorizontalTextPosition(SwingConstants.LEADING);
+		btnTim.setIcon(new ImageIcon(CuaHang_GUI.class.getResource("/image/magnifier.png")));
 		btnTim.setBounds(218, 90, 133, 27);
 		panel_3.add(btnTim);
 		btnTim.setHorizontalAlignment(SwingConstants.LEFT);
 		btnTim.setForeground(new Color(165, 42, 42));
 		btnTim.setFont(new Font("Arial", Font.PLAIN, 16));
 		btnTim.setBackground(Color.LIGHT_GRAY);
-		btnTim.setHorizontalTextPosition(SwingConstants.RIGHT);
 		btnTim.setVerticalTextPosition(SwingConstants.CENTER);
 		btnTim.setHorizontalAlignment(SwingConstants.LEFT);
 
@@ -460,7 +449,7 @@ public class CuaHang_GUI extends JPanel {
 		}
 		xeTrongKho_DAO = new XeTrongKho_DAO();
 		for (XeTrongKho xeTrongKho : xeTrongKho_DAO.getAllXeTrongKho()) {
-			Object[] objects = {xeTrongKho.getMaCuaHang(), xeTrongKho.getMaXe(), xeTrongKho.getSoLuong()};
+			Object[] objects = { xeTrongKho.getMaCuaHang(), xeTrongKho.getMaXe(), xeTrongKho.getSoLuong() };
 			modelXeTrongKho.addRow(objects);
 		}
 	}

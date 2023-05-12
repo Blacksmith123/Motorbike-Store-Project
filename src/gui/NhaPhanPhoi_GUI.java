@@ -1,26 +1,37 @@
 package gui;
 
-import java.awt.Font;
-import java.awt.Image;
-
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
+
+import connect.ConnectDB;
+
+import javax.swing.border.LineBorder;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.SwingConstants;
+
+import dao.NhaPhanPhoi_DAO;
+import entity.NhaPhanPhoi;
+
+import java.awt.Font;
 import java.awt.Color;
 import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import javax.swing.border.LineBorder;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.SystemColor;
-import javax.swing.SwingConstants;
-import javax.swing.border.EmptyBorder;
-import javax.swing.UIManager;
-import javax.swing.ScrollPaneConstants;
+import java.awt.event.ActionEvent;
+import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class NhaPhanPhoi_GUI extends JPanel {
 	/**
@@ -34,11 +45,20 @@ public class NhaPhanPhoi_GUI extends JPanel {
 	private JTextField textDiaChi;
 	private JTextField textSdt;
 	private JTextField textEmail;
-
+	private DefaultTableModel model;
+	private ArrayList<NhaPhanPhoi> listNhaPhanPhoi = new ArrayList<NhaPhanPhoi>();
+	private NhaPhanPhoi_DAO nhaPhanPhoi_DAO;
 	/**
 	 * Create the panel.
 	 */
-	public NhaPhanPhoi_GUI() {
+	public NhaPhanPhoi_GUI() throws SQLException {
+		
+		// connectDB
+		connect();
+		
+		// khai bao dao
+		nhaPhanPhoi_DAO = new NhaPhanPhoi_DAO();
+		
 		setBorder(new LineBorder(new Color(0, 0, 0)));
 		setBackground(Color.LIGHT_GRAY);
 		setLayout(null);
@@ -52,20 +72,49 @@ public class NhaPhanPhoi_GUI extends JPanel {
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(10, 10, 782, 525);
 		panel.add(scrollPane);
-		
-		table = new JTable();
+
+		String[] columns = { "M\u00E3 nhà phân phối", "T\u00EAn nhà phân phối","\u0110\u1ECBa ch\u1EC9", "SDT", "Email" };
+		model = new DefaultTableModel(columns, 0);
+		loadNhaPhanPhoi();
+		table = new JTable(model);
 		table.setFont(new Font("Arial", Font.PLAIN, 16));
-		table.setModel(new DefaultTableModel(
-			new Object[][] {
-				{null, null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null, null},
-			},
-			new String[] {
-				"M\u00E3 c\u1EEDa h\u00E0ng", "T\u00EAn c\u1EEDa h\u00E0ng", "SDT", "Email", "\u0110\u01B0\u1EDDng", "Th\u00E0nh ph\u1ED1", "T\u00ECnh tr\u1EA1ng", "M\u00E3 b\u01B0u \u0111i\u1EC7n"
-			}
-		));
+		table.setRowHeight(25);
+		table.setDefaultEditor(Object.class, null);
+		table.setToolTipText("Chọn nhà phân phối để thực hiện chức năng");
 		scrollPane.setViewportView(table);
-		
+		table.addMouseListener(new MouseListener() {
+
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				int row = table.getSelectedRow();
+				textMaNhaPp.setText(table.getValueAt(row, 0).toString());
+				textTenNhaPp.setText(table.getValueAt(row, 1).toString());
+				textDiaChi.setText(table.getValueAt(row, 2).toString());
+				textSdt.setText(table.getValueAt(row, 3).toString());
+				textEmail.setText(table.getValueAt(row, 4).toString());
+			}
+
+			@Override
+			public void mousePressed(MouseEvent e) {
+				// TODO Auto-generated method stub
+			}
+
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				// TODO Auto-generated method stub
+			}
+
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// TODO Auto-generated method stub
+			}
+
+			@Override
+			public void mouseExited(MouseEvent e) {
+				// TODO Auto-generated method stub
+			}
+		});
+
 		JPanel panel_1 = new JPanel();
 		panel_1.setBackground(SystemColor.text);
 		panel_1.setBorder(new LineBorder(Color.CYAN));
@@ -147,27 +196,96 @@ public class NhaPhanPhoi_GUI extends JPanel {
 		btnThem.setFont(new Font("Arial", Font.PLAIN, 16));
 		btnThem.setBounds(56, 32, 112, 27);
 		panel_2.add(btnThem);
-		
+		btnThem.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e){
+				String maNhaPP = textMaNhaPp.getText();
+				String tenNhaPP = textTenNhaPp.getText();
+				String diaChi = textDiaChi.getText();
+				String sdt = textSdt.getText();
+				String email = textEmail.getText();
+				if(listNhaPhanPhoi.contains(new NhaPhanPhoi(maNhaPP))){
+					JOptionPane.showMessageDialog(null, "Mã nhà phân phối đã tồn tại");
+				}
+				else{
+					NhaPhanPhoi nhaPhanPhoi = new NhaPhanPhoi(maNhaPP, tenNhaPP, diaChi, Integer.parseInt(sdt), email);
+					listNhaPhanPhoi.add(nhaPhanPhoi);
+					String[] row = {maNhaPP, tenNhaPP, diaChi, sdt, email};
+					model.addRow(row);
+					JOptionPane.showMessageDialog(null, "Thêm thành công");
+				}
+			}
+		});
+
 		JButton btnXoatrang = new JButton("Xóa Trắng");
 		btnXoatrang.setForeground(new Color(165, 42, 42));
 		btnXoatrang.setFont(new Font("Arial", Font.PLAIN, 16));
 		btnXoatrang.setBackground(Color.LIGHT_GRAY);
 		btnXoatrang.setBounds(212, 32, 112, 27);
 		panel_2.add(btnXoatrang);
-		
+		btnXoatrang.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e){
+				textMaNhaPp.setText("");
+				textTenNhaPp.setText("");
+				textDiaChi.setText("");
+				textSdt.setText("");
+				textEmail.setText("");
+			}
+		});
+
 		JButton btnCapnhat = new JButton("Cập Nhật");
 		btnCapnhat.setForeground(new Color(165, 42, 42));
 		btnCapnhat.setFont(new Font("Arial", Font.PLAIN, 16));
 		btnCapnhat.setBackground(Color.LIGHT_GRAY);
 		btnCapnhat.setBounds(56, 69, 112, 27);
 		panel_2.add(btnCapnhat);
-		
+		btnCapnhat.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e){
+				int i = table.getSelectedRow();
+				String maMoi = textMaNhaPp.getText();
+				String ma = model.getValueAt(i, 0).toString();
+				if(ma.equals(maMoi)){
+					String tenNhaPP = textTenNhaPp.getText();
+					String diaChi = textDiaChi.getText();
+					String sdt = textSdt.getText();
+					String email = textEmail.getText();
+					NhaPhanPhoi nhaPhanPhoi = new NhaPhanPhoi(maMoi, tenNhaPP, diaChi, Integer.parseInt(sdt), email);
+					listNhaPhanPhoi.set(i, nhaPhanPhoi);
+					model.setValueAt(maMoi, i, 0);
+					model.setValueAt(tenNhaPP, i, 1);
+					model.setValueAt(diaChi, i, 2);
+					model.setValueAt(sdt, i, 3);
+					model.setValueAt(email, i, 4);
+					JOptionPane.showMessageDialog(null, "Cập nhật thành công");
+				}
+				else{
+					JOptionPane.showMessageDialog(null, "Không được thay đổi mã");
+				}
+			}
+		});
+
 		JButton btnXoa = new JButton("Xóa");
 		btnXoa.setForeground(new Color(165, 42, 42));
 		btnXoa.setFont(new Font("Arial", Font.PLAIN, 16));
 		btnXoa.setBackground(Color.LIGHT_GRAY);
 		btnXoa.setBounds(212, 69, 112, 27);
 		panel_2.add(btnXoa);
+		btnXoa.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e){
+				int i = table.getSelectedRow();
+				if(i >= 0){
+					model.removeRow(i);
+					listNhaPhanPhoi.remove(i);
+					JOptionPane.showMessageDialog(null, "Xóa thành công");
+				}
+				else{
+					JOptionPane.showMessageDialog(null, "Bạn chưa chọn dòng để xóa");
+				}
+			}
+		});
 		
 		JButton btnLuu = new JButton("Lưu");
 		btnLuu.setForeground(new Color(165, 42, 42));
@@ -199,11 +317,13 @@ public class NhaPhanPhoi_GUI extends JPanel {
 		lblNewLabel_2.setBounds(10, 6, 91, 54);
 		add(lblNewLabel_2);
 		
-		JComboBox cbTim = new JComboBox();
+		JComboBox<String> cbTim = new JComboBox<String>();
 		cbTim.setForeground(Color.RED);
 		cbTim.setFont(new Font("Arial", Font.PLAIN, 16));
 		cbTim.setBounds(88, 25, 125, 21);
 		add(cbTim);
+		cbTim.addItem("Tìm theo mã");
+		cbTim.addItem("Tìm theo tên");
 		
 		textField = new JTextField();
 		textField.setFont(new Font("Arial", Font.PLAIN, 16));
@@ -220,16 +340,47 @@ public class NhaPhanPhoi_GUI extends JPanel {
 		add(lblNewLabel_3);
 		
 		JButton btnTim = new JButton("Tìm Kiếm");
-		btnTim.setHorizontalAlignment(SwingConstants.LEFT);
-		btnTim.setIcon(new ImageIcon("D:\\Study\\OOPJava\\21091031_TrinhMinhKhaa\\Motorbike-Store-Project\\data\\image\\icons8-search-30.png"));
+		btnTim.setIcon(new ImageIcon(NhaPhanPhoi_GUI.class.getResource("/image/magnifier.png")));
 		btnTim.setForeground(new Color(165, 42, 42));
 		btnTim.setFont(new Font("Arial", Font.PLAIN, 16));
 		btnTim.setBackground(Color.LIGHT_GRAY);
 		btnTim.setBounds(522, 20, 133, 27);
-		btnTim.setHorizontalTextPosition(SwingConstants.RIGHT);
+		btnTim.setHorizontalTextPosition(SwingConstants.LEADING);
 		btnTim.setVerticalTextPosition(SwingConstants.CENTER);
-		btnTim.setHorizontalAlignment(SwingConstants.LEFT);
 		add(btnTim);
+		// set color for header table
+		JTableHeader tbHeader = table.getTableHeader();
+		tbHeader.setBackground(new Color(0, 163, 163));
+		tbHeader.setForeground(Color.white);
+		tbHeader.setFont(new Font("Arial", Font.BOLD, 14));
+		tbHeader.setToolTipText("Danh sách thông tin nhà phân phối");
+		// set color for table
+		ListSelectionModel model2 = table.getSelectionModel();
+		model2.addListSelectionListener(new ListSelectionListener() {
+			@Override
+			public void valueChanged(ListSelectionEvent e) {
+				// Check if the current cell selection is not empty
+				if (!e.getValueIsAdjusting()) {
+					// Get the row index of the selected cell
+					int rowIndex = table.getSelectedRow();
 
+					// Set the background color of the selected row
+					table.setSelectionBackground(new Color(138, 255, 255));
+					table.setRowSelectionInterval(rowIndex, rowIndex);
+				}
+			}
+		});
+	}
+	
+	public void connect() throws SQLException {
+		ConnectDB.getInstance();
+		ConnectDB.connect();
+	}
+	
+	public void loadNhaPhanPhoi() throws SQLException{
+		for(NhaPhanPhoi nhaPhanPhoi : nhaPhanPhoi_DAO.getAllNhaPhanPhoi()){
+			Object[] objects = {nhaPhanPhoi.getMa(), nhaPhanPhoi.getTenNhaPhanPhoi(), nhaPhanPhoi.getDiaChi(), nhaPhanPhoi.getSdt(), nhaPhanPhoi.getEmail()};
+			model.addRow(objects);
+		}
 	}
 }

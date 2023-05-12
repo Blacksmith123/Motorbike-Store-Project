@@ -1,11 +1,12 @@
 package entity;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ThongTinXe {
 	private String maLoaiXe, tenLoaiXe, moTaXe, phienBan;
 	private int giaNiemYet, giaGiam;
-	public ArrayList<Xe> dsXe;
+	public List<Xe> dsXe;
 	
 	public ThongTinXe() {
 		super();
@@ -75,7 +76,7 @@ public class ThongTinXe {
 		this.giaGiam = giaGiam;
 	}
 
-	public ArrayList<Xe> getDsXe() {
+	public List<Xe> getDsXe() {
 		return dsXe;
 	}
 

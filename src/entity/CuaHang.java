@@ -1,14 +1,16 @@
 package entity;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 public class CuaHang {
 	private String ma, ten, email, duong, thanhPho, tinhTrang;
 	private int sdt, maBuuDien;
-	public ArrayList<NhanVienHanhChinh> dsNhanVienHc;
-	public ArrayList<NhanVienKyThuat> dsNhanVienKt;
-	public ArrayList<HoaDon> dsHoaDon;
-	public ArrayList<XeTrongKho> dsXe;
+	public List<NhanVienHanhChinh> dsNhanVienHc;
+	public List<NhanVienKyThuat> dsNhanVienKt;
+	public List<HoaDon> dsHoaDon;
+	public List<XeTrongKho> dsXe;
 	public CuaHang() {
 		super();
 	}
@@ -77,25 +79,25 @@ public class CuaHang {
 	public void setMaBuuDien(int maBuuDien) {
 		this.maBuuDien = maBuuDien;
 	}
-	public ArrayList<NhanVienHanhChinh> getDsNhanVienHc() {
+	public List<NhanVienHanhChinh> getDsNhanVienHc() {
 		return dsNhanVienHc;
 	}
 	public void setDsNhanVienHc(ArrayList<NhanVienHanhChinh> dsNhanVienHc) {
 		this.dsNhanVienHc = dsNhanVienHc;
 	}
-	public ArrayList<NhanVienKyThuat> getDsNhanVienKt() {
+	public List<NhanVienKyThuat> getDsNhanVienKt() {
 		return dsNhanVienKt;
 	}
 	public void setDsNhanVienKt(ArrayList<NhanVienKyThuat> dsNhanVienKt) {
 		this.dsNhanVienKt = dsNhanVienKt;
 	}
-	public ArrayList<XeTrongKho> getDsXe() {
+	public List<XeTrongKho> getDsXe() {
 		return dsXe;
 	}
 	public void setDsXe(ArrayList<XeTrongKho> dsXe) {
 		this.dsXe = dsXe;
 	}
-	public ArrayList<HoaDon> getDsHoaDon() {
+	public List<HoaDon> getDsHoaDon() {
 		return dsHoaDon;
 	}
 	public void setDsHoaDon(ArrayList<HoaDon> dsHoaDon) {
@@ -103,6 +105,21 @@ public class CuaHang {
 	}
 	public String getMa() {
 		return ma;
+	}
+	@Override
+	public int hashCode() {
+		return Objects.hash(ma);
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		CuaHang other = (CuaHang) obj;
+		return Objects.equals(ma, other.ma);
 	}
 	
 	
