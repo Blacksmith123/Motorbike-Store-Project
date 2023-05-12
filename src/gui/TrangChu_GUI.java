@@ -53,6 +53,7 @@ public class TrangChu_GUI extends JFrame implements ActionListener {
 	
 
 	public static void main(String[] args) {
+<<<<<<< HEAD
 //<<<<<<< HEAD
 //		EventQueue.invokeLater(new Runnable() {
 //			public void run() {
@@ -66,6 +67,8 @@ public class TrangChu_GUI extends JFrame implements ActionListener {
 //		});
 //=======
 //>>>>>>> 436b691b3fcf790ff23f734c124a02736e1e42aa
+=======
+>>>>>>> f046f4b8f66cbb7023698183a6d68d7d31829baa
 		new TrangChu_GUI().setVisible(true);
 	}
 
@@ -73,10 +76,6 @@ public class TrangChu_GUI extends JFrame implements ActionListener {
 	 * Create the frame.
 	 */
 	public TrangChu_GUI() {
-		TrangChu();
-	}
-	
-	public void TrangChu() {
 		setTitle(trangChu);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(391, 21, 1210, 780);
@@ -179,14 +178,14 @@ public class TrangChu_GUI extends JFrame implements ActionListener {
 		JLabel lblNewLabel = new JLabel("");
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel.setIcon(new ImageIcon(TrangChu_GUI.class.getResource("/image/TrangChu.jpg")));
+<<<<<<< HEAD
 		// lblNewLabel.setIcon(new
 
 		// ImageIcon(TrangChu_GUI.class.getResource("/image/TrangChu.jpg")));
+=======
+>>>>>>> f046f4b8f66cbb7023698183a6d68d7d31829baa
 		lblNewLabel.setBounds(79, 156, 1003, 476);
-
-		// ImageIcon(TrangChu_GUI.class.getResource("/image/TrangChu_GUI.jpg")));
 		lblNewLabel.setBounds(54, 123, 830, 476);
-
 		contentPane.add(lblNewLabel);
 
 		JLabel lblNewLabel_1 = new JLabel("QUẢN LÝ BÁN XE MÁY", SwingConstants.CENTER);
