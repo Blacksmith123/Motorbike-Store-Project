@@ -23,6 +23,10 @@ import java.awt.ScrollPane;
 
 public class ThongKe extends JPanel {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JTextField txtTuNgay;
 	private JTextField txtDenNgay;
 	private JTextField txtXeBanDuocNhieuNhat;
