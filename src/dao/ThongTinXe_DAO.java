@@ -33,9 +33,8 @@ public class ThongTinXe_DAO {
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
-		} finally {
-			con.close();
 		}
+		con.close();
 
 		return false;
 	}
