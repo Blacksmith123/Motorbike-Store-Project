@@ -361,6 +361,143 @@ public class HoaDon_DAO {
 
 	}
 
-	// get so luong xe
+	// get hoa don tu ngay den ngay
+	public List<HoaDon> getHDtheoNgayBdKt(Date d1, Date d2) throws SQLException {
+		ConnectDB.getInstance();
+		List<HoaDon> lsHD = new ArrayList<HoaDon>();
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
+		String ngayBatDau = formatter.format(d1);
+		String ngayKetThuc = formatter.format(d2);
+		Connection con = ConnectDB.getConnection();
+		String sql = "SELECT * FROM HoaDon WHERE ngayLap BETWEEN '" + ngayBatDau + "' AND '" + ngayKetThuc + "'";
+
+		Statement stm = con.createStatement();
+		ResultSet rs = stm.executeQuery(sql);
+		while (rs.next()) {
+			HoaDon hd = new HoaDon();
+
+			hd.setMa(rs.getString(1));
+			hd.setNgayLap(rs.getDate(2));
+			hd.setThoiGianBH(rs.getString(3));
+			hd.setMaKH(rs.getString(4));
+			hd.setMaCH(rs.getString(5));
+			hd.setMaNV(rs.getString(6));
+
+			lsHD.add(hd);
+		}
+
+		return lsHD;
+
+	}
+
+	// lay xe bán đc nhieu nhat cua hoa don
+	public String getSoLuongXeBanNhieuNhat(Date d1, Date d2) throws SQLException {
+		ConnectDB.getInstance();
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
+		String ngayBatDau = formatter.format(d1);
+		String ngayKetThuc = formatter.format(d2);
+		Connection con = ConnectDB.getConnection();
+		String sql = "SELECT Top 1 ChiTietHoaDon.maLoaiXe, SUM(ChiTietHoaDon.soLuong) AS soLuong "
+				+ " FROM ChiTietHoaDon " + " JOIN HoaDon ON ChiTietHoaDon.maHoaDon = HoaDon.maHoaDon "
+				+ " WHERE HoaDon.ngayLap BETWEEN '" + ngayBatDau + "' AND '" + ngayKetThuc + "' "
+				+ " GROUP BY ChiTietHoaDon.maLoaiXe " + " ORDER BY soLuong DESC ";
+
+		Statement stm = con.createStatement();
+		ResultSet rs = stm.executeQuery(sql);
+		String lsHd = null;
+		while (rs.next()) {
+			lsHd = "Mã loại xe: " + rs.getString(1) + " Số lượng: " + rs.getString(2);
+		}
+		return lsHd;
+
+	}
+
+	// lay xe bán đc it nhat cua hoa don
+	public String getSoLuongXeBanItNhat(Date d1, Date d2) throws SQLException {
+		ConnectDB.getInstance();
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
+		String ngayBatDau = formatter.format(d1);
+		String ngayKetThuc = formatter.format(d2);
+		Connection con = ConnectDB.getConnection();
+		String sql = "SELECT Top 1 ChiTietHoaDon.maLoaiXe, SUM(ChiTietHoaDon.soLuong) AS soLuong "
+				+ " FROM ChiTietHoaDon " + " JOIN HoaDon ON ChiTietHoaDon.maHoaDon = HoaDon.maHoaDon "
+				+ " WHERE HoaDon.ngayLap BETWEEN '" + ngayBatDau + "' AND '" + ngayKetThuc + "' "
+				+ " GROUP BY ChiTietHoaDon.maLoaiXe " + " ORDER BY soLuong ASC ";
+
+		Statement stm = con.createStatement();
+		ResultSet rs = stm.executeQuery(sql);
+		String lsHd = null;
+		while (rs.next()) {
+			lsHd = "Mã loại xe: " + rs.getString(1) + " Số lượng: " + rs.getString(2);
+		}
+		return lsHd;
+
+	}
+
+	// lay sl xe bán đc tong
+	public String getSoLuongXeBanTong(Date d1, Date d2) throws SQLException {
+		ConnectDB.getInstance();
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
+		String ngayBatDau = formatter.format(d1);
+		String ngayKetThuc = formatter.format(d2);
+		Connection con = ConnectDB.getConnection();
+		String sql = "SELECT Top 1 ChiTietHoaDon.maLoaiXe, SUM(ChiTietHoaDon.soLuong) AS soLuong "
+				+ " FROM ChiTietHoaDon " + " JOIN HoaDon ON ChiTietHoaDon.maHoaDon = HoaDon.maHoaDon "
+				+ " WHERE HoaDon.ngayLap BETWEEN '" + ngayBatDau + "' AND '" + ngayKetThuc + "' "
+				+ " GROUP BY ChiTietHoaDon.maLoaiXe " + " ORDER BY soLuong ASC ";
+
+		Statement stm = con.createStatement();
+		ResultSet rs = stm.executeQuery(sql);
+		String lsHd = null;
+		while (rs.next()) {
+			lsHd = "Mã loại xe: " + rs.getString(1) + " Số lượng: " + rs.getString(2);
+		}
+		return lsHd;
+
+	}
+
+	// lay cua Hang ban duoc nhieu
+	public String getCuaHangBanNhieu(Date d1, Date d2) throws SQLException {
+		ConnectDB.getInstance();
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
+		String ngayBatDau = formatter.format(d1);
+		String ngayKetThuc = formatter.format(d2);
+		Connection con = ConnectDB.getConnection();
+		String sql = "SELECT ChiTietHoaDon.maLoaiXe,HoaDon.maCuaHang, SUM(ChiTietHoaDon.soLuong) AS soLuong "
+				+ " FROM ChiTietHoaDon " + " JOIN HoaDon ON ChiTietHoaDon.maHoaDon = HoaDon.maHoaDon "
+				+ " WHERE HoaDon.ngayLap BETWEEN '" + ngayBatDau + "' AND '" + ngayKetThuc + "' "
+				+ " GROUP BY ChiTietHoaDon.maLoaiXe, HoaDon.maCuaHang " + " ORDER BY soLuong DESC ";
+
+		Statement stm = con.createStatement();
+		ResultSet rs = stm.executeQuery(sql);
+		String lsHd = null;
+		while (rs.next()) {
+			lsHd = rs.getString(2);
+		}
+		return lsHd;
+
+	}
+
+	// lay nhan vien ban duoc nhieu
+	public String getNhanVienBanNhieu(Date d1, Date d2) throws SQLException {
+		ConnectDB.getInstance();
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
+		String ngayBatDau = formatter.format(d1);
+		String ngayKetThuc = formatter.format(d2);
+		Connection con = ConnectDB.getConnection();
+		String sql = "SELECT ChiTietHoaDon.maLoaiXe,HoaDon.maNhanVien, SUM(ChiTietHoaDon.soLuong) AS soLuong "
+				+ " FROM ChiTietHoaDon " + " JOIN HoaDon ON ChiTietHoaDon.maHoaDon = HoaDon.maHoaDon "
+				+ " WHERE HoaDon.ngayLap BETWEEN '" + ngayBatDau + "' AND '" + ngayKetThuc + "' "
+				+ " GROUP BY ChiTietHoaDon.maLoaiXe, HoaDon.maNhanVien " + " ORDER BY soLuong DESC ";
+
+		Statement stm = con.createStatement();
+		ResultSet rs = stm.executeQuery(sql);
+		String lsHd = null;
+		while (rs.next()) {
+			lsHd = rs.getString(2);
+		}
+		return lsHd;
+
+	}
 
 }

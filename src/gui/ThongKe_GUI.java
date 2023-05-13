@@ -9,10 +9,13 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Iterator;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -28,9 +31,13 @@ import javax.swing.table.JTableHeader;
 import com.toedter.calendar.JDateChooser;
 
 import dao.ChiTietHoaDon_DAO;
+import dao.CuaHang_DAO;
 import dao.HoaDon_DAO;
+import dao.NhanVienHanhChinh_DAO;
 import entity.ChiTietHoaDon;
 import entity.HoaDon;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class ThongKe_GUI extends JPanel {
 	/*
@@ -42,22 +49,23 @@ public class ThongKe_GUI extends JPanel {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private JTextField txtTuNgay;
-	private JTextField txtDenNgay;
-	private JTextField txtXeBanDuocNhieuNhat;
+	private JTextField txtSoluong;
 	private JTextField txtCuaHangBanNhieuXe;
 	private JTable table;
 	private JTable table_1;
 	private DefaultTableModel model;
 	private DefaultTableModel model_1;
 	private JTextField txtNhanVienBanDuocNhieuXe;
-	private JTextField textField;
-	private JTextField textField_1;
+	private JTextField textXeBanNhieu;
+	private JTextField textXeBanIt;
 	private HoaDon_DAO hoaDon_DAO;
 	private ChiTietHoaDon_DAO chiTietHoaDon_DAO;
+	private NhanVienHanhChinh_DAO nhanVienHanhChinh_DAO;
+	private CuaHang_DAO cuaHang_DAO;
 	private JDateChooser chooserTuNgay;
 	private JDateChooser chooserDenNgay;
-	
+	private Date d1;
+	private Date d2;
 
 	/**
 	 * Create the panel.
@@ -69,6 +77,8 @@ public class ThongKe_GUI extends JPanel {
 		// khai bao DAO
 		chiTietHoaDon_DAO = new ChiTietHoaDon_DAO();
 		hoaDon_DAO = new HoaDon_DAO();
+		cuaHang_DAO = new CuaHang_DAO();
+		nhanVienHanhChinh_DAO = new NhanVienHanhChinh_DAO();
 
 		setBorder(new LineBorder(new Color(0, 0, 0)));
 		setBackground(Color.LIGHT_GRAY);
@@ -93,35 +103,36 @@ public class ThongKe_GUI extends JPanel {
 		table.setRowHeight(25);
 		table.setToolTipText("Chọn hoá đơn để thực hiện chức năng");
 		table.addMouseListener(new MouseListener() {
-			
+
 			@Override
 			public void mouseReleased(MouseEvent e) {
 				// TODO Auto-generated method stub
-				
+
 			}
-			
+
 			@Override
 			public void mousePressed(MouseEvent e) {
 				// TODO Auto-generated method stub
-				
+
 			}
-			
+
 			@Override
 			public void mouseExited(MouseEvent e) {
 				// TODO Auto-generated method stub
-				
+
 			}
-			
+
 			@Override
 			public void mouseEntered(MouseEvent e) {
 				// TODO Auto-generated method stub
-				
+
 			}
-			
+
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				// TODO Auto-generated method stub
 				int row = table.getSelectedRow();
+				model_1.setRowCount(0);
 				loadDataChiTietHoaDonTheoMaHoaDon(chiTietHoaDon_DAO, (String) model.getValueAt(row, 0));
 			}
 		});
@@ -237,11 +248,11 @@ public class ThongKe_GUI extends JPanel {
 		chooserDenNgay.getCalendarButton().setToolTipText("Chọn ngày cuối");
 		panel_1.add(chooserDenNgay);
 
-		txtXeBanDuocNhieuNhat = new JTextField();
-		txtXeBanDuocNhieuNhat.setFont(new Font("Arial", Font.PLAIN, 16));
-		txtXeBanDuocNhieuNhat.setColumns(10);
-		txtXeBanDuocNhieuNhat.setBounds(40, 123, 292, 24);
-		panel_1.add(txtXeBanDuocNhieuNhat);
+		txtSoluong = new JTextField();
+		txtSoluong.setFont(new Font("Arial", Font.PLAIN, 16));
+		txtSoluong.setColumns(10);
+		txtSoluong.setBounds(40, 123, 292, 24);
+		panel_1.add(txtSoluong);
 
 		txtCuaHangBanNhieuXe = new JTextField();
 		txtCuaHangBanNhieuXe.setFont(new Font("Arial", Font.PLAIN, 16));
@@ -273,29 +284,88 @@ public class ThongKe_GUI extends JPanel {
 		txtNhanVienBanDuocNhieuXe.setBounds(40, 460, 292, 24);
 		panel_1.add(txtNhanVienBanDuocNhieuXe);
 
-		textField = new JTextField();
-		textField.setFont(new Font("Arial", Font.PLAIN, 16));
-		textField.setColumns(10);
-		textField.setBounds(40, 298, 292, 24);
-		panel_1.add(textField);
+		textXeBanNhieu = new JTextField();
+		textXeBanNhieu.setFont(new Font("Arial", Font.PLAIN, 16));
+		textXeBanNhieu.setColumns(10);
+		textXeBanNhieu.setBounds(40, 298, 292, 24);
+		panel_1.add(textXeBanNhieu);
 
-		textField_1 = new JTextField();
-		textField_1.setFont(new Font("Arial", Font.PLAIN, 16));
-		textField_1.setColumns(10);
-		textField_1.setBounds(40, 381, 292, 24);
-		panel_1.add(textField_1);
+		textXeBanIt = new JTextField();
+		textXeBanIt.setFont(new Font("Arial", Font.PLAIN, 16));
+		textXeBanIt.setColumns(10);
+		textXeBanIt.setBounds(40, 381, 292, 24);
+		panel_1.add(textXeBanIt);
 
 		JButton btnLoc = new JButton("Lọc");
+		btnLoc.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				xoaTrang();
+				d1 = chooserTuNgay.getDate();
+				d2 = chooserDenNgay.getDate();
+				// Kiểm tra nếu ngày được chọn khác null
+				if (d1 != null && d2 != null) {
+					if (d2.before(d1)) {
+						JOptionPane.showMessageDialog(null, "Phải chọn ngày kết thúc sau ngày bắt đầu");
+					}
+					ThongKe_GUI.this.model.setRowCount(0);
+					ThongKe_GUI.this.model_1.setRowCount(0);
+					try {
+						for (HoaDon hoaDon : hoaDon_DAO.getHDtheoNgayBdKt(d1, d2)) {
+							SimpleDateFormat dateFormat = new SimpleDateFormat("dd / MM / yyyy");
+							Object[] objects = { hoaDon.getMa(), dateFormat.format(hoaDon.getNgayLap()),
+									hoaDon.getThoiGianBH(), hoaDon.getMaKH(), hoaDon.getMaCH(), hoaDon.getMaNV() };
+							loadDataChiTietHoaDonTheoMaHoaDon(chiTietHoaDon_DAO, hoaDon.getMa());
+							ThongKe_GUI.this.model.addRow(objects);
+							int sum = 0;
+							for (int i = 0; i < table_1.getRowCount(); i++) {
+								sum += Integer.valueOf(table_1.getValueAt(i, 2).toString());
+							}
+							String getString;
+							txtSoluong.setText(sum + "");
+							textXeBanNhieu.setText(hoaDon_DAO.getSoLuongXeBanNhieuNhat(d1, d2));
+							textXeBanIt.setText(hoaDon_DAO.getSoLuongXeBanItNhat(d1, d2));
+							getString = hoaDon_DAO.getCuaHangBanNhieu(d1, d2);
+							txtCuaHangBanNhieuXe.setText("Mã CH: "+
+									getString + " Tên CH: "+cuaHang_DAO.getCuaHangTheoMa(getString).getTen());
+							getString = hoaDon_DAO.getNhanVienBanNhieu(d1, d2);
+							txtNhanVienBanDuocNhieuXe.setText("Tên NV: "+getString + "Tên NV: "
+							 + nhanVienHanhChinh_DAO.getNhanVienHanhChinhTheoMa(getString).getTen() );
+						}
+					} catch (SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				} else {
+					JOptionPane.showMessageDialog(null, "Chưa chọn ngày.");
+				}
+			}
+		});
 		btnLoc.setBounds(295, 32, 71, 27);
 		panel_1.add(btnLoc);
 		btnLoc.setHorizontalAlignment(SwingConstants.LEFT);
-		btnLoc.setIcon(new ImageIcon(
-				"D:\\Study\\OOPJava\\21091031_TrinhMinhKhaa\\Motorbike-Store-Project\\data\\image\\icons8-search-30.png"));
+//		btnLoc.setIcon(new ImageIcon(
+//				"D:\\Study\\OOPJava\\21091031_TrinhMinhKhaa\\Motorbike-Store-Project\\data\\image\\icons8-search-30.png"));
 		btnLoc.setForeground(new Color(165, 42, 42));
 		btnLoc.setFont(new Font("Arial", Font.PLAIN, 16));
 		btnLoc.setBackground(Color.LIGHT_GRAY);
 		btnLoc.setHorizontalTextPosition(SwingConstants.RIGHT);
 		btnLoc.setHorizontalAlignment(SwingConstants.LEFT);
+
+		JButton btnLamMoi = new JButton("Làm Mới");
+		btnLamMoi.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ThongKe_GUI.this.model.setRowCount(0);
+				ThongKe_GUI.this.model_1.setRowCount(0);
+				loadDataHoaDon(hoaDon_DAO);
+				loadDataChiTietHoaDon(chiTietHoaDon_DAO);
+				xoaTrang();
+			}
+		});
+		btnLamMoi.setForeground(new Color(165, 42, 42));
+		btnLamMoi.setFont(new Font("Arial", Font.PLAIN, 16));
+		btnLamMoi.setBackground(Color.LIGHT_GRAY);
+		btnLamMoi.setBounds(144, 508, 112, 27);
+		panel_1.add(btnLamMoi);
 
 		JLabel lblNewLabel_1 = new JLabel("Thông Tin:");
 		lblNewLabel_1.setForeground(Color.BLUE);
@@ -318,7 +388,6 @@ public class ThongKe_GUI extends JPanel {
 	}
 
 	public void loadDataHoaDon(HoaDon_DAO hoaDon_DAO) {
-		model.setRowCount(0);
 		for (HoaDon hoaDon : hoaDon_DAO.getAllHoaDon()) {
 			SimpleDateFormat dateFormat = new SimpleDateFormat("dd / MM / yyyy");
 			Object[] objects = { hoaDon.getMa(), dateFormat.format(hoaDon.getNgayLap()), hoaDon.getThoiGianBH(),
@@ -328,16 +397,14 @@ public class ThongKe_GUI extends JPanel {
 	}
 
 	public void loadDataChiTietHoaDon(ChiTietHoaDon_DAO chiTietHoaDon_DAO) {
-		model_1.setRowCount(0);
 		for (ChiTietHoaDon chiTietHoaDon : chiTietHoaDon_DAO.getAllChiTietHoaDon()) {
 			Object[] objects = { chiTietHoaDon.getMa(), chiTietHoaDon.getMaLoaiXe(), chiTietHoaDon.getSoLuong(),
 					chiTietHoaDon.getDonGia(), chiTietHoaDon.getThanhTien() };
 			model_1.addRow(objects);
 		}
 	}
-	
+
 	public void loadDataChiTietHoaDonTheoMaHoaDon(ChiTietHoaDon_DAO chiTietHoaDon_DAO, String maHoaDon) {
-		model_1.setRowCount(0);
 		try {
 			for (ChiTietHoaDon chiTietHoaDon : chiTietHoaDon_DAO.getChiTietHoaDonTheoMa(maHoaDon)) {
 				Object[] objects = { chiTietHoaDon.getMa(), chiTietHoaDon.getMaLoaiXe(), chiTietHoaDon.getSoLuong(),
@@ -348,5 +415,12 @@ public class ThongKe_GUI extends JPanel {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	public void xoaTrang() {
+		textXeBanIt.setText("");
+		textXeBanNhieu.setText("");
+		txtSoluong.setText("");
+		txtCuaHangBanNhieuXe.setText("");
+		txtNhanVienBanDuocNhieuXe.setText("");
 	}
 }

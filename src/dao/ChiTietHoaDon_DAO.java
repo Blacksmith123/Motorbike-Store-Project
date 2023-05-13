@@ -1,5 +1,6 @@
 package dao;
 
+import java.security.interfaces.RSAKey;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -33,7 +34,7 @@ public class ChiTietHoaDon_DAO {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-		
+
 		}
 		return dsChiTietHoaDon;
 	}
@@ -55,15 +56,7 @@ public class ChiTietHoaDon_DAO {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}finally {
-//			try {
-//				connection.close();
-//			} catch (SQLException e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			}
 		}
-
 		return;
 	}
 
@@ -175,6 +168,23 @@ public class ChiTietHoaDon_DAO {
 					Integer.valueOf(resultSet.getString(3)), Integer.valueOf(resultSet.getString(4))));
 		}
 		return dsChiTietHoaDon;
+	}
+
+	// get tong so luong
+	public int getTongSoLuong(String maString) throws SQLException {
+		ConnectDB.getInstance();
+		Connection connection = ConnectDB.getConnection();
+		String sqlString = "SELECT SUM(soLuong) AS tongSl FROM ChiTietHoaDon WHERE maHoaDon = '"+maString+"' ";
+
+		Statement statement = connection.createStatement();
+		ResultSet resultSet = statement.executeQuery(sqlString);
+		ThongTinXe_DAO thongTinXe_DAO = new ThongTinXe_DAO();
+		ThongTinXe thongTinXe = new ThongTinXe();
+		int i = 0;
+		while (resultSet.next()) {
+			i = resultSet.getInt(1);
+		}
+		return i;
 	}
 
 }
