@@ -2,6 +2,7 @@ package gui;
 
 import javax.swing.JPanel;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -30,10 +31,15 @@ import javax.swing.table.JTableHeader;
 import connect.ConnectDB;
 import dao.CuaHang_DAO;
 import dao.NhanVienKiThuat_DAO;
+import dao.PhatSinhMa_DAO;
 import entity.CuaHang;
+import entity.NhanVienHanhChinh;
 import entity.NhanVienKyThuat;
+import entity.TaiKhoan;
 
 import javax.swing.ScrollPaneConstants;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class NhanVienKyThuat_GUI extends JPanel {
 	/**
@@ -41,7 +47,7 @@ public class NhanVienKyThuat_GUI extends JPanel {
 	 */
 	private static final long serialVersionUID = 1L;
 	private JComboBox cbMaCH;
-	private JTextField textField;
+	private JTextField textTim;
 	private JTable table;
 	private DefaultTableModel model;
 	private JTextField textMaNV;
@@ -54,6 +60,8 @@ public class NhanVienKyThuat_GUI extends JPanel {
 	private JTextField textBacTho;
 	private CuaHang_DAO cuaHang_DAO;
 	private NhanVienKiThuat_DAO nhanVienKiThuat_DAO;
+	PhatSinhMa_DAO phatSinhMa_DAO;
+	private JComboBox cbTim;
 
 	/**
 	 * Create the panel.
@@ -63,6 +71,9 @@ public class NhanVienKyThuat_GUI extends JPanel {
 	public NhanVienKyThuat_GUI() throws SQLException {
 		ConnectDB.getInstance();
 		ConnectDB.connect();
+		nhanVienKiThuat_DAO = new NhanVienKiThuat_DAO();
+		phatSinhMa_DAO = new PhatSinhMa_DAO();
+		cuaHang_DAO = new CuaHang_DAO();
 		setBorder(new LineBorder(new Color(0, 0, 0)));
 		setBackground(Color.LIGHT_GRAY);
 		setLayout(null);
@@ -84,31 +95,31 @@ public class NhanVienKyThuat_GUI extends JPanel {
 		table.setDefaultEditor(Object.class, null);
 		table.setToolTipText("Chọn nhân viên để thực hiện chức năng");
 		table.addMouseListener(new MouseListener() {
-			
+
 			@Override
 			public void mouseReleased(MouseEvent e) {
 				// TODO Auto-generated method stub
-				
+
 			}
-			
+
 			@Override
 			public void mousePressed(MouseEvent e) {
 				// TODO Auto-generated method stub
-				
+
 			}
-			
+
 			@Override
 			public void mouseExited(MouseEvent e) {
 				// TODO Auto-generated method stub
-				
+
 			}
-			
+
 			@Override
 			public void mouseEntered(MouseEvent e) {
 				// TODO Auto-generated method stub
-				
+
 			}
-			
+
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				// TODO Auto-generated method stub
@@ -124,14 +135,14 @@ public class NhanVienKyThuat_GUI extends JPanel {
 				textBacTho.setText((String) model.getValueAt(row, 4));
 			}
 		});
-		
+
 		// set color for header table
 		JTableHeader tbHeader = table.getTableHeader();
 		tbHeader.setBackground(new Color(0, 163, 163));
 		tbHeader.setForeground(Color.white);
 		tbHeader.setFont(new Font("Arial", Font.BOLD, 14));
 		tbHeader.setToolTipText("Danh sách thông tin nhân viên");
-		
+
 		// set color for table
 		ListSelectionModel listSelectionModel = table.getSelectionModel();
 		listSelectionModel.addListSelectionListener(new ListSelectionListener() {
@@ -148,7 +159,7 @@ public class NhanVienKyThuat_GUI extends JPanel {
 				}
 			}
 		});
-		
+
 		JScrollPane scrollPane = new JScrollPane(table, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
 				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		scrollPane.setBounds(10, 10, 782, 525);
@@ -199,6 +210,7 @@ public class NhanVienKyThuat_GUI extends JPanel {
 		panel_1.add(lblNewLabel_4_1_1_1_2);
 
 		textMaNV = new JTextField();
+		textMaNV.setEditable(false);
 		textMaNV.setFont(new Font("Arial", Font.PLAIN, 16));
 		textMaNV.setBounds(160, 18, 206, 24);
 		panel_1.add(textMaNV);
@@ -242,6 +254,43 @@ public class NhanVienKyThuat_GUI extends JPanel {
 		panel_2.setLayout(null);
 
 		JButton btnThem = new JButton("Thêm");
+		btnThem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (btnThem.getText().equals("Thêm")) {
+					btnThem.setText("Xác Nhận");
+					xoaTrang();
+				} else {
+					btnThem.setText("Thêm");
+					if (!textChucVu.getText().equals("") || !textTenNV.getText().equals("")
+							|| !textSDT.getText().equals("") || !textEmail.getText().equals("")
+							|| !textNamKn.getText().equals("") || !textDiaChi.getText().equals("")
+							|| !cbMaCH.getSelectedItem().equals("") || !textBacTho.getText().equals("")) {
+						// TODO Auto-generated method stub
+						try {
+							String maNv = phatSinhMa_DAO.getMaNhanVienKyThuat();
+							String TenNV = textTenNV.getText();
+							String diaChi = textDiaChi.getText();
+							int soDienThoai = Integer.valueOf(textSDT.getText());
+							String chucVu = textChucVu.getText();
+							String bacTho = textBacTho.getText();
+							String email = textEmail.getText();
+							int soNamKn = Integer.valueOf(textNamKn.getText());
+							String maCH = (String) cbMaCH.getSelectedItem();
+							NhanVienKyThuat nhanVienKyThuat = new NhanVienKyThuat(maNv, TenNV, diaChi, chucVu, email,
+									soDienThoai, maCH, soNamKn, new TaiKhoan("121"), bacTho);
+							nhanVienKiThuat_DAO.themNhanVien(nhanVienKyThuat);
+							JOptionPane.showMessageDialog(null, "Thêm nhân viên '" + maNv + "' thành công!");
+						} catch (SQLException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+							JOptionPane.showMessageDialog(null, "Thêm thất bại!");
+						}
+					} else {
+						JOptionPane.showMessageDialog(null, "Nhập đủ thông tin");
+					}
+				}
+			}
+		});
 		btnThem.setBackground(Color.LIGHT_GRAY);
 		btnThem.setForeground(new Color(165, 42, 42));
 		btnThem.setFont(new Font("Arial", Font.PLAIN, 16));
@@ -249,6 +298,11 @@ public class NhanVienKyThuat_GUI extends JPanel {
 		panel_2.add(btnThem);
 
 		JButton btnXoatrang = new JButton("Xóa Trắng");
+		btnXoatrang.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				xoaTrang();
+			}
+		});
 		btnXoatrang.setForeground(new Color(165, 42, 42));
 		btnXoatrang.setFont(new Font("Arial", Font.PLAIN, 16));
 		btnXoatrang.setBackground(Color.LIGHT_GRAY);
@@ -256,6 +310,42 @@ public class NhanVienKyThuat_GUI extends JPanel {
 		panel_2.add(btnXoatrang);
 
 		JButton btnCapnhat = new JButton("Cập Nhật");
+		btnCapnhat.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (btnCapnhat.getText().equals("Cập Nhật")) {
+					btnCapnhat.setText("Xác Nhận");
+				} else {
+					btnCapnhat.setText("Cập Nhật");
+					if (!textChucVu.getText().equals("") || !textTenNV.getText().equals("")
+							|| !textSDT.getText().equals("") || !textEmail.getText().equals("")
+							|| !textNamKn.getText().equals("") || !textDiaChi.getText().equals("")
+							|| !cbMaCH.getSelectedItem().equals("") || !textBacTho.getText().equals("")) {
+						try {
+							String maNv = table.getValueAt(table.getSelectedRow(), 0).toString();
+							String TenNV = textTenNV.getText();
+							String diaChi = textDiaChi.getText();
+							int soDienThoai = Integer.valueOf(textSDT.getText());
+							String chucVu = textChucVu.getText();
+							String bacTho = textBacTho.getText();
+							String email = textEmail.getText();
+							int soNamKn = Integer.valueOf(textNamKn.getText());
+							String maCH = (String) cbMaCH.getSelectedItem();
+							NhanVienKyThuat nhanVienKyThuat = new NhanVienKyThuat(maNv, TenNV, diaChi, chucVu, email,
+									soDienThoai, maCH, soNamKn, new TaiKhoan("121"), bacTho);
+							nhanVienKiThuat_DAO.capNhatNhanVien(nhanVienKyThuat);
+							JOptionPane.showMessageDialog(null, "Cập nhật nhân viên '" + maNv + "' thành công!");
+						} catch (SQLException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+							JOptionPane.showMessageDialog(null, "cập nhật thất bại!");
+						}
+					} else {
+						JOptionPane.showMessageDialog(null, "Nhập đủ thông tin");
+					}
+				}
+			}
+
+		});
 		btnCapnhat.setForeground(new Color(165, 42, 42));
 		btnCapnhat.setFont(new Font("Arial", Font.PLAIN, 16));
 		btnCapnhat.setBackground(Color.LIGHT_GRAY);
@@ -263,25 +353,49 @@ public class NhanVienKyThuat_GUI extends JPanel {
 		panel_2.add(btnCapnhat);
 
 		JButton btnXoa = new JButton("Xóa");
+		btnXoa.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int row = table.getSelectedRow();
+				if (row == -1) {
+					JOptionPane.showInternalMessageDialog(null, "Bạn phải chọn dòng cần xóa!");
+				} else {
+					int option = JOptionPane.showConfirmDialog(null,
+							"Bạn có chắc muốn xóa nhân viên '" + model.getValueAt(row, 0) + "' chứ?", "Xóa?",
+							JOptionPane.YES_NO_OPTION);
+					if (option == JOptionPane.YES_OPTION) {
+						try {
+							nhanVienKiThuat_DAO.xoaNhanVien(table.getValueAt(row, 0).toString());
+							JOptionPane.showMessageDialog(null,
+									"Xóa thành công khách hàng '" + model.getValueAt(row, 0) + "'!");
+						} catch (SQLException e1) {
+							// TODO Auto-generated catch block
+							JOptionPane.showMessageDialog(null,
+									"Xóa khách hàng '\" + model.getValueAt(row, 0) + \"' không thành công!");
+
+						}
+					}
+				}
+			}
+		});
 		btnXoa.setForeground(new Color(165, 42, 42));
 		btnXoa.setFont(new Font("Arial", Font.PLAIN, 16));
 		btnXoa.setBackground(Color.LIGHT_GRAY);
 		btnXoa.setBounds(212, 69, 112, 27);
 		panel_2.add(btnXoa);
 
-		JButton btnLuu = new JButton("Lưu");
-		btnLuu.setForeground(new Color(165, 42, 42));
-		btnLuu.setFont(new Font("Arial", Font.PLAIN, 16));
-		btnLuu.setBackground(Color.LIGHT_GRAY);
-		btnLuu.setBounds(212, 106, 112, 27);
-		panel_2.add(btnLuu);
-		
-		JButton btnLmMi = new JButton("Làm mới");
-		btnLmMi.setForeground(new Color(165, 42, 42));
-		btnLmMi.setFont(new Font("Arial", Font.PLAIN, 16));
-		btnLmMi.setBackground(Color.LIGHT_GRAY);
-		btnLmMi.setBounds(56, 106, 112, 27);
-		panel_2.add(btnLmMi);
+		JButton btnLamMoi = new JButton("Làm mới");
+		btnLamMoi.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent e) {
+				model.setRowCount(0);
+				doDuLieu();
+			}
+		});
+		btnLamMoi.setForeground(new Color(165, 42, 42));
+		btnLamMoi.setFont(new Font("Arial", Font.PLAIN, 16));
+		btnLamMoi.setBackground(Color.LIGHT_GRAY);
+		btnLamMoi.setBounds(131, 110, 112, 27);
+		panel_2.add(btnLamMoi);
 
 		JLabel lblNewLabel_1_1 = new JLabel("Chức năng:");
 		lblNewLabel_1_1.setForeground(Color.BLUE);
@@ -307,7 +421,6 @@ public class NhanVienKyThuat_GUI extends JPanel {
 		textNamKn.setBounds(160, 278, 206, 24);
 		panel_1.add(textNamKn);
 
-		cuaHang_DAO = new CuaHang_DAO();
 		cbMaCH = new JComboBox();
 		cbMaCH.setFont(new Font("Arial", Font.PLAIN, 16));
 		cbMaCH.setBounds(109, 324, 87, 21);
@@ -333,6 +446,7 @@ public class NhanVienKyThuat_GUI extends JPanel {
 		lblNewLabel.setForeground(Color.BLUE);
 		lblNewLabel.setFont(new Font("Arial", Font.BOLD | Font.ITALIC, 16));
 		lblNewLabel.setBounds(10, 123, 322, 27);
+
 		add(lblNewLabel);
 
 		JLabel lblNewLabel_1 = new JLabel("Thông Tin:");
@@ -346,17 +460,23 @@ public class NhanVienKyThuat_GUI extends JPanel {
 		lblNewLabel_2.setBounds(10, 6, 91, 54);
 		add(lblNewLabel_2);
 
-		JComboBox cbTim = new JComboBox();
+		cbTim = new JComboBox();
+		cbTim.addItem("Mã Nhân Viên");
+		cbTim.addItem("Tên Nhân Viên");
+		cbTim.addItem("Số Điện Thoại");
+		cbTim.addItem("Chức Vụ");
+		cbTim.addItem("Bậc Thợ");
+		cbTim.addItem("Mã Cửa Hàng");
 		cbTim.setForeground(Color.RED);
 		cbTim.setFont(new Font("Arial", Font.PLAIN, 16));
 		cbTim.setBounds(88, 25, 125, 21);
 		add(cbTim);
 
-		textField = new JTextField();
-		textField.setFont(new Font("Arial", Font.PLAIN, 16));
-		textField.setBounds(223, 19, 289, 27);
-		add(textField);
-		textField.setColumns(10);
+		textTim = new JTextField();
+		textTim.setFont(new Font("Arial", Font.PLAIN, 16));
+		textTim.setBounds(223, 19, 289, 27);
+		add(textTim);
+		textTim.setColumns(10);
 
 		JLabel lblNewLabel_3 = new JLabel("Nhân Viên Kỹ Thuật\r\n");
 		lblNewLabel_3.setBackground(new Color(165, 42, 42));
@@ -367,6 +487,118 @@ public class NhanVienKyThuat_GUI extends JPanel {
 		add(lblNewLabel_3);
 
 		JButton btnTim = new JButton("Tìm Kiếm");
+		btnTim.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				model.setRowCount(0);
+				if (textTim.getText().isEmpty()) {
+					JOptionPane.showMessageDialog(null, "Bạn chưa nhập dữ liệu");
+				} else {
+					if (cbTim.getSelectedItem().equals("Mã Nhân Viên")) {
+						try {
+							NhanVienKyThuat nhanVienKyThuat = nhanVienKiThuat_DAO
+									.getNhanVienKyThuatTheoMa(textTim.getText());
+							if (nhanVienKyThuat != null) {
+								Object[] objects = { nhanVienKyThuat.getMa(), nhanVienKyThuat.getTen(),
+										nhanVienKyThuat.getSdt(), nhanVienKyThuat.getEmail(),
+										nhanVienKyThuat.getBacTho(), nhanVienKyThuat.getChucVu(),
+										nhanVienKyThuat.getNamKinhNghiem(), nhanVienKyThuat.getDiaChi(),
+										nhanVienKyThuat.getMaCuaHang() };
+								model.addRow(objects);
+							} else {
+								JOptionPane.showMessageDialog(null, "Không tìm thấy mã nhân viên");
+							}
+						} catch (SQLException e1) {
+							JOptionPane.showMessageDialog(null, "Không tìm thấy mã nhân viên");
+						}
+					} else if (cbTim.getSelectedItem().equals("Tên Nhân Viên")) {
+						try {
+							for (NhanVienKyThuat nhanVienKyThuat : nhanVienKiThuat_DAO
+									.getNhanVienKyThuatTen(textTim.getText())) {
+								Object[] objects = { nhanVienKyThuat.getMa(), nhanVienKyThuat.getTen(),
+										nhanVienKyThuat.getSdt(), nhanVienKyThuat.getEmail(),
+										nhanVienKyThuat.getBacTho(), nhanVienKyThuat.getChucVu(),
+										nhanVienKyThuat.getNamKinhNghiem(), nhanVienKyThuat.getDiaChi(),
+										nhanVienKyThuat.getMaCuaHang() };
+								model.addRow(objects);
+							}
+							if (model.getRowCount() == 0) {
+								JOptionPane.showMessageDialog(null, "Không tìm thấy tên nhân viên");
+							}
+						} catch (SQLException e1) {
+							JOptionPane.showMessageDialog(null, "Không tìm thấy tên nhân viên");
+						}
+					} else if (cbTim.getSelectedItem().equals("Số Điện Thoại")) {
+						try {
+							NhanVienKyThuat nhanVienKyThuat = nhanVienKiThuat_DAO
+									.getNhanVienKiThuatSoDt(textTim.getText());
+							if (nhanVienKyThuat != null) {
+								Object[] objects = { nhanVienKyThuat.getMa(), nhanVienKyThuat.getTen(),
+										nhanVienKyThuat.getSdt(), nhanVienKyThuat.getEmail(),
+										nhanVienKyThuat.getBacTho(), nhanVienKyThuat.getChucVu(),
+										nhanVienKyThuat.getNamKinhNghiem(), nhanVienKyThuat.getDiaChi(),
+										nhanVienKyThuat.getMaCuaHang() };
+								model.addRow(objects);
+							} else {
+								JOptionPane.showMessageDialog(null, "Không tìm thấy Số điện thoại nhân viên");
+							}
+						} catch (SQLException e1) {
+							JOptionPane.showMessageDialog(null, "Không tìm thấy Số điện thoại nhân viên");
+						}
+					} else if (cbTim.getSelectedItem().equals("Chức Vụ")) {
+						try {
+							for (NhanVienKyThuat nhanVienKyThuat : nhanVienKiThuat_DAO
+									.getNhanVienKyThuatChucVu(textTim.getText())) {
+								Object[] objects = { nhanVienKyThuat.getMa(), nhanVienKyThuat.getTen(),
+										nhanVienKyThuat.getSdt(), nhanVienKyThuat.getEmail(),
+										nhanVienKyThuat.getBacTho(), nhanVienKyThuat.getChucVu(),
+										nhanVienKyThuat.getNamKinhNghiem(), nhanVienKyThuat.getDiaChi(),
+										nhanVienKyThuat.getMaCuaHang() };
+								model.addRow(objects);
+							}
+							if (model.getRowCount() == 0) {
+								JOptionPane.showMessageDialog(null, "Không tìm thấy Chức Vụ nhân viên");
+							}
+						} catch (SQLException e1) {
+							JOptionPane.showMessageDialog(null, "Không tìm thấy Chức Vụ nhân viên");
+						}
+					} else if (cbTim.getSelectedItem().equals("Bậc Thợ")) {
+						try {
+							for (NhanVienKyThuat nhanVienKyThuat : nhanVienKiThuat_DAO
+									.getNhanVienKyThuatBacTho(textTim.getText())) {
+								Object[] objects = { nhanVienKyThuat.getMa(), nhanVienKyThuat.getTen(),
+										nhanVienKyThuat.getSdt(), nhanVienKyThuat.getEmail(),
+										nhanVienKyThuat.getBacTho(), nhanVienKyThuat.getChucVu(),
+										nhanVienKyThuat.getNamKinhNghiem(), nhanVienKyThuat.getDiaChi(),
+										nhanVienKyThuat.getMaCuaHang() };
+								model.addRow(objects);
+							}
+							if (model.getRowCount() == 0) {
+								JOptionPane.showMessageDialog(null, "Không tìm thấy Bậc Thợ nhân viên");
+							}
+						} catch (SQLException e1) {
+							JOptionPane.showMessageDialog(null, "Không tìm thấy Bậc Thợ nhân viên");
+						}
+					} else {
+						try {
+							for (NhanVienKyThuat nhanVienKyThuat : nhanVienKiThuat_DAO
+									.getNhanVienKyThuatTheoMaCh(textTim.getText())) {
+								Object[] objects = { nhanVienKyThuat.getMa(), nhanVienKyThuat.getTen(),
+										nhanVienKyThuat.getSdt(), nhanVienKyThuat.getEmail(),
+										nhanVienKyThuat.getBacTho(), nhanVienKyThuat.getChucVu(),
+										nhanVienKyThuat.getNamKinhNghiem(), nhanVienKyThuat.getDiaChi(),
+										nhanVienKyThuat.getMaCuaHang() };
+								model.addRow(objects);
+							}
+							if (model.getRowCount() == 0) {
+								JOptionPane.showMessageDialog(null, "Không tìm thấy mã CH nhân viên");
+							}
+						} catch (SQLException e1) {
+							JOptionPane.showMessageDialog(null, "Không tìm thấy mã CH nhân viên");
+						}
+					}
+				}
+			}
+		});
 		btnTim.setHorizontalTextPosition(SwingConstants.LEADING);
 		btnTim.setIcon(new ImageIcon(NhanVienKyThuat_GUI.class.getResource("/image/magnifier.png")));
 		btnTim.setForeground(new Color(165, 42, 42));
@@ -375,13 +607,30 @@ public class NhanVienKyThuat_GUI extends JPanel {
 		btnTim.setBounds(522, 20, 133, 27);
 		btnTim.setVerticalTextPosition(SwingConstants.CENTER);
 		add(btnTim);
+		// do Du lieu
+		doDuLieu();
+	}
+
+	public void doDuLieu() {
 		// do du lieu vao table
-		nhanVienKiThuat_DAO = new NhanVienKiThuat_DAO();
-		for (NhanVienKyThuat nVienKyThuat : nhanVienKiThuat_DAO.getAllNhanVienKyThuat()) {
-			Object[] objects = { nVienKyThuat.getMa(), nVienKyThuat.getTen(), nVienKyThuat.getSdt(),
-					nVienKyThuat.getEmail(), nVienKyThuat.getBacTho(), nVienKyThuat.getChucVu(),
-					nVienKyThuat.getNamKinhNghiem(), nVienKyThuat.getDiaChi(), nVienKyThuat.getMaCuaHang() };
+		for (NhanVienKyThuat nhanVienKyThuat : nhanVienKiThuat_DAO.getAllNhanVienKyThuat()) {
+			Object[] objects = { nhanVienKyThuat.getMa(), nhanVienKyThuat.getTen(), nhanVienKyThuat.getSdt(),
+					nhanVienKyThuat.getEmail(), nhanVienKyThuat.getBacTho(), nhanVienKyThuat.getChucVu(),
+					nhanVienKyThuat.getNamKinhNghiem(), nhanVienKyThuat.getDiaChi(), nhanVienKyThuat.getMaCuaHang() };
 			model.addRow(objects);
 		}
+	}
+
+	public void xoaTrang() {
+		textBacTho.setText("");
+		textChucVu.setText("");
+		textDiaChi.setText("");
+		textEmail.setText("");
+		textMaNV.setText("");
+		textNamKn.setText("");
+		textSDT.setText("");
+		textTenNV.setText("");
+		textTim.setText("");
+		cbMaCH.setSelectedIndex(0);
 	}
 }

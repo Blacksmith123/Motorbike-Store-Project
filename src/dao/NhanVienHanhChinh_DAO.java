@@ -56,12 +56,41 @@ public class NhanVienHanhChinh_DAO {
 		return stmt.executeUpdate() > 0;
 	}
 
+	// xoa nhan vien
+	public boolean xoaNhanVien(String ma) throws SQLException {
+		ConnectDB.getInstance();
+		Connection con = ConnectDB.getConnection();
+		PreparedStatement stmt = null;
+		stmt = con.prepareStatement("delete from NhanVienHanhChanh where maNhanVien = '" + ma + "'");
+		boolean check = stmt.executeUpdate() > 0;
+		stmt.close();
+		return check;
+	}
+
+	// cap nhat
+	public boolean capNhatNhanVien(NhanVienHanhChinh nv) throws SQLException {
+		ConnectDB.getInstance();
+		Connection con = ConnectDB.getConnection();
+		PreparedStatement stmt = null;
+		String sql = "update NhanVienHanhChanh set tenNhanVien = ?, diaChi = ?, soDienThoai = ?, chucVu = ?, email = ?, soNamKinhNghiem = ?, maCuaHang = ? where maNhanVien = ?";
+		stmt = con.prepareStatement(sql);
+		stmt.setString(1, nv.getTen());
+		stmt.setString(2, nv.getDiaChi());
+		stmt.setString(3, nv.getSdt() + "");
+		stmt.setString(4, nv.getChucVu());
+		stmt.setString(5, nv.getEmail());
+		stmt.setString(6, nv.getNamKinhNghiem() + "");
+		stmt.setString(7, nv.getMaCuaHang());
+		stmt.setString(8, nv.getMa());
+		return stmt.executeUpdate() > 0;
+	}
+
 	// get danh sách nhân viên theo mã cửa hàng
 	public List<NhanVienHanhChinh> getNhanVienHanhChinhTheoMaCh(String ma) throws SQLException {
 		ConnectDB.getInstance();
 		List<NhanVienHanhChinh> dsNhanVien = new ArrayList<NhanVienHanhChinh>();
 		Connection connection = ConnectDB.getConnection();
-		String sql = "SELECT * FROM [dbo].[NhanVienHanhChanh] where maCuaHang ='" + ma + "'";
+		String sql = "SELECT * FROM NhanVienHanhChanh where maCuaHang ='" + ma + "'";
 		Statement statement = connection.createStatement();
 		ResultSet resultSet = statement.executeQuery(sql);
 		TaiKhoan_DAO tKhoan_DAO = new TaiKhoan_DAO();
@@ -75,12 +104,12 @@ public class NhanVienHanhChinh_DAO {
 		return dsNhanVien;
 	}
 
-	// get danh sách nhân viên theo nam kinh nghiem
-	public List<NhanVienHanhChinh> getNhanVienHanhChinhNamKn(String ma) throws SQLException {
+	// get danh sách nhân viên theo tên
+	public List<NhanVienHanhChinh> getNhanVienHanhChinhTheoTen(String ten) throws SQLException {
 		ConnectDB.getInstance();
 		List<NhanVienHanhChinh> dsNhanVien = new ArrayList<NhanVienHanhChinh>();
 		Connection connection = ConnectDB.getConnection();
-		String sql = "SELECT * FROM [dbo].[NhanVienHanhChanh] where soNamKinhNghiem ='" + ma + "'";
+		String sql = "  SELECT * FROM NhanVienHanhChanh where tenNhanVien = N'" + ten + "'";
 		Statement statement = connection.createStatement();
 		ResultSet resultSet = statement.executeQuery(sql);
 		TaiKhoan_DAO tKhoan_DAO = new TaiKhoan_DAO();
@@ -92,6 +121,25 @@ public class NhanVienHanhChinh_DAO {
 					resultSet.getString(8), Integer.valueOf(resultSet.getString(7)), tKhoan));
 		}
 		return dsNhanVien;
+	}
+
+	// get nhân viên sdt
+	public NhanVienHanhChinh getNhanVienHanhChinhSoDt(String ma) throws SQLException {
+		ConnectDB.getInstance();
+		NhanVienHanhChinh NhanVien = null;
+		Connection connection = ConnectDB.getConnection();
+		String sql = "SELECT * FROM NhanVienHanhChanh where soDienThoai = '" + ma + "' ";
+		Statement statement = connection.createStatement();
+		ResultSet resultSet = statement.executeQuery(sql);
+		TaiKhoan_DAO tKhoan_DAO = new TaiKhoan_DAO();
+		TaiKhoan tKhoan;
+		while (resultSet.next()) {
+			tKhoan = tKhoan_DAO.getTaiKhoanTheoMa(resultSet.getString(9));
+			NhanVien = new NhanVienHanhChinh(resultSet.getString(1), resultSet.getString(2), resultSet.getString(3),
+					resultSet.getString(5), resultSet.getString(6), Integer.valueOf(resultSet.getString(4)),
+					resultSet.getString(8), Integer.valueOf(resultSet.getString(7)), tKhoan);
+		}
+		return NhanVien;
 	}
 
 	// get danh sách nhân viên theo chuc vu
@@ -99,7 +147,7 @@ public class NhanVienHanhChinh_DAO {
 		ConnectDB.getInstance();
 		List<NhanVienHanhChinh> dsNhanVien = new ArrayList<NhanVienHanhChinh>();
 		Connection connection = ConnectDB.getConnection();
-		String sql = "SELECT * FROM [dbo].[NhanVienHanhChanh] where chucVu ='" + ma + "'";
+		String sql = "SELECT * FROM NhanVienHanhChanh where chucVu = N'" + ma + "'";
 		Statement statement = connection.createStatement();
 		ResultSet resultSet = statement.executeQuery(sql);
 		TaiKhoan_DAO tKhoan_DAO = new TaiKhoan_DAO();
@@ -118,20 +166,20 @@ public class NhanVienHanhChinh_DAO {
 		ConnectDB.getInstance();
 		NhanVienHanhChinh NhanVien = null;
 		Connection connection = ConnectDB.getConnection();
-		String sql = "SELECT * FROM [dbo].[NhanVienHanhChanh] where maNhanVien ='" + ma + "'";
+		String sql = "SELECT * FROM NhanVienHanhChanh where maNhanVien ='" + ma + "'";
 		Statement statement = connection.createStatement();
 		ResultSet resultSet = statement.executeQuery(sql);
 		TaiKhoan_DAO tKhoan_DAO = new TaiKhoan_DAO();
 		TaiKhoan tKhoan;
 		while (resultSet.next()) {
-			tKhoan = tKhoan_DAO.getTaiKhoanTheoMa(resultSet.getString(10));
+			tKhoan = tKhoan_DAO.getTaiKhoanTheoMa(resultSet.getString(9));
 			NhanVien = new NhanVienHanhChinh(resultSet.getString(1), resultSet.getString(2), resultSet.getString(3),
 					resultSet.getString(5), resultSet.getString(6), Integer.valueOf(resultSet.getString(4)),
 					resultSet.getString(8), Integer.valueOf(resultSet.getString(7)), tKhoan);
 		}
 		return NhanVien;
 	}
-	
+
 	// get nhân viên theo tai khoan
 	public NhanVienHanhChinh getNhanVienHanhChinhTheoMaTaiKhoan(String maTaiKhoan) throws SQLException {
 		ConnectDB.getInstance();
@@ -139,11 +187,12 @@ public class NhanVienHanhChinh_DAO {
 		Connection connection = ConnectDB.getConnection();
 		try {
 			Statement statement = connection.createStatement();
-			ResultSet resultSet = statement.executeQuery("SELECT * FROM [dbo].[NhanVienHanhChanh] where maNhanVien ='" + maTaiKhoan + "'");
+			ResultSet resultSet = statement
+					.executeQuery("SELECT * FROM NhanVienHanhChanh where maTaiKhoan ='" + maTaiKhoan + "'");
 			TaiKhoan_DAO tKhoan_DAO = new TaiKhoan_DAO();
 			TaiKhoan tKhoan;
 			while (resultSet.next()) {
-				tKhoan = tKhoan_DAO.getTaiKhoanTheoMa(resultSet.getString(10));
+				tKhoan = tKhoan_DAO.getTaiKhoanTheoMa(resultSet.getString(9));
 				NhanVien = new NhanVienHanhChinh(resultSet.getString(1), resultSet.getString(2), resultSet.getString(3),
 						resultSet.getString(5), resultSet.getString(6), Integer.valueOf(resultSet.getString(4)),
 						resultSet.getString(8), Integer.valueOf(resultSet.getString(7)), tKhoan);
@@ -152,7 +201,7 @@ public class NhanVienHanhChinh_DAO {
 			// TODO: handle exception
 			e.printStackTrace();
 		}
-		
+
 		return NhanVien;
 	}
 }
