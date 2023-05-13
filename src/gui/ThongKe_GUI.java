@@ -21,8 +21,9 @@ import java.awt.event.ActionEvent;
 import javax.swing.DefaultComboBoxModel;
 import java.awt.ScrollPane;
 
-public class ThongKe extends JPanel {
-
+public class ThongKe_GUI extends JPanel {
+	/*Hai bảng bảng đầu là hóa đơn, bảng sau là chi tiết hóa đơn tương ứng
+	 * xử lí màu, độ rộng cột, table head, như mấy bảng trước và làm hai text có xổ xuống ngày*/
 	/**
 	 * 
 	 */
@@ -32,9 +33,12 @@ public class ThongKe extends JPanel {
 	private JTextField txtXeBanDuocNhieuNhat;
 	private JTextField txtCuaHangBanNhieuXe;
 	private JTable table;
+<<<<<<< HEAD:src/gui/ThongKe.java
 	private JTable table_1;
 	private DefaultTableModel model;
 	private DefaultTableModel model_1;
+=======
+>>>>>>> e4e945faf4e72a0b0a9255e18975be35fdad6103:src/gui/ThongKe_GUI.java
 	private JTextField txtNhanVienBanDuocNhieuXe;
 	private JTextField textField;
 	private JTextField textField_1;
@@ -42,7 +46,7 @@ public class ThongKe extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public ThongKe() {
+	public ThongKe_GUI() {
 		setBorder(new LineBorder(new Color(0, 0, 0)));
 		setBackground(Color.LIGHT_GRAY);
 		setLayout(null);
@@ -54,7 +58,7 @@ public class ThongKe extends JPanel {
 		add(panel);
 		panel.setLayout(null);
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 10, 782, 251);
+		scrollPane.setBounds(10, 10, 782, 243);
 		panel.add(scrollPane);
 		
 		table = new JTable();
@@ -72,19 +76,8 @@ public class ThongKe extends JPanel {
 		scrollPane.setViewportView(table);
 		
 		JScrollPane scrollPane_1 = new JScrollPane();
-		scrollPane_1.setBounds(10, 277, 782, 251);
+		scrollPane_1.setBounds(10, 263, 782, 272);
 		panel.add(scrollPane_1);
-		
-		table_1 = new JTable();
-		table_1.setModel(new DefaultTableModel(
-			new Object[][] {
-				{null, null, null},
-			},
-			new String[] {
-				"M\u00E3 c\u1EEDa h\u00E0ng", "T\u00EAn c\u1EEDa h\u00E0ng", "s\u1ED1 xe \u0111\u00E3 b\u00E1n "
-			}
-		));
-		scrollPane_1.setViewportView(table_1);
 		
 		JPanel panel_1 = new JPanel();
 		panel_1.setBackground(SystemColor.text);
@@ -106,7 +99,7 @@ public class ThongKe extends JPanel {
 		lblNewLabel_4_1.setBounds(10, 45, 140, 34);
 		panel_1.add(lblNewLabel_4_1);
 		
-		JLabel lblNewLabel_4_1_1 = new JLabel("Xe bán được nhiều nhất:");
+		JLabel lblNewLabel_4_1_1 = new JLabel("Số lượng xe bán được:");
 		lblNewLabel_4_1_1.setForeground(new Color(165, 42, 42));
 		lblNewLabel_4_1_1.setFont(new Font("Arial", Font.PLAIN, 16));
 		lblNewLabel_4_1_1.setBounds(10, 90, 176, 34);
@@ -148,13 +141,13 @@ public class ThongKe extends JPanel {
 		lblNewLabel_4_1_1_1_1.setBounds(10, 415, 257, 34);
 		panel_1.add(lblNewLabel_4_1_1_1_1);
 		
-		JLabel lblNewLabel_4_1_1_1_2 = new JLabel("Khách hàng mua được nhiều xe nhất:");
+		JLabel lblNewLabel_4_1_1_1_2 = new JLabel("Số xe bán được ít nhất:");
 		lblNewLabel_4_1_1_1_2.setForeground(new Color(165, 42, 42));
 		lblNewLabel_4_1_1_1_2.setFont(new Font("Arial", Font.PLAIN, 16));
 		lblNewLabel_4_1_1_1_2.setBounds(10, 332, 267, 34);
 		panel_1.add(lblNewLabel_4_1_1_1_2);
 		
-		JLabel lblNewLabel_4_1_1_1_3 = new JLabel("Cửa hàng có nhiều nhân viên nhất:");
+		JLabel lblNewLabel_4_1_1_1_3 = new JLabel("Số xe bán được nhiều nhất:");
 		lblNewLabel_4_1_1_1_3.setForeground(new Color(165, 42, 42));
 		lblNewLabel_4_1_1_1_3.setFont(new Font("Arial", Font.PLAIN, 16));
 		lblNewLabel_4_1_1_1_3.setBounds(10, 244, 246, 34);
@@ -178,6 +171,17 @@ public class ThongKe extends JPanel {
 		textField_1.setBounds(40, 381, 292, 24);
 		panel_1.add(textField_1);
 		
+		JButton btnLoc = new JButton("Lọc");
+		btnLoc.setBounds(295, 32, 71, 27);
+		panel_1.add(btnLoc);
+		btnLoc.setHorizontalAlignment(SwingConstants.LEFT);
+		btnLoc.setIcon(new ImageIcon("D:\\Study\\OOPJava\\21091031_TrinhMinhKhaa\\Motorbike-Store-Project\\data\\image\\icons8-search-30.png"));
+		btnLoc.setForeground(new Color(165, 42, 42));
+		btnLoc.setFont(new Font("Arial", Font.PLAIN, 16));
+		btnLoc.setBackground(Color.LIGHT_GRAY);
+		btnLoc.setHorizontalTextPosition(SwingConstants.RIGHT);
+		btnLoc.setHorizontalAlignment(SwingConstants.LEFT);
+		
 		JLabel lblNewLabel_1 = new JLabel("Thông Tin:");
 		lblNewLabel_1.setForeground(Color.BLUE);
 		lblNewLabel_1.setFont(new Font("Arial", Font.BOLD | Font.ITALIC, 16));
@@ -186,14 +190,8 @@ public class ThongKe extends JPanel {
 		
 		JLabel lblNewLabel_2 = new JLabel("Thống kê:");
 		lblNewLabel_2.setFont(new Font("Arial", Font.BOLD, 16));
-		lblNewLabel_2.setBounds(15, 96, 91, 54);
+		lblNewLabel_2.setBounds(15, 109, 91, 54);
 		add(lblNewLabel_2);
-		
-		JComboBox cbTim = new JComboBox();
-		cbTim.setForeground(Color.RED);
-		cbTim.setFont(new Font("Arial", Font.PLAIN, 16));
-		cbTim.setBounds(116, 113, 125, 21);
-		add(cbTim);
 		
 		
 		JLabel lblNewLabel_3 = new JLabel("THỐNG KÊ");
@@ -203,16 +201,5 @@ public class ThongKe extends JPanel {
 		lblNewLabel_3.setFont(new Font("Arial", Font.BOLD, 24));
 		lblNewLabel_3.setBounds(0, 70, 1198, 37);
 		add(lblNewLabel_3);
-		
-		JButton btnLoc = new JButton("Lọc");
-		btnLoc.setHorizontalAlignment(SwingConstants.LEFT);
-		btnLoc.setIcon(new ImageIcon("D:\\Study\\OOPJava\\21091031_TrinhMinhKhaa\\Motorbike-Store-Project\\data\\image\\icons8-search-30.png"));
-		btnLoc.setForeground(new Color(165, 42, 42));
-		btnLoc.setFont(new Font("Arial", Font.PLAIN, 16));
-		btnLoc.setBackground(Color.LIGHT_GRAY);
-		btnLoc.setBounds(294, 110, 133, 27);
-		btnLoc.setHorizontalTextPosition(SwingConstants.RIGHT);
-		btnLoc.setHorizontalAlignment(SwingConstants.LEFT);
-		add(btnLoc);
 	}
 }
