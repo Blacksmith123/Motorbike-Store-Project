@@ -191,8 +191,8 @@ public class DangNhap_GUI extends JFrame implements ActionListener {
 			JOptionPane.showMessageDialog(null, "Mật khẩu không đúng!");
 		}
 		else {
-			TrangChu_GUI trangChu_GUI = new TrangChu_GUI();
-			trangChu_GUI.setVisible(true);
+			TrangChu trangChu = new TrangChu();
+			trangChu.setVisible(true);
 			this.setVisible(false);
 		}
 	}
