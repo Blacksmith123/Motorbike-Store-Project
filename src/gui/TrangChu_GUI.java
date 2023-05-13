@@ -53,7 +53,7 @@ public class TrangChu_GUI extends JFrame implements ActionListener {
 	
 
 	public static void main(String[] args) {
-<<<<<<< HEAD
+
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -64,8 +64,7 @@ public class TrangChu_GUI extends JFrame implements ActionListener {
 				}
 			}
 		});
-=======
->>>>>>> 436b691b3fcf790ff23f734c124a02736e1e42aa
+
 		new TrangChu_GUI().setVisible(true);
 	}
 
