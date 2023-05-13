@@ -38,6 +38,7 @@ import entity.KhachHang;
 import entity.NhanVienHanhChinh;
 import entity.ThongTinXe;
 import entity.XeTrongKho;
+import HoaDonPDF.*;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -59,6 +60,8 @@ import javax.swing.DefaultCellEditor;
 import javax.swing.DefaultComboBoxModel;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
+
 import javax.swing.event.AncestorListener;
 import javax.swing.event.AncestorEvent;
 
@@ -382,7 +385,7 @@ public class HoaDon_GUI extends JPanel {
 		btnThem.setForeground(new Color(165, 42, 42));
 		btnThem.setFont(new Font("Arial", Font.PLAIN, 16));
 		btnThem.setBackground(Color.LIGHT_GRAY);
-		btnThem.setBounds(35, 32, 112, 27);
+		btnThem.setBounds(35, 11, 112, 27);
 		panel_2_1.add(btnThem);
 
 		JButton btnXoatrang = new JButton("Xóa Trắng");
@@ -395,7 +398,7 @@ public class HoaDon_GUI extends JPanel {
 		btnXoatrang.setForeground(new Color(165, 42, 42));
 		btnXoatrang.setFont(new Font("Arial", Font.PLAIN, 16));
 		btnXoatrang.setBackground(Color.LIGHT_GRAY);
-		btnXoatrang.setBounds(193, 32, 112, 27);
+		btnXoatrang.setBounds(193, 11, 112, 27);
 		panel_2_1.add(btnXoatrang);
 
 		JButton btnCapnhat = new JButton("Cập Nhật");
@@ -449,7 +452,7 @@ public class HoaDon_GUI extends JPanel {
 		btnCapnhat.setForeground(new Color(165, 42, 42));
 		btnCapnhat.setFont(new Font("Arial", Font.PLAIN, 16));
 		btnCapnhat.setBackground(Color.LIGHT_GRAY);
-		btnCapnhat.setBounds(35, 69, 112, 27);
+		btnCapnhat.setBounds(35, 49, 112, 27);
 		panel_2_1.add(btnCapnhat);
 
 		JButton btnXoa = new JButton("Xóa");
@@ -480,7 +483,7 @@ public class HoaDon_GUI extends JPanel {
 		btnXoa.setForeground(new Color(165, 42, 42));
 		btnXoa.setFont(new Font("Arial", Font.PLAIN, 16));
 		btnXoa.setBackground(Color.LIGHT_GRAY);
-		btnXoa.setBounds(193, 69, 112, 27);
+		btnXoa.setBounds(193, 49, 112, 27);
 		panel_2_1.add(btnXoa);
 
 		JButton btnLamMoi = new JButton("Làm Mới");
@@ -495,8 +498,60 @@ public class HoaDon_GUI extends JPanel {
 		btnLamMoi.setForeground(new Color(165, 42, 42));
 		btnLamMoi.setFont(new Font("Arial", Font.PLAIN, 16));
 		btnLamMoi.setBackground(Color.LIGHT_GRAY);
-		btnLamMoi.setBounds(116, 106, 112, 27);
+		btnLamMoi.setBounds(35, 87, 112, 27);
 		panel_2_1.add(btnLamMoi);
+		
+		JButton btnInHoaDon = new JButton("In Hóa Đơn");
+		btnInHoaDon.addActionListener(new ActionListener() {
+			private String time;
+			private String maHoaDon;
+
+			public void actionPerformed(ActionEvent e) {
+				InHoaDon IHD = new InHoaDon();
+				try {
+					IHD.addOrderInfo(time +" ",textMaHD.getText()+" ",cbManhanvien.getSelectedItem()+" ");
+				} catch (com.itextpdf.text.DocumentException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				
+				}
+				  for(int i = 0; i < tableHddetail.getRowCount(); i++) {
+						String maSP = tableHddetail.getValueAt(i, 0).toString();
+						String tenSP = tableHddetail.getValueAt(i, 1).toString();
+						String  soLuong = tableHddetail.getValueAt(i, 2).toString();
+						String donGia = tableHddetail.getValueAt(i, 3).toString();
+						String thanhTien = tableHddetail.getValueAt(i, 4).toString();
+
+						// Insert Order Detail
+						IHD.addCellOrderDetail(tenSP, maSP, soLuong, donGia, thanhTien);
+					}
+					// Insert Order Purchase Info
+					try {
+						IHD.addPurchaseInfo(textTongTien.getText()+"");
+					} catch (com.itextpdf.text.DocumentException e2) {
+						// TODO Auto-generated catch block
+						e2.printStackTrace();
+					}
+					// Create Order
+					IHD.printOrder(maHoaDon + "");
+
+					// Display Order File
+					try {
+						Thread.sleep(500);
+						String url = "./InHoaDon/" + maHoaDon + ".pdf";
+						System.out.println(url);
+						Runtime.getRuntime().exec("rundll32 url.dll, FileProtocolHandler " + new File("./InHoaDon/" + maHoaDon + ".pdf").getAbsolutePath());
+					} catch (Exception e1) {
+						// TODO: handle exception
+						
+					} 
+			}
+		});
+		btnInHoaDon.setForeground(new Color(165, 42, 42));
+		btnInHoaDon.setFont(new Font("Arial", Font.PLAIN, 16));
+		btnInHoaDon.setBackground(Color.LIGHT_GRAY);
+		btnInHoaDon.setBounds(193, 87, 112, 27);
+		panel_2_1.add(btnInHoaDon);
 
 		JLabel lblNewLabel_1 = new JLabel("Thông Tin:");
 		lblNewLabel_1.setHorizontalAlignment(SwingConstants.LEFT);
