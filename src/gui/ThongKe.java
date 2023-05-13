@@ -33,6 +33,8 @@ public class ThongKe extends JPanel {
 	private JTextField txtCuaHangBanNhieuXe;
 	private JTable table;
 	private JTable table_1;
+	private DefaultTableModel model;
+	private DefaultTableModel model_1;
 	private JTextField txtNhanVienBanDuocNhieuXe;
 	private JTextField textField;
 	private JTextField textField_1;
@@ -57,12 +59,14 @@ public class ThongKe extends JPanel {
 		
 		table = new JTable();
 		table.setFont(new Font("Arial", Font.PLAIN, 16));
+		String[] columns = {"M\u00E3 lo\u1EA1i xe", "T\u00EAn lo\u1EA1i xe", "S\u1ED1 l\u01B0\u1EE3ng"};
+		model = new DefaultTableModel(columns, 0);
 		table.setModel(new DefaultTableModel(
 			new Object[][] {
 				{null, null, null},
 			},
 			new String[] {
-				"M\u00E3 lo\u1EA1i xe", "T\u00EAn lo\u1EA1i xe", "s\u1ED1 l\u01B0\u1EE3ng "
+				
 			}
 		));
 		scrollPane.setViewportView(table);
