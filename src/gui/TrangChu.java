@@ -72,8 +72,8 @@ public class TrangChu extends JFrame implements ActionListener {
 		setJMenuBar(menuBar);
 
 		menuTrangChu = new JMenu(trangChu);
-		menuTrangChu.setIcon(null);
-		menuTrangChu.setForeground(new Color(0, 0, 255));
+		menuTrangChu.setIcon(new ImageIcon(TrangChu.class.getResource("/image/menuHome.png")));
+		menuTrangChu.setForeground(new Color(0, 0, 0));
 		menuTrangChu.setFont(new Font("Segoe UI", Font.BOLD, 18));
 		menuBar.add(menuTrangChu);
 
@@ -82,7 +82,8 @@ public class TrangChu extends JFrame implements ActionListener {
 		menuTrangChu.add(menuitemTrangChu);
 
 		menuCuaHang = new JMenu("Cửa hàng");
-		menuCuaHang.setForeground(new Color(0, 0, 255));
+		menuCuaHang.setIcon(new ImageIcon(TrangChu.class.getResource("/image/MotoShop.png")));
+		menuCuaHang.setForeground(new Color(0, 0, 0));
 		menuCuaHang.setFont(new Font("Segoe UI", Font.BOLD, 18));
 		menuBar.add(menuCuaHang);
 
@@ -91,7 +92,8 @@ public class TrangChu extends JFrame implements ActionListener {
 		menuCuaHang.add(menuitemCuaHang);
 
 		menuNhanVien = new JMenu("Nhân viên");
-		menuNhanVien.setForeground(new Color(0, 0, 255));
+		menuNhanVien.setIcon(new ImageIcon(TrangChu.class.getResource("/image/menuStaff.png")));
+		menuNhanVien.setForeground(new Color(0, 0, 0));
 		menuNhanVien.setFont(new Font("Segoe UI", Font.BOLD, 18));
 		menuBar.add(menuNhanVien);
 
@@ -108,7 +110,8 @@ public class TrangChu extends JFrame implements ActionListener {
 		menuNhanVien.add(menuitemNhanVienHanhChinh);
 
 		menuHoaDon = new JMenu("Hóa đơn");
-		menuHoaDon.setForeground(new Color(0, 0, 255));
+		menuHoaDon.setIcon(new ImageIcon(TrangChu.class.getResource("/image/invoice.png")));
+		menuHoaDon.setForeground(new Color(0, 0, 0));
 		menuHoaDon.setFont(new Font("Segoe UI", Font.BOLD, 18));
 		menuBar.add(menuHoaDon);
 
@@ -117,7 +120,8 @@ public class TrangChu extends JFrame implements ActionListener {
 		menuHoaDon.add(menuitemHoaDon);
 
 		menuXe = new JMenu("Xe");
-		menuXe.setForeground(new Color(0, 0, 255));
+		menuXe.setIcon(new ImageIcon(TrangChu.class.getResource("/image/motorbike.png")));
+		menuXe.setForeground(new Color(0, 0, 0));
 		menuXe.setFont(new Font("Segoe UI", Font.BOLD, 18));
 		menuBar.add(menuXe);
 
@@ -134,7 +138,8 @@ public class TrangChu extends JFrame implements ActionListener {
 		menuXe.add(menuitemNhaPhanPhoi);
 
 		menuKhachHang = new JMenu("Khách hàng");
-		menuKhachHang.setForeground(new Color(0, 0, 255));
+		menuKhachHang.setIcon(new ImageIcon(TrangChu.class.getResource("/image/menuCustomer.png")));
+		menuKhachHang.setForeground(new Color(0, 0, 0));
 		menuKhachHang.setFont(new Font("Segoe UI", Font.BOLD, 18));
 		menuBar.add(menuKhachHang);
 
@@ -144,21 +149,31 @@ public class TrangChu extends JFrame implements ActionListener {
 
 		
 		menuThongKe = new JMenu("Thống kê");
-		menuThongKe.setForeground(new Color(0, 0, 255));
+		menuThongKe.setIcon(new ImageIcon(TrangChu.class.getResource("/image/statistics.png")));
+		menuThongKe.setForeground(new Color(0, 0, 0));
 		menuThongKe.setFont(new Font("Segoe UI", Font.BOLD, 18));
 		menuBar.add(menuThongKe);
 		
 		menuitemThongKe = new JMenuItem("Thống kê ");
+<<<<<<< HEAD
 		menuitemThongKe.setIcon(new ImageIcon(TrangChu.class.getResource("/image/statistics.png")));
+=======
+		menuitemThongKe.setIcon(new ImageIcon(TrangChu.class.getResource("/image/stats.png")));
+>>>>>>> 8307977fcd577da8e968f8ce4ac8d6d31783bb92
 		menuThongKe.add(menuitemThongKe);
 		
 		menuDangXuat = new JMenu("Đăng xuất");
-		menuDangXuat.setForeground(Color.BLUE);
+		menuDangXuat.setIcon(new ImageIcon(TrangChu.class.getResource("/image/logout.png")));
+		menuDangXuat.setForeground(new Color(0, 0, 0));
 		menuDangXuat.setFont(new Font("Segoe UI", Font.BOLD, 18));
 		menuBar.add(menuDangXuat);
 		
 		menuitemDangXuat = new JMenuItem("Đăng xuất");
+<<<<<<< HEAD
 		menuitemDangXuat.setIcon(new ImageIcon(TrangChu.class.getResource("/image/logout.png")));
+=======
+		menuitemDangXuat.setIcon(new ImageIcon(TrangChu.class.getResource("/image/menuitemlogout.png")));
+>>>>>>> 8307977fcd577da8e968f8ce4ac8d6d31783bb92
 		menuDangXuat.add(menuitemDangXuat);
 
 
@@ -169,21 +184,23 @@ public class TrangChu extends JFrame implements ActionListener {
 		contentPane.setLayout(null);
 
 		JLabel lblNewLabel = new JLabel("");
+		lblNewLabel.setBackground(Color.GRAY);
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel.setIcon(new ImageIcon(TrangChu.class.getResource("/image/TrangChu.jpg")));
+		lblNewLabel.setIcon(new ImageIcon(TrangChu.class.getResource("/image/taka (1).jpg")));
 		// lblNewLabel.setIcon(new
 
 		// ImageIcon(TrangChu.class.getResource("/image/TrangChu.jpg")));
 
-		lblNewLabel.setBounds(79, 156, 1003, 476);
+		lblNewLabel.setBounds(10, 92, 1184, 600);
 //		lblNewLabel.setBounds(54, 123, 830, 476);
 		contentPane.add(lblNewLabel);
-
-		JLabel lblNewLabel_1 = new JLabel("QUẢN LÝ BÁN XE MÁY", SwingConstants.CENTER);
-		lblNewLabel_1.setForeground(Color.red);
-		lblNewLabel_1.setFont(new Font("Arial", Font.BOLD, 24));
-		lblNewLabel_1.setBounds(0, 0, 1161, 74);
-		contentPane.add(lblNewLabel_1);
+						
+								JLabel lblNewLabel_1 = new JLabel("QUẢN LÝ BÁN XE MÁY", SwingConstants.CENTER);
+								lblNewLabel_1.setBounds(0, 0, 1184, 84);
+								contentPane.add(lblNewLabel_1);
+								lblNewLabel_1.setBackground(new Color(255, 255, 255));
+								lblNewLabel_1.setForeground(Color.BLACK);
+								lblNewLabel_1.setFont(new Font("Arial", Font.BOLD, 24));
 		
 		menuitemTrangChu.addActionListener(this);
 		menuitemNhanVienHanhChinh.addActionListener(this);
