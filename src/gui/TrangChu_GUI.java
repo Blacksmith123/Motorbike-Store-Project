@@ -2,10 +2,23 @@ package gui;
 
 import javax.swing.JPanel;
 import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.SwingConstants;
+import javax.swing.border.EmptyBorder;
+
 import java.awt.Color;
+import java.awt.Container;
+import java.awt.EventQueue;
+
 import javax.swing.ImageIcon;
+import javax.swing.JFrame;
 
 public class TrangChu_GUI extends JPanel {
 
@@ -13,7 +26,7 @@ public class TrangChu_GUI extends JPanel {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-<<<<<<< HEAD
+
 	private JMenuItem menuTrangChu;
 
 	private JPanel contentPane;
@@ -42,6 +55,8 @@ public class TrangChu_GUI extends JPanel {
 	String quanLyXe = "Quản Lý Xe";
 	String nhaPhanPhoi = "Nhà Phân Phối";
 	String khachHang = "Khách Hàng";
+
+	private Container menuThongKe;
 	
 
 	public static void main(String[] args) {
@@ -60,14 +75,13 @@ public class TrangChu_GUI extends JPanel {
 		new TrangChu_GUI().setVisible(true);
 	}
 
-=======
->>>>>>> 10f1f0d5a51949c16da04b1289fad34a93de1c36
+
 
 	/**
 	 * Create the panel.
 	 */
 	public TrangChu_GUI() {
-<<<<<<< HEAD
+
 		setTitle(trangChu);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(391, 21, 1210, 780);
@@ -151,9 +165,9 @@ public class TrangChu_GUI extends JPanel {
 		menuitemKhachHang.setIcon(new ImageIcon(TrangChu_GUI.class.getResource("/image/customer.png")));
 		menuKhachHang.add(menuitemKhachHang);
 
-=======
+
 		setLayout(null);
->>>>>>> 10f1f0d5a51949c16da04b1289fad34a93de1c36
+
 		
 		JPanel panelTong = new JPanel();
 		panelTong.setForeground(new Color(255, 0, 0));
@@ -161,7 +175,7 @@ public class TrangChu_GUI extends JPanel {
 		add(panelTong);
 		panelTong.setLayout(null);
 		
-<<<<<<< HEAD
+
 		JMenuItem menuitemThongKe = new JMenuItem("Thống kê ");
 		menuThongKe.add(menuitemThongKe);
 
@@ -184,13 +198,11 @@ public class TrangChu_GUI extends JPanel {
 		lblNewLabel.setBounds(54, 123, 830, 476);
 		contentPane.add(lblNewLabel);
 
-=======
->>>>>>> 10f1f0d5a51949c16da04b1289fad34a93de1c36
 		JLabel lblNewLabel_1 = new JLabel("QUẢN LÝ BÁN XE MÁY", SwingConstants.CENTER);
 		lblNewLabel_1.setForeground(Color.RED);
 		lblNewLabel_1.setFont(new Font("Arial", Font.BOLD, 24));
 		lblNewLabel_1.setBounds(0, 0, 1161, 74);
-<<<<<<< HEAD
+
 		contentPane.add(lblNewLabel_1);
 		
 		JPanel panel = new JPanel();
@@ -205,7 +217,7 @@ public class TrangChu_GUI extends JPanel {
 		menuitemNhaPhanPhoi.addActionListener(this);
 		menuitemQuanLyXe.addActionListener(this);
 		menuitemThongTinXe.addActionListener(this);
-=======
+
 		panelTong.add(lblNewLabel_1);
 		
 		JLabel lblNewLabel = new JLabel("");
@@ -214,6 +226,6 @@ public class TrangChu_GUI extends JPanel {
 		lblNewLabel.setBounds(79, 156, 1003, 476);
 		panelTong.add(lblNewLabel);
 		
->>>>>>> 10f1f0d5a51949c16da04b1289fad34a93de1c36
+
 	}
 }
