@@ -239,7 +239,6 @@ public class Xe_GUI extends JPanel {
 		panel_1.add(textSoKhung);
 
 		chooserNgayNhapXe = new JDateChooser();
-		chooserNgayNhapXe = new JDateChooser();
 		chooserNgayNhapXe.getCalendarButton().setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		chooserNgayNhapXe.setBounds(160, 141, 206, 24);
 		chooserNgayNhapXe.setDateFormatString("dd/MM/yyyy");
@@ -315,24 +314,29 @@ public class Xe_GUI extends JPanel {
 				if (row == -1) {
 					JOptionPane.showMessageDialog(null, "Bạn phải chọn dòng cần cập nhật!");
 				} else {
-					if (isNull()) {
-						JOptionPane.showMessageDialog(null, "Bạn phải điền đầy đủ thông tin!");
-					} else {
-						String maXe = (String) model.getValueAt(row, 0);
-						String soMay = textSoMay.getText();
-						String soKhung = textSoKhung.getText();
-						Date ngayNhapXe = chooserNgayNhapXe.getDate();
-						String maNhaPhanPhoi = (String) cbNhaPP.getSelectedItem();
-						String maLoaiXe = (String) cbMaLoaiXe.getSelectedItem();
-						Xe xe = new Xe(maXe, soMay, soKhung, new java.sql.Date(ngayNhapXe.getTime()), maNhaPhanPhoi,
-								maLoaiXe);
-						try {
-							xe_DAO.suaThongTinXe(xe, maXe);
-							JOptionPane.showMessageDialog(null, "Cập nhập thông tin thành công!");
-						} catch (SQLException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-							JOptionPane.showMessageDialog(null, "Cập nhật không thành công!");
+					int option = JOptionPane.showConfirmDialog(null,
+							"Bạn có muốn cập nhật xe '" + textMaXe.getText() + "'?", "Cập nhật?",
+							JOptionPane.YES_NO_OPTION);
+					if (option == JOptionPane.YES_OPTION) {
+						if (isNull()) {
+							JOptionPane.showMessageDialog(null, "Bạn phải điền đầy đủ thông tin!");
+						} else {
+							String maXe = (String) model.getValueAt(row, 0);
+							String soMay = textSoMay.getText();
+							String soKhung = textSoKhung.getText();
+							Date ngayNhapXe = chooserNgayNhapXe.getDate();
+							String maNhaPhanPhoi = (String) cbNhaPP.getSelectedItem();
+							String maLoaiXe = (String) cbMaLoaiXe.getSelectedItem();
+							Xe xe = new Xe(maXe, soMay, soKhung, new java.sql.Date(ngayNhapXe.getTime()), maNhaPhanPhoi,
+									maLoaiXe);
+							try {
+								xe_DAO.suaThongTinXe(xe, maXe);
+								JOptionPane.showMessageDialog(null, "Cập nhập thông tin thành công!");
+							} catch (SQLException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+								JOptionPane.showMessageDialog(null, "Cập nhật không thành công!");
+							}
 						}
 					}
 				}
@@ -472,14 +476,13 @@ public class Xe_GUI extends JPanel {
 		btnTim.setHorizontalTextPosition(SwingConstants.LEADING);
 		btnTim.setVerticalTextPosition(SwingConstants.CENTER);
 		btnTim.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				if (cbTim.getSelectedItem().toString().equals("")) {
 					JOptionPane.showMessageDialog(null, "Bạn chưa chọn thuộc tính để tìm kiếm!");
-				}
-				else {
+				} else {
 					if (cbTim.getSelectedItem().toString().equals("Mã xe")) {
 						try {
 							loadDataXeTheoMa(xe_DAO, textField.getText());
@@ -487,24 +490,21 @@ public class Xe_GUI extends JPanel {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
 						}
-					}
-					else if (cbTim.getSelectedItem().toString().equals("Ngày nhập xe")) {
+					} else if (cbTim.getSelectedItem().toString().equals("Ngày nhập xe")) {
 						try {
 							loadDataXeTheoNgayNhap(xe_DAO, textField.getText());
 						} catch (SQLException | ParseException e1) {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
 						}
-					}
-					else if (cbTim.getSelectedItem().toString().equals("Mã nhà phân phối")) {
+					} else if (cbTim.getSelectedItem().toString().equals("Mã nhà phân phối")) {
 						try {
 							loadDataXeTheoMaNhaPhanPhoi(xe_DAO, textField.getText());
 						} catch (SQLException e1) {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
 						}
-					}
-					else {
+					} else {
 						try {
 							loadDataXeTheoMaLoaiXe(xe_DAO, textField.getText());
 						} catch (SQLException e1) {
@@ -540,32 +540,35 @@ public class Xe_GUI extends JPanel {
 				xe.getMaNPP(), xe.getMaLoaiXe() };
 		model.addRow(objects);
 	}
-	
+
 	public void loadDataXeTheoNgayNhap(Xe_DAO xe_DAO, String ngayNhap) throws SQLException, ParseException {
 		model.setRowCount(0);
 		SimpleDateFormat dateFormat = new SimpleDateFormat("dd / MM / yyyy");
 		Date ngayNhapUtil = new SimpleDateFormat("dd/MM/yyyy").parse(textField.getText());
 		java.sql.Date nhayNhapSql = new java.sql.Date(ngayNhapUtil.getTime());
 		for (Xe xe : xe_DAO.getXeTheoNgayNhap(nhayNhapSql)) {
-			Object[] objects = { xe.getMa(), xe.getSoMay(), xe.getSoKhung(), dateFormat.format(xe.getNgayNhap()), xe.getMaNPP(), xe.getMaLoaiXe()};
+			Object[] objects = { xe.getMa(), xe.getSoMay(), xe.getSoKhung(), dateFormat.format(xe.getNgayNhap()),
+					xe.getMaNPP(), xe.getMaLoaiXe() };
 			model.addRow(objects);
 		}
 	}
-	
+
 	public void loadDataXeTheoMaNhaPhanPhoi(Xe_DAO xe_DAO, String maNhaPhanPhoi) throws SQLException {
 		model.setRowCount(0);
 		SimpleDateFormat dateFormat = new SimpleDateFormat("dd / MM / yyyy");
 		for (Xe xe : xe_DAO.getXeTheoMaNhaPhanPhoi(maNhaPhanPhoi)) {
-			Object[] objects = { xe.getMa(), xe.getSoMay(), xe.getSoKhung(), dateFormat.format(xe.getNgayNhap()), xe.getMaNPP(), xe.getMaLoaiXe()};
+			Object[] objects = { xe.getMa(), xe.getSoMay(), xe.getSoKhung(), dateFormat.format(xe.getNgayNhap()),
+					xe.getMaNPP(), xe.getMaLoaiXe() };
 			model.addRow(objects);
 		}
 	}
-	
+
 	public void loadDataXeTheoMaLoaiXe(Xe_DAO xe_DAO, String maLoaiXe) throws SQLException {
 		model.setRowCount(0);
 		SimpleDateFormat dateFormat = new SimpleDateFormat("dd / MM / yyyy");
 		for (Xe xe : xe_DAO.getXeTheoMaLoaiXe(maLoaiXe)) {
-			Object[] objects = { xe.getMa(), xe.getSoMay(), xe.getSoKhung(), dateFormat.format(xe.getNgayNhap()), xe.getMaNPP(), xe.getMaLoaiXe()};
+			Object[] objects = { xe.getMa(), xe.getSoMay(), xe.getSoKhung(), dateFormat.format(xe.getNgayNhap()),
+					xe.getMaNPP(), xe.getMaLoaiXe() };
 			model.addRow(objects);
 		}
 	}

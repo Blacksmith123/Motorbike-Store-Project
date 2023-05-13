@@ -149,6 +149,7 @@ public class TrangChu extends JFrame implements ActionListener {
 		menuBar.add(menuThongKe);
 		
 		menuitemThongKe = new JMenuItem("Thống kê ");
+		menuitemThongKe.setIcon(new ImageIcon(TrangChu.class.getResource("/image/statistics.png")));
 		menuThongKe.add(menuitemThongKe);
 		
 		menuDangXuat = new JMenu("Đăng xuất");
@@ -157,6 +158,7 @@ public class TrangChu extends JFrame implements ActionListener {
 		menuBar.add(menuDangXuat);
 		
 		menuitemDangXuat = new JMenuItem("Đăng xuất");
+		menuitemDangXuat.setIcon(new ImageIcon(TrangChu.class.getResource("/image/logout.png")));
 		menuDangXuat.add(menuitemDangXuat);
 
 
