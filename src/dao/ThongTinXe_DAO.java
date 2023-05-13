@@ -36,6 +36,7 @@ public class ThongTinXe_DAO {
 		} finally {
 			con.close();
 		}
+
 		return false;
 	}
 
@@ -86,8 +87,9 @@ public class ThongTinXe_DAO {
 		ThongTinXe thongTinXe = new ThongTinXe();
 		try {
 			Statement statement = con.createStatement();
-			ResultSet resultSet = statement.executeQuery("select * from ThongTinXe where maLoaiXe = '" + maLoaiXe + "'");
-			
+			ResultSet resultSet = statement
+					.executeQuery("select * from ThongTinXe where maLoaiXe = '" + maLoaiXe + "'");
+
 			while (resultSet.next()) {
 
 				thongTinXe.setMaLoaiXe(maLoaiXe);
@@ -106,31 +108,32 @@ public class ThongTinXe_DAO {
 	}
 
 	// get thong tin xe theo ten
-		public ThongTinXe getThongTinXeTheoTen(String tenLoaiXe) throws SQLException {
-			ConnectDB.getInstance();
-			Connection con = ConnectDB.getConnection();
-			ThongTinXe thongTinXe = new ThongTinXe();
-			try {
-				Statement statement = con.createStatement();
-				ResultSet resultSet = statement.executeQuery("select * from ThongTinXe where tenLoaiXe = '" + tenLoaiXe + "'");
-				
-				while (resultSet.next()) {
+	public ThongTinXe getThongTinXeTheoTen(String tenLoaiXe) throws SQLException {
+		ConnectDB.getInstance();
+		Connection con = ConnectDB.getConnection();
+		ThongTinXe thongTinXe = new ThongTinXe();
+		try {
+			Statement statement = con.createStatement();
+			ResultSet resultSet = statement
+					.executeQuery("select * from ThongTinXe where tenLoaiXe = '" + tenLoaiXe + "'");
 
-					thongTinXe.setMaLoaiXe(resultSet.getString(1));
-					thongTinXe.setTenLoaiXe(resultSet.getString(2));
-					thongTinXe.setGiaNiemYet(resultSet.getInt(3));
-					thongTinXe.setGiaGiam(resultSet.getInt(4));
-					thongTinXe.setMoTaXe(resultSet.getString(5));
-					thongTinXe.setPhienBan(resultSet.getString(6));
+			while (resultSet.next()) {
 
-				}
-			} catch (Exception e) {
-				// TODO: handle exception
-				e.printStackTrace();
+				thongTinXe.setMaLoaiXe(resultSet.getString(1));
+				thongTinXe.setTenLoaiXe(resultSet.getString(2));
+				thongTinXe.setGiaNiemYet(resultSet.getInt(3));
+				thongTinXe.setGiaGiam(resultSet.getInt(4));
+				thongTinXe.setMoTaXe(resultSet.getString(5));
+				thongTinXe.setPhienBan(resultSet.getString(6));
+
 			}
-			return thongTinXe;
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
 		}
-	
+		return thongTinXe;
+	}
+
 	// get danh sach thong tin xe
 	public List<ThongTinXe> getAllThongTinXe() {
 		ConnectDB.getInstance();

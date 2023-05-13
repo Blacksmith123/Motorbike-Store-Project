@@ -55,6 +55,23 @@ public class Xe_DAO {
 
 	}
 
+	// xoa xe theo ma loai xe theo số lượng
+	public boolean xoaXeTheoMaLoaiXeSL(String ma, int sl) throws SQLException {
+		ConnectDB.getInstance();
+		Connection con = ConnectDB.getConnection();
+		PreparedStatement ps = null;
+		try {
+			ps = con.prepareStatement("delete top ("+sl+") from Xe where maLoaiXe = '"+ma+"'");
+			return ps.executeUpdate() > 0;
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		ps.close();
+		return false;
+
+	}
+
 	// sua thong tin xe
 	public boolean suaThongTinXe(Xe xe, String ma) throws SQLException {
 		ConnectDB.getInstance();

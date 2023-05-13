@@ -309,6 +309,8 @@ public class CuaHang_GUI extends JPanel {
 					// set lại dòng trong table hd detail
 					modelCuaHang.setRowCount(0);
 					modelXeTrongKho.setRowCount(0);
+					cbMaLoaiXe.removeAllItems();
+
 					for (ThongTinXe thongTinXe : thongTinXe_DAO.getAllThongTinXe()) {
 						cbMaLoaiXe.addItem(thongTinXe.getMaLoaiXe());
 					}
@@ -363,6 +365,7 @@ public class CuaHang_GUI extends JPanel {
 				if (isEditable) {
 					btnThemDong.setEnabled(true);
 					btnCapnhat.setText("Xác Nhận");
+					cbMaLoaiXe.removeAllItems();
 					for (ThongTinXe thongTinXe : thongTinXe_DAO.getAllThongTinXe()) {
 						cbMaLoaiXe.addItem(thongTinXe.getMaLoaiXe());
 					}

@@ -30,6 +30,7 @@ import dao.NhanVienHanhChinh_DAO;
 import dao.PhatSinhMa_DAO;
 import dao.ThongTinXe_DAO;
 import dao.XeTrongKho_DAO;
+import dao.Xe_DAO;
 import entity.ChiTietHoaDon;
 import entity.CuaHang;
 import entity.HoaDon;
@@ -83,6 +84,7 @@ public class HoaDon_GUI extends JPanel {
 	private NhanVienHanhChinh_DAO nhanVienHanhChinh_DAO;
 	private ThongTinXe_DAO thongTinXe_DAO;
 	private PhatSinhMa_DAO phatSinhMa_DAO;
+	private Xe_DAO xe_DAO;
 	private List<CuaHang> dsCuaHang;
 	// xetrongkhodao
 	private JComboBox<String> cbMakhachhang;
@@ -114,7 +116,9 @@ public class HoaDon_GUI extends JPanel {
 		xeTrongKho_DAO = new XeTrongKho_DAO();
 		cuaHang_DAO = new CuaHang_DAO();
 		phatSinhMa_DAO = new PhatSinhMa_DAO();
+		xe_DAO = new Xe_DAO();
 		dsCuaHang = cuaHang_DAO.getAllCuaHang();
+
 		// ========== cb nhan vien hành chánh
 		nhanVienHanhChinh_DAO = new NhanVienHanhChinh_DAO();
 		int size = dsCuaHang.size();
@@ -360,6 +364,16 @@ public class HoaDon_GUI extends JPanel {
 					} else {
 						modelHd.addRow(layDuLieu());
 						themSql();
+						for (int j = 0; j < tableHddetail.getRowCount(); j++) {
+							int value = Integer.valueOf(tableHddetail.getValueAt(j, 2).toString());
+							String maLx = tableHddetail.getValueAt(j, 1).toString();
+							try {
+								xe_DAO.xoaXeTheoMaLoaiXeSL(maLx, value);
+							} catch (SQLException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}
+						}
 						JOptionPane.showMessageDialog(null, "Thêm thành công");
 					}
 				}
@@ -391,6 +405,7 @@ public class HoaDon_GUI extends JPanel {
 				TableColumn column = tableHddetail.getColumnModel().getColumn(1); // Lấy cột tương ứng trong bảng
 				TableColumn column1 = tableHddetail.getColumnModel().getColumn(2); // Lấy cột tương ứng trong bảng
 				if (isEditable) {
+					cbMacuahang.setEnabled(false);
 					btnThemDong.setEnabled(true);
 					btnCapnhat.setText("Xác Nhận");
 					// Đưa combobox vào bảng
@@ -398,6 +413,7 @@ public class HoaDon_GUI extends JPanel {
 					// Bỏ cờ chỉ đọc để cho phép người dùng sửa đổi bảng JTable
 					column1.setCellEditor(new DefaultCellEditor(textNhap));
 				} else {
+					cbMacuahang.setEnabled(true);
 					btnCapnhat.setText("Cập Nhật");
 					btnThemDong.setEnabled(false);
 					int sum = 0;
