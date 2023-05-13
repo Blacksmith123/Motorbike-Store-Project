@@ -276,7 +276,7 @@ public class TrangChu extends JFrame implements ActionListener {
 			}
 		} else if (o.equals(menuitemThongKe)) {
 			setTitle(thongKe);
-			showMenu(new ThongKe());
+			showMenu(new ThongKe_GUI());
 		} else if (o.equals(menuitemTrangChu)) {
 			setTitle(trangChu);
 			showMenu(new TrangChu_GUI());

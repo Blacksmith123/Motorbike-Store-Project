@@ -1,0 +1,205 @@
+package gui;
+
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.SystemColor;
+
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JComponent;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+import javax.swing.border.LineBorder;
+import javax.swing.table.DefaultTableModel;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import javax.swing.DefaultComboBoxModel;
+import java.awt.ScrollPane;
+
+public class ThongKe_GUI extends JPanel {
+	/*Hai bảng bảng đầu là hóa đơn, bảng sau là chi tiết hóa đơn tương ứng
+	 * xử lí màu, độ rộng cột, table head, như mấy bảng trước và làm hai text có xổ xuống ngày*/
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private JTextField txtTuNgay;
+	private JTextField txtDenNgay;
+	private JTextField txtXeBanDuocNhieuNhat;
+	private JTextField txtCuaHangBanNhieuXe;
+	private JTable table;
+<<<<<<< HEAD:src/gui/ThongKe.java
+	private JTable table_1;
+	private DefaultTableModel model;
+	private DefaultTableModel model_1;
+=======
+>>>>>>> e4e945faf4e72a0b0a9255e18975be35fdad6103:src/gui/ThongKe_GUI.java
+	private JTextField txtNhanVienBanDuocNhieuXe;
+	private JTextField textField;
+	private JTextField textField_1;
+
+	/**
+	 * Create the panel.
+	 */
+	public ThongKe_GUI() {
+		setBorder(new LineBorder(new Color(0, 0, 0)));
+		setBackground(Color.LIGHT_GRAY);
+		setLayout(null);
+		
+		JPanel panel = new JPanel();
+		panel.setBackground(new Color(165, 42, 42));
+		panel.setBorder(new LineBorder(Color.CYAN));
+		panel.setBounds(10, 148, 802, 545);
+		add(panel);
+		panel.setLayout(null);
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(10, 10, 782, 243);
+		panel.add(scrollPane);
+		
+		table = new JTable();
+		table.setFont(new Font("Arial", Font.PLAIN, 16));
+		String[] columns = {"M\u00E3 lo\u1EA1i xe", "T\u00EAn lo\u1EA1i xe", "S\u1ED1 l\u01B0\u1EE3ng"};
+		model = new DefaultTableModel(columns, 0);
+		table.setModel(new DefaultTableModel(
+			new Object[][] {
+				{null, null, null},
+			},
+			new String[] {
+				
+			}
+		));
+		scrollPane.setViewportView(table);
+		
+		JScrollPane scrollPane_1 = new JScrollPane();
+		scrollPane_1.setBounds(10, 263, 782, 272);
+		panel.add(scrollPane_1);
+		
+		JPanel panel_1 = new JPanel();
+		panel_1.setBackground(SystemColor.text);
+		panel_1.setBorder(new LineBorder(Color.CYAN));
+		panel_1.setBounds(812, 148, 376, 545);
+		add(panel_1);
+		panel_1.setLayout(null);
+		
+		JLabel lblNewLabel_4 = new JLabel("Từ ngày:");
+		lblNewLabel_4.setForeground(new Color(165, 42, 42));
+		lblNewLabel_4.setBackground(new Color(255, 255, 255));
+		lblNewLabel_4.setFont(new Font("Arial", Font.PLAIN, 16));
+		lblNewLabel_4.setBounds(10, 10, 140, 34);
+		panel_1.add(lblNewLabel_4);
+		
+		JLabel lblNewLabel_4_1 = new JLabel("Đến ngày:");
+		lblNewLabel_4_1.setForeground(new Color(165, 42, 42));
+		lblNewLabel_4_1.setFont(new Font("Arial", Font.PLAIN, 16));
+		lblNewLabel_4_1.setBounds(10, 45, 140, 34);
+		panel_1.add(lblNewLabel_4_1);
+		
+		JLabel lblNewLabel_4_1_1 = new JLabel("Số lượng xe bán được:");
+		lblNewLabel_4_1_1.setForeground(new Color(165, 42, 42));
+		lblNewLabel_4_1_1.setFont(new Font("Arial", Font.PLAIN, 16));
+		lblNewLabel_4_1_1.setBounds(10, 90, 176, 34);
+		panel_1.add(lblNewLabel_4_1_1);
+		
+		JLabel lblNewLabel_4_1_1_1 = new JLabel("Cửa hàng bán nhiều xe nhất:");
+		lblNewLabel_4_1_1_1.setForeground(new Color(165, 42, 42));
+		lblNewLabel_4_1_1_1.setFont(new Font("Arial", Font.PLAIN, 16));
+		lblNewLabel_4_1_1_1.setBounds(10, 158, 206, 34);
+		panel_1.add(lblNewLabel_4_1_1_1);
+		
+		txtTuNgay = new JTextField();
+		txtTuNgay.setFont(new Font("Arial", Font.PLAIN, 16));
+		txtTuNgay.setBounds(91, 15, 183, 24);
+		panel_1.add(txtTuNgay);
+		txtTuNgay.setColumns(10);
+		
+		txtDenNgay = new JTextField();
+		txtDenNgay.setFont(new Font("Arial", Font.PLAIN, 16));
+		txtDenNgay.setColumns(10);
+		txtDenNgay.setBounds(91, 50, 183, 24);
+		panel_1.add(txtDenNgay);
+		
+		txtXeBanDuocNhieuNhat = new JTextField();
+		txtXeBanDuocNhieuNhat.setFont(new Font("Arial", Font.PLAIN, 16));
+		txtXeBanDuocNhieuNhat.setColumns(10);
+		txtXeBanDuocNhieuNhat.setBounds(40, 123, 292, 24);
+		panel_1.add(txtXeBanDuocNhieuNhat);
+		
+		txtCuaHangBanNhieuXe = new JTextField();
+		txtCuaHangBanNhieuXe.setFont(new Font("Arial", Font.PLAIN, 16));
+		txtCuaHangBanNhieuXe.setColumns(10);
+		txtCuaHangBanNhieuXe.setBounds(40, 198, 292, 24);
+		panel_1.add(txtCuaHangBanNhieuXe);
+		
+		JLabel lblNewLabel_4_1_1_1_1 = new JLabel("Nhân viên bán được nhiều xe nhất:");
+		lblNewLabel_4_1_1_1_1.setForeground(new Color(165, 42, 42));
+		lblNewLabel_4_1_1_1_1.setFont(new Font("Arial", Font.PLAIN, 16));
+		lblNewLabel_4_1_1_1_1.setBounds(10, 415, 257, 34);
+		panel_1.add(lblNewLabel_4_1_1_1_1);
+		
+		JLabel lblNewLabel_4_1_1_1_2 = new JLabel("Số xe bán được ít nhất:");
+		lblNewLabel_4_1_1_1_2.setForeground(new Color(165, 42, 42));
+		lblNewLabel_4_1_1_1_2.setFont(new Font("Arial", Font.PLAIN, 16));
+		lblNewLabel_4_1_1_1_2.setBounds(10, 332, 267, 34);
+		panel_1.add(lblNewLabel_4_1_1_1_2);
+		
+		JLabel lblNewLabel_4_1_1_1_3 = new JLabel("Số xe bán được nhiều nhất:");
+		lblNewLabel_4_1_1_1_3.setForeground(new Color(165, 42, 42));
+		lblNewLabel_4_1_1_1_3.setFont(new Font("Arial", Font.PLAIN, 16));
+		lblNewLabel_4_1_1_1_3.setBounds(10, 244, 246, 34);
+		panel_1.add(lblNewLabel_4_1_1_1_3);
+		
+		txtNhanVienBanDuocNhieuXe = new JTextField();
+		txtNhanVienBanDuocNhieuXe.setFont(new Font("Arial", Font.PLAIN, 16));
+		txtNhanVienBanDuocNhieuXe.setColumns(10);
+		txtNhanVienBanDuocNhieuXe.setBounds(40, 460, 292, 24);
+		panel_1.add(txtNhanVienBanDuocNhieuXe);
+		
+		textField = new JTextField();
+		textField.setFont(new Font("Arial", Font.PLAIN, 16));
+		textField.setColumns(10);
+		textField.setBounds(40, 298, 292, 24);
+		panel_1.add(textField);
+		
+		textField_1 = new JTextField();
+		textField_1.setFont(new Font("Arial", Font.PLAIN, 16));
+		textField_1.setColumns(10);
+		textField_1.setBounds(40, 381, 292, 24);
+		panel_1.add(textField_1);
+		
+		JButton btnLoc = new JButton("Lọc");
+		btnLoc.setBounds(295, 32, 71, 27);
+		panel_1.add(btnLoc);
+		btnLoc.setHorizontalAlignment(SwingConstants.LEFT);
+		btnLoc.setIcon(new ImageIcon("D:\\Study\\OOPJava\\21091031_TrinhMinhKhaa\\Motorbike-Store-Project\\data\\image\\icons8-search-30.png"));
+		btnLoc.setForeground(new Color(165, 42, 42));
+		btnLoc.setFont(new Font("Arial", Font.PLAIN, 16));
+		btnLoc.setBackground(Color.LIGHT_GRAY);
+		btnLoc.setHorizontalTextPosition(SwingConstants.RIGHT);
+		btnLoc.setHorizontalAlignment(SwingConstants.LEFT);
+		
+		JLabel lblNewLabel_1 = new JLabel("Thông Tin:");
+		lblNewLabel_1.setForeground(Color.BLUE);
+		lblNewLabel_1.setFont(new Font("Arial", Font.BOLD | Font.ITALIC, 16));
+		lblNewLabel_1.setBounds(809, 123, 322, 27);
+		add(lblNewLabel_1);
+		
+		JLabel lblNewLabel_2 = new JLabel("Thống kê:");
+		lblNewLabel_2.setFont(new Font("Arial", Font.BOLD, 16));
+		lblNewLabel_2.setBounds(15, 109, 91, 54);
+		add(lblNewLabel_2);
+		
+		
+		JLabel lblNewLabel_3 = new JLabel("THỐNG KÊ");
+		lblNewLabel_3.setBackground(new Color(165, 42, 42));
+		lblNewLabel_3.setForeground(Color.BLUE);
+		lblNewLabel_3.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel_3.setFont(new Font("Arial", Font.BOLD, 24));
+		lblNewLabel_3.setBounds(0, 70, 1198, 37);
+		add(lblNewLabel_3);
+	}
+}
