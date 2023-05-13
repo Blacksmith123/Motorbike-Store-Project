@@ -5,14 +5,19 @@ import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.SystemColor;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.sql.Date;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -42,8 +47,7 @@ public class ThongKe_GUI extends JPanel {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private JTextField txtTuNgay;
-	private JTextField txtDenNgay;
+	
 	private JTextField txtXeBanDuocNhieuNhat;
 	private JTextField txtCuaHangBanNhieuXe;
 	private JTable table;
@@ -57,7 +61,7 @@ public class ThongKe_GUI extends JPanel {
 	private ChiTietHoaDon_DAO chiTietHoaDon_DAO;
 	private JDateChooser chooserTuNgay;
 	private JDateChooser chooserDenNgay;
-	
+	private LocalDate localDate;
 
 	/**
 	 * Create the panel.
@@ -93,31 +97,31 @@ public class ThongKe_GUI extends JPanel {
 		table.setRowHeight(25);
 		table.setToolTipText("Chọn hoá đơn để thực hiện chức năng");
 		table.addMouseListener(new MouseListener() {
-			
+
 			@Override
 			public void mouseReleased(MouseEvent e) {
 				// TODO Auto-generated method stub
-				
+
 			}
-			
+
 			@Override
 			public void mousePressed(MouseEvent e) {
 				// TODO Auto-generated method stub
-				
+
 			}
-			
+
 			@Override
 			public void mouseExited(MouseEvent e) {
 				// TODO Auto-generated method stub
-				
+
 			}
-			
+
 			@Override
 			public void mouseEntered(MouseEvent e) {
 				// TODO Auto-generated method stub
-				
+
 			}
-			
+
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				// TODO Auto-generated method stub
@@ -215,6 +219,12 @@ public class ThongKe_GUI extends JPanel {
 		lblNewLabel_4_1_1_1.setBounds(10, 158, 206, 34);
 		panel_1.add(lblNewLabel_4_1_1_1);
 
+		localDate = LocalDate.now();
+		int ngay = localDate.getDayOfMonth();
+		int thang = localDate.getMonthValue();
+		int nam = localDate.getYear();
+		Date now = new Date(nam - 1900, thang - 1, ngay);
+		
 		chooserTuNgay = new JDateChooser();
 		chooserTuNgay.getCalendarButton().setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		chooserTuNgay.setBounds(91, 15, 183, 24);
@@ -223,6 +233,7 @@ public class ThongKe_GUI extends JPanel {
 		chooserTuNgay.setFont(new Font("Arial", Font.PLAIN, 16));
 		chooserTuNgay.getCalendarButton().setPreferredSize(new Dimension(30, 24));
 		chooserTuNgay.getCalendarButton().setBackground(new Color(138, 255, 255));
+		chooserTuNgay.setDate(now);
 		chooserTuNgay.getCalendarButton().setToolTipText("Chọn ngày nhập xe");
 		panel_1.add(chooserTuNgay);
 
@@ -235,6 +246,7 @@ public class ThongKe_GUI extends JPanel {
 		chooserDenNgay.getCalendarButton().setPreferredSize(new Dimension(30, 24));
 		chooserDenNgay.getCalendarButton().setBackground(new Color(138, 255, 255));
 		chooserDenNgay.getCalendarButton().setToolTipText("Chọn ngày cuối");
+		chooserDenNgay.setDate(now);
 		panel_1.add(chooserDenNgay);
 
 		txtXeBanDuocNhieuNhat = new JTextField();
@@ -296,6 +308,23 @@ public class ThongKe_GUI extends JPanel {
 		btnLoc.setBackground(Color.LIGHT_GRAY);
 		btnLoc.setHorizontalTextPosition(SwingConstants.RIGHT);
 		btnLoc.setHorizontalAlignment(SwingConstants.LEFT);
+		btnLoc.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				java.util.Date utilTuNgay = chooserTuNgay.getDate();
+				java.util.Date utilDenNgay = chooserDenNgay.getDate();
+
+				@SuppressWarnings("deprecation")
+				Date ngayBatDau = new Date(utilTuNgay.getYear(), utilTuNgay.getMonth(), utilTuNgay.getDate());
+				@SuppressWarnings("deprecation")
+				Date ngayKetThuc = new Date(utilDenNgay.getYear(), utilDenNgay.getMonth(), utilDenNgay.getDate());
+				if (ngayBatDau.after(ngayKetThuc)) {
+					JOptionPane.showMessageDialog(null, "Ngày bắt đầu phải trước hoặc bằng ngày kết thúc!");
+				}
+			}
+		});
 
 		JLabel lblNewLabel_1 = new JLabel("Thông Tin:");
 		lblNewLabel_1.setForeground(Color.BLUE);
@@ -335,7 +364,7 @@ public class ThongKe_GUI extends JPanel {
 			model_1.addRow(objects);
 		}
 	}
-	
+
 	public void loadDataChiTietHoaDonTheoMaHoaDon(ChiTietHoaDon_DAO chiTietHoaDon_DAO, String maHoaDon) {
 		model_1.setRowCount(0);
 		try {

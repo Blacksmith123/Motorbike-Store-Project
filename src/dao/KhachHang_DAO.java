@@ -18,9 +18,8 @@ public class KhachHang_DAO {
 		Connection connection = ConnectDB.getConnection();
 		List<KhachHang> dsKhachHang = new ArrayList<KhachHang>();
 		try {
-			String sqlString = "select * from KhachHang";
-			Statement statement = connection.createStatement();
-			ResultSet rsResultSet = statement.executeQuery(sqlString);
+			PreparedStatement ps = connection.prepareStatement("select * from KhachHang");
+			ResultSet rsResultSet = ps.executeQuery();
 			while (rsResultSet.next()) {
 				dsKhachHang.add(new KhachHang(rsResultSet.getString(1), rsResultSet.getString(2),
 						rsResultSet.getString(3), rsResultSet.getString(4), Integer.valueOf(rsResultSet.getString(5)),
@@ -99,13 +98,13 @@ public class KhachHang_DAO {
 		Connection con = ConnectDB.getConnection();
 		try {
 			PreparedStatement ps = con.prepareStatement(
-					"update KhachHang set hoKhachHang = ?, tenKhachHang = ?, diaChi = ?, soDienThoai = ?, email = ? where maKhachHang = '"+ maKhachHang +"'");
+					"update KhachHang set hoKhachHang = ?, tenKhachHang = ?, diaChi = ?, soDienThoai = ?, email = ? where maKhachHang = ?");
 			ps.setString(1, kh.getHo());
 			ps.setString(2, kh.getTen());
 			ps.setString(3, kh.getDiaChi());
 			ps.setInt(4, kh.getSdt());
 			ps.setString(5, kh.getEmail());
-
+			ps.setString(6, kh.getMa());
 			return ps.executeUpdate() > 0;
 		} catch (Exception e) {
 			// TODO: handle exception

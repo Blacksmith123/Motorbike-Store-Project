@@ -111,6 +111,7 @@ public class CuaHang_GUI extends JPanel {
 		tableCuahang.setFont(new Font("Arial", Font.PLAIN, 16));
 		tableCuahang.setDefaultEditor(Object.class, null);
 		tableCuahang.setToolTipText("Chọn cửa hàng để thực hiện chức năng");
+		tableCuahang.getColumnModel().getColumn(1).setPreferredWidth(120);;
 		tableCuahang.addMouseListener(new MouseListener() {
 
 			@Override
