@@ -73,37 +73,41 @@ public class TrangChu extends JFrame implements ActionListener {
 
 		menuTrangChu = new JMenu(trangChu);
 		menuTrangChu.setIcon(new ImageIcon(TrangChu.class.getResource("/image/menuHome.png")));
-		menuTrangChu.setForeground(new Color(0, 0, 0));
+		menuTrangChu.setForeground(new Color(0, 163, 163));
 		menuTrangChu.setFont(new Font("Segoe UI", Font.BOLD, 18));
 		menuBar.add(menuTrangChu);
 
 		menuitemTrangChu = new JMenuItem("Trang chủ");
+		menuitemTrangChu.setForeground(new Color(0, 163, 163));
 		menuitemTrangChu.setIcon(new ImageIcon(TrangChu.class.getResource("/image/home.png")));
 		menuTrangChu.add(menuitemTrangChu);
 
 		menuCuaHang = new JMenu("Cửa hàng");
 		menuCuaHang.setIcon(new ImageIcon(TrangChu.class.getResource("/image/MotoShop.png")));
-		menuCuaHang.setForeground(new Color(0, 0, 0));
+		menuCuaHang.setForeground(new Color(0, 163, 163));
 		menuCuaHang.setFont(new Font("Segoe UI", Font.BOLD, 18));
 		menuBar.add(menuCuaHang);
 
 		menuitemCuaHang = new JMenuItem("Quản lý cửa hàng");
+		menuitemCuaHang.setForeground(new Color(0, 163, 163));
 		menuitemCuaHang.setIcon(new ImageIcon(TrangChu.class.getResource("/image/store.png")));
 		menuCuaHang.add(menuitemCuaHang);
 
 		menuNhanVien = new JMenu("Nhân viên");
 		menuNhanVien.setIcon(new ImageIcon(TrangChu.class.getResource("/image/menuStaff.png")));
-		menuNhanVien.setForeground(new Color(0, 0, 0));
+		menuNhanVien.setForeground(new Color(0, 163, 163));
 		menuNhanVien.setFont(new Font("Segoe UI", Font.BOLD, 18));
 		menuBar.add(menuNhanVien);
 
 		menuitemNhanVienKyThuat = new JMenuItem("Nhân viên kỹ thuật");
+		menuitemNhanVienKyThuat.setForeground(new Color(0, 163, 163));
 		menuitemNhanVienKyThuat.setIcon(new ImageIcon(TrangChu.class.getResource("/image/technical-support.png")));
 		// menuitemNhanVienKyThuat.setIcon(new
 		// ImageIcon(TrangChu.class.getResource("/image/worker.png")));
 		menuNhanVien.add(menuitemNhanVienKyThuat);
 
 		menuitemNhanVienHanhChinh = new JMenuItem("Nhân viên hành chính");
+		menuitemNhanVienHanhChinh.setForeground(new Color(0, 163, 163));
 		menuitemNhanVienHanhChinh.setIcon(new ImageIcon(TrangChu.class.getResource("/image/team-management.png")));
 		// menuitemNhanVienHanhChinh.setIcon(new
 		// ImageIcon(TrangChu.class.getResource("/image/employee.png")));
@@ -111,60 +115,67 @@ public class TrangChu extends JFrame implements ActionListener {
 
 		menuHoaDon = new JMenu("Hóa đơn");
 		menuHoaDon.setIcon(new ImageIcon(TrangChu.class.getResource("/image/invoice.png")));
-		menuHoaDon.setForeground(new Color(0, 0, 0));
+		menuHoaDon.setForeground(new Color(0, 163, 163));
 		menuHoaDon.setFont(new Font("Segoe UI", Font.BOLD, 18));
 		menuBar.add(menuHoaDon);
 
 		menuitemHoaDon = new JMenuItem("Hóa đơn");
+		menuitemHoaDon.setForeground(new Color(0, 163, 163));
 		menuitemHoaDon.setIcon(new ImageIcon(TrangChu.class.getResource("/image/bill.png")));
 		menuHoaDon.add(menuitemHoaDon);
 
 		menuXe = new JMenu("Xe");
 		menuXe.setIcon(new ImageIcon(TrangChu.class.getResource("/image/motorbike.png")));
-		menuXe.setForeground(new Color(0, 0, 0));
+		menuXe.setForeground(new Color(0, 163, 163));
 		menuXe.setFont(new Font("Segoe UI", Font.BOLD, 18));
 		menuBar.add(menuXe);
 
 		menuitemThongTinXe = new JMenuItem("Thông tin xe");
+		menuitemThongTinXe.setForeground(new Color(0, 163, 163));
 		menuitemThongTinXe.setIcon(new ImageIcon(TrangChu.class.getResource("/image/information-button.png")));
 		menuXe.add(menuitemThongTinXe);
 
 		menuitemQuanLyXe = new JMenuItem("Quản lý xe");
+		menuitemQuanLyXe.setForeground(new Color(0, 163, 163));
 		menuitemQuanLyXe.setIcon(new ImageIcon(TrangChu.class.getResource("/image/project-management.png")));
 		menuXe.add(menuitemQuanLyXe);
 
 		menuitemNhaPhanPhoi = new JMenuItem("Nhà phân phối");
+		menuitemNhaPhanPhoi.setForeground(new Color(0, 163, 163));
 		menuitemNhaPhanPhoi.setIcon(new ImageIcon(TrangChu.class.getResource("/image/distribution.png")));
 		menuXe.add(menuitemNhaPhanPhoi);
 
 		menuKhachHang = new JMenu("Khách hàng");
 		menuKhachHang.setIcon(new ImageIcon(TrangChu.class.getResource("/image/menuCustomer.png")));
-		menuKhachHang.setForeground(new Color(0, 0, 0));
+		menuKhachHang.setForeground(new Color(0, 163, 163));
 		menuKhachHang.setFont(new Font("Segoe UI", Font.BOLD, 18));
 		menuBar.add(menuKhachHang);
 
 		menuitemKhachHang = new JMenuItem("Khách hàng");
+		menuitemKhachHang.setForeground(new Color(0, 163, 163));
 		menuitemKhachHang.setIcon(new ImageIcon(TrangChu.class.getResource("/image/customer.png")));
 		menuKhachHang.add(menuitemKhachHang);
 
 		
 		menuThongKe = new JMenu("Thống kê");
 		menuThongKe.setIcon(new ImageIcon(TrangChu.class.getResource("/image/statistics.png")));
-		menuThongKe.setForeground(new Color(0, 0, 0));
+		menuThongKe.setForeground(new Color(0, 163, 163));
 		menuThongKe.setFont(new Font("Segoe UI", Font.BOLD, 18));
 		menuBar.add(menuThongKe);
 		
 		menuitemThongKe = new JMenuItem("Thống kê ");
+		menuitemThongKe.setForeground(new Color(0, 163, 163));
 		menuitemThongKe.setIcon(new ImageIcon(TrangChu.class.getResource("/image/stats.png")));
 		menuThongKe.add(menuitemThongKe);
 		
 		menuDangXuat = new JMenu("Đăng xuất");
 		menuDangXuat.setIcon(new ImageIcon(TrangChu.class.getResource("/image/logout.png")));
-		menuDangXuat.setForeground(new Color(0, 0, 0));
+		menuDangXuat.setForeground(new Color(0, 163, 163));
 		menuDangXuat.setFont(new Font("Segoe UI", Font.BOLD, 18));
 		menuBar.add(menuDangXuat);
 		
 		menuitemDangXuat = new JMenuItem("Đăng xuất");
+		menuitemDangXuat.setForeground(new Color(0, 163, 163));
 		menuitemDangXuat.setIcon(new ImageIcon(TrangChu.class.getResource("/image/menuitemlogout.png")));
 		menuDangXuat.add(menuitemDangXuat);
 
