@@ -15,6 +15,7 @@ import javax.swing.JLabel;
 import javax.swing.ImageIcon;
 import java.awt.Font;
 import java.awt.Color;
+import java.awt.Dimension;
 
 import javax.swing.SwingConstants;
 
@@ -80,6 +81,7 @@ public class TrangChu extends JFrame implements ActionListener {
 		menuitemTrangChu = new JMenuItem("Trang chủ");
 		menuitemTrangChu.setForeground(new Color(0, 163, 163));
 		menuitemTrangChu.setIcon(new ImageIcon(TrangChu.class.getResource("/image/home.png")));
+		menuitemTrangChu.setPreferredSize(new Dimension(130, menuitemTrangChu.getPreferredSize().height));
 		menuTrangChu.add(menuitemTrangChu);
 
 		menuCuaHang = new JMenu("Cửa hàng");
@@ -91,6 +93,7 @@ public class TrangChu extends JFrame implements ActionListener {
 		menuitemCuaHang = new JMenuItem("Quản lý cửa hàng");
 		menuitemCuaHang.setForeground(new Color(0, 163, 163));
 		menuitemCuaHang.setIcon(new ImageIcon(TrangChu.class.getResource("/image/store.png")));
+		menuitemCuaHang.setPreferredSize(new Dimension(124, menuitemTrangChu.getPreferredSize().height));
 		menuCuaHang.add(menuitemCuaHang);
 
 		menuNhanVien = new JMenu("Nhân viên");
@@ -102,15 +105,11 @@ public class TrangChu extends JFrame implements ActionListener {
 		menuitemNhanVienKyThuat = new JMenuItem("Nhân viên kỹ thuật");
 		menuitemNhanVienKyThuat.setForeground(new Color(0, 163, 163));
 		menuitemNhanVienKyThuat.setIcon(new ImageIcon(TrangChu.class.getResource("/image/technical-support.png")));
-		// menuitemNhanVienKyThuat.setIcon(new
-		// ImageIcon(TrangChu.class.getResource("/image/worker.png")));
 		menuNhanVien.add(menuitemNhanVienKyThuat);
 
 		menuitemNhanVienHanhChinh = new JMenuItem("Nhân viên hành chính");
 		menuitemNhanVienHanhChinh.setForeground(new Color(0, 163, 163));
 		menuitemNhanVienHanhChinh.setIcon(new ImageIcon(TrangChu.class.getResource("/image/team-management.png")));
-		// menuitemNhanVienHanhChinh.setIcon(new
-		// ImageIcon(TrangChu.class.getResource("/image/employee.png")));
 		menuNhanVien.add(menuitemNhanVienHanhChinh);
 
 		menuHoaDon = new JMenu("Hóa đơn");
@@ -122,6 +121,7 @@ public class TrangChu extends JFrame implements ActionListener {
 		menuitemHoaDon = new JMenuItem("Hóa đơn");
 		menuitemHoaDon.setForeground(new Color(0, 163, 163));
 		menuitemHoaDon.setIcon(new ImageIcon(TrangChu.class.getResource("/image/bill.png")));
+		menuitemHoaDon.setPreferredSize(new Dimension(118, menuitemTrangChu.getPreferredSize().height));
 		menuHoaDon.add(menuitemHoaDon);
 
 		menuXe = new JMenu("Xe");
@@ -154,6 +154,7 @@ public class TrangChu extends JFrame implements ActionListener {
 		menuitemKhachHang = new JMenuItem("Khách hàng");
 		menuitemKhachHang.setForeground(new Color(0, 163, 163));
 		menuitemKhachHang.setIcon(new ImageIcon(TrangChu.class.getResource("/image/customer.png")));
+		menuitemKhachHang.setPreferredSize(new Dimension(144, menuitemTrangChu.getPreferredSize().height));
 		menuKhachHang.add(menuitemKhachHang);
 
 		
@@ -166,6 +167,7 @@ public class TrangChu extends JFrame implements ActionListener {
 		menuitemThongKe = new JMenuItem("Thống kê ");
 		menuitemThongKe.setForeground(new Color(0, 163, 163));
 		menuitemThongKe.setIcon(new ImageIcon(TrangChu.class.getResource("/image/stats.png")));
+		menuitemThongKe.setPreferredSize(new Dimension(108, menuitemTrangChu.getPreferredSize().height));
 		menuThongKe.add(menuitemThongKe);
 		
 		menuDangXuat = new JMenu("Đăng xuất");
@@ -177,6 +179,7 @@ public class TrangChu extends JFrame implements ActionListener {
 		menuitemDangXuat = new JMenuItem("Đăng xuất");
 		menuitemDangXuat.setForeground(new Color(0, 163, 163));
 		menuitemDangXuat.setIcon(new ImageIcon(TrangChu.class.getResource("/image/menuitemlogout.png")));
+		menuitemDangXuat.setPreferredSize(new Dimension(117, menuitemTrangChu.getPreferredSize().height));
 		menuDangXuat.add(menuitemDangXuat);
 
 
