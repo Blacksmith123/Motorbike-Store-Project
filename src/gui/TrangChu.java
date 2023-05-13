@@ -174,7 +174,7 @@ public class TrangChu extends JFrame implements ActionListener {
 		// ImageIcon(TrangChu.class.getResource("/image/TrangChu.jpg")));
 
 		lblNewLabel.setBounds(79, 156, 1003, 476);
-		lblNewLabel.setBounds(54, 123, 830, 476);
+//		lblNewLabel.setBounds(54, 123, 830, 476);
 		contentPane.add(lblNewLabel);
 
 		JLabel lblNewLabel_1 = new JLabel("QUẢN LÝ BÁN XE MÁY", SwingConstants.CENTER);

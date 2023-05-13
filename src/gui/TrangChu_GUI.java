@@ -5,6 +5,7 @@ import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.SwingConstants;
 import java.awt.Color;
+import javax.swing.ImageIcon;
 
 public class TrangChu_GUI extends JPanel {
 
@@ -25,17 +26,17 @@ public class TrangChu_GUI extends JPanel {
 		add(panelTong);
 		panelTong.setLayout(null);
 		
-		JPanel panelTitle = new JPanel();
-		panelTitle.setBounds(388, 37, 395, 77);
-		panelTong.add(panelTitle);
-		panelTitle.setLayout(null);
+		JLabel lblNewLabel_1 = new JLabel("QUẢN LÝ BÁN XE MÁY", SwingConstants.CENTER);
+		lblNewLabel_1.setForeground(Color.RED);
+		lblNewLabel_1.setFont(new Font("Arial", Font.BOLD, 24));
+		lblNewLabel_1.setBounds(0, 0, 1161, 74);
+		panelTong.add(lblNewLabel_1);
 		
-		JLabel lblTitle = new JLabel("Quản Lý Bán Xe Máy");
-		lblTitle.setForeground(new Color(255, 0, 0));
-		lblTitle.setHorizontalAlignment(SwingConstants.CENTER);
-		lblTitle.setFont(new Font("Tahoma", Font.PLAIN, 40));
-		lblTitle.setBounds(10, 10, 375, 57);
-		panelTitle.add(lblTitle);
+		JLabel lblNewLabel = new JLabel("");
+		lblNewLabel.setIcon(new ImageIcon(TrangChu_GUI.class.getResource("/image/TrangChu.jpg")));
+		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel.setBounds(79, 156, 1003, 476);
+		panelTong.add(lblNewLabel);
 		
 	}
 }
