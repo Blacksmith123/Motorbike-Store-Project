@@ -500,25 +500,27 @@ public class HoaDon_GUI extends JPanel {
 		btnLamMoi.setBackground(Color.LIGHT_GRAY);
 		btnLamMoi.setBounds(35, 87, 112, 27);
 		panel_2_1.add(btnLamMoi);
-		
-		JButton btnInHoaDon = new JButton("In Hóa Đơn");
-		btnInHoaDon.addActionListener(new ActionListener() {
-			private String time;
-			private String maHoaDon;
 
+		JButton btnInHoaDon = new JButton("Xuất HD");
+		btnInHoaDon.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				InHoaDon IHD = new InHoaDon();
-				try {
-					IHD.addOrderInfo(time +" ",textMaHD.getText()+" ",cbManhanvien.getSelectedItem()+" ");
-				} catch (com.itextpdf.text.DocumentException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				
-				}
-				  for(int i = 0; i < tableHddetail.getRowCount(); i++) {
+				int k = tableHd.getSelectedRow();
+				if (k > 0 && k < tableHd.getRowCount()) {
+					String time = tableHd.getValueAt(k, 1).toString();
+					String maHoaDon = tableHd.getValueAt(k, 0).toString();
+					String maNV = tableHd.getValueAt(k, 5).toString();
+					InHoaDon IHD = new InHoaDon();
+					try {
+						IHD.addOrderInfo(time, maHoaDon, maNV);
+					} catch (com.itextpdf.text.DocumentException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+
+					}
+					for (int i = 0; i < tableHddetail.getRowCount(); i++) {
 						String maSP = tableHddetail.getValueAt(i, 0).toString();
 						String tenSP = tableHddetail.getValueAt(i, 1).toString();
-						String  soLuong = tableHddetail.getValueAt(i, 2).toString();
+						String soLuong = tableHddetail.getValueAt(i, 2).toString();
 						String donGia = tableHddetail.getValueAt(i, 3).toString();
 						String thanhTien = tableHddetail.getValueAt(i, 4).toString();
 
@@ -527,7 +529,7 @@ public class HoaDon_GUI extends JPanel {
 					}
 					// Insert Order Purchase Info
 					try {
-						IHD.addPurchaseInfo(textTongTien.getText()+"");
+						IHD.addPurchaseInfo(textTongTien.getText());
 					} catch (com.itextpdf.text.DocumentException e2) {
 						// TODO Auto-generated catch block
 						e2.printStackTrace();
@@ -538,13 +540,15 @@ public class HoaDon_GUI extends JPanel {
 					// Display Order File
 					try {
 						Thread.sleep(500);
-						String url = "./InHoaDon/" + maHoaDon + ".pdf";
-						System.out.println(url);
-						Runtime.getRuntime().exec("rundll32 url.dll, FileProtocolHandler " + new File("./InHoaDon/" + maHoaDon + ".pdf").getAbsolutePath());
+						String url = "D:\\Study\\Download\\InHoaDon\\" + maHoaDon + ".pdf";
+						JOptionPane.showMessageDialog(null, "Tạo HD thành công");
+						Runtime.getRuntime().exec("rundll32 url.dll, FileProtocolHandler "
+								+ new File("D:\\Study\\Download\\InHoaDon\\" + maHoaDon + ".pdf").getAbsolutePath());
 					} catch (Exception e1) {
 						// TODO: handle exception
-						
-					} 
+
+					}
+				}
 			}
 		});
 		btnInHoaDon.setForeground(new Color(165, 42, 42));
