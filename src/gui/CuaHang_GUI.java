@@ -381,10 +381,15 @@ public class CuaHang_GUI extends JPanel {
 					column.setCellEditor(null);
 					try {
 						if (capNhatDuLieu()) {
-							capNhatSql();
-							JOptionPane.showMessageDialog(null, "Cập Nhật  thành công");
+							int option = JOptionPane.showConfirmDialog(null,
+									"Bạn có muốn cập nhật khách hàng '" + textMaCH.getText() + "'", "Cập nhật?",
+									JOptionPane.YES_NO_OPTION);
+							if (option == JOptionPane.YES_OPTION) {
+								capNhatSql();
+								JOptionPane.showMessageDialog(null, "Cập nhật thành công");
+							}
 						} else {
-							JOptionPane.showMessageDialog(null, "Cập Nhật thất bại");
+							JOptionPane.showMessageDialog(null, "Cập nhật thất bại");
 						}
 					} catch (HeadlessException | SQLException e1) {
 						// TODO Auto-generated catch block
