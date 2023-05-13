@@ -246,16 +246,21 @@ public class KhachHang_GUI extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				try {
-					String maKhachHang = phatSinhMa_DAO.getMaKhachHang();
-					String hoKhachHang = textHoKH.getText();
-					String tenKhachHang = textTenKH.getText();
-					String diaChi = textDiaChi.getText();
-					int soDienThoai = Integer.parseInt(textSdt.getText());
-					String email = textEmail.getText();
-					KhachHang khachHang = new KhachHang(maKhachHang, hoKhachHang, tenKhachHang, diaChi, soDienThoai,
-							email);
-					khachHang_DAO.themKhachHang(khachHang);
-					JOptionPane.showMessageDialog(null, "Thêm khách hàng '" + maKhachHang + "' thành công!");
+					if (Regex.ktSDT(textSdt.getText()) && Regex.ktEmail(textEmail.getText())) {
+						String maKhachHang = phatSinhMa_DAO.getMaKhachHang();
+						String hoKhachHang = textHoKH.getText();
+						String tenKhachHang = textTenKH.getText();
+						String diaChi = textDiaChi.getText();
+						int soDienThoai = Integer.parseInt(textSdt.getText());
+						String email = textEmail.getText();
+						KhachHang khachHang = new KhachHang(maKhachHang, hoKhachHang, tenKhachHang, diaChi, soDienThoai,
+								email);
+						khachHang_DAO.themKhachHang(khachHang);
+						JOptionPane.showMessageDialog(null, "Thêm khách hàng '" + maKhachHang + "' thành công!");
+					}
+					else {
+						JOptionPane.showMessageDialog(null, "Số điện thoại phải là số!\nEmail chỉ cho phép @gmail.com");
+					}
 				} catch (SQLException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -303,13 +308,18 @@ public class KhachHang_GUI extends JPanel {
 							JOptionPane.YES_NO_OPTION);
 					if (option == JOptionPane.YES_OPTION) {
 						try {
-							KhachHang khachHang = new KhachHang((String) textMaKH.getText(),
-									(String) textHoKH.getText(), (String) textTenKH.getText(),
-									(String) textDiaChi.getText(), Integer.parseInt((String) textSdt.getText()),
-									(String) textEmail.getText());
-							khachHang_DAO.suaThongTinKhachHang(khachHang, (String) textMaKH.getText());
-							JOptionPane.showMessageDialog(null,
-									"Cập nhật thành công khách hàng '" + model.getValueAt(row, 0) + "'!");
+							if (Regex.ktSDT(textSdt.getText()) && Regex.ktEmail(textEmail.getText())) {
+								KhachHang khachHang = new KhachHang((String) textMaKH.getText(),
+										(String) textHoKH.getText(), (String) textTenKH.getText(),
+										(String) textDiaChi.getText(), Integer.parseInt((String) textSdt.getText()),
+										(String) textEmail.getText());
+								khachHang_DAO.suaThongTinKhachHang(khachHang, (String) textMaKH.getText());
+								JOptionPane.showMessageDialog(null,
+										"Cập nhật thành công khách hàng '" + model.getValueAt(row, 0) + "'!");
+							}
+							else {
+								JOptionPane.showMessageDialog(null, "Số điện thoại phải là số!\nEmail chỉ cho phép @gmail.com");
+							}
 						} catch (SQLException e1) {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();

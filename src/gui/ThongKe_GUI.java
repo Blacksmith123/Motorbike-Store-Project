@@ -304,8 +304,8 @@ public class ThongKe_GUI extends JPanel {
 		btnLoc.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				xoaTrang();
-				d1 = chooserTuNgay.getDate();
-				d2 = chooserDenNgay.getDate();
+				java.util.Date d1 = chooserTuNgay.getDate();
+				java.util.Date d2 = chooserDenNgay.getDate();
 				// Kiểm tra nếu ngày được chọn khác null
 				if (d1 != null && d2 != null) {
 					if (d2.before(d1)) {

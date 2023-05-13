@@ -238,16 +238,22 @@ public class ThongTinXe_GUI extends JPanel {
 				// TODO Auto-generated method stub
 				if (!isNull()) {
 					try {
-						String maLoaiXe = phatSinhMa_DAO.getMaLoaiXe();
-						String tenLoaiXe = textTenLoaiXe.getText();
-						int giaNiemYet = Integer.parseInt(textGiaNiemYet.getText());
-						int giaGiam = Integer.parseInt(textGiaGiam.getText());
-						String moTa = textMoTa.getText();
-						String phienBan = textPhienBan.getText();
-						ThongTinXe thongTinXe = new ThongTinXe(maLoaiXe, tenLoaiXe, giaNiemYet, giaGiam, moTa,
-								phienBan);
-						thongTinXe_DAO.themThongTinXe(thongTinXe);
-						JOptionPane.showMessageDialog(null, "Thêm thành công!");
+						if (Regex.isNumber(textGiaNiemYet.getText()) && Regex.isNumber(textGiaGiam.getText())) {
+							String maLoaiXe = phatSinhMa_DAO.getMaLoaiXe();
+							String tenLoaiXe = textTenLoaiXe.getText();
+							int giaNiemYet = Integer.parseInt(textGiaNiemYet.getText());
+							int giaGiam = Integer.parseInt(textGiaGiam.getText());
+							String moTa = textMoTa.getText();
+							String phienBan = textPhienBan.getText();
+							ThongTinXe thongTinXe = new ThongTinXe(maLoaiXe, tenLoaiXe, giaNiemYet, giaGiam, moTa,
+									phienBan);
+							thongTinXe_DAO.themThongTinXe(thongTinXe);
+							JOptionPane.showMessageDialog(null, "Thêm thành công!");
+						}
+						else {
+							JOptionPane.showMessageDialog(null, "Giá phải là số!");
+						}
+						
 					} catch (SQLException e1) {
 						// TODO Auto-generated catch block
 						JOptionPane.showMessageDialog(null, "Thêm thất bại");
@@ -292,17 +298,22 @@ public class ThongTinXe_GUI extends JPanel {
 							JOptionPane.YES_NO_OPTION);
 					if (option == JOptionPane.YES_OPTION) {
 						try {
-							String maLoaiXe = textMaLoaiXe.getText();
-							String tenLoaiXe = textTenLoaiXe.getText();
-							int giaNiemYet = Integer.parseInt(textGiaNiemYet.getText());
-							int giaGiam = Integer.parseInt(textGiaGiam.getText());
-							String moTa = textMoTa.getText();
-							String phienBan = textPhienBan.getText();
-							ThongTinXe thongTinXe = new ThongTinXe(maLoaiXe, tenLoaiXe, giaNiemYet, giaGiam, moTa,
-									phienBan);
-							thongTinXe_DAO.suaThongTinXe(thongTinXe, maLoaiXe);
-							JOptionPane.showMessageDialog(null,
-									"Cập nhật thành công loại xe '" + model.getValueAt(row, 0) + "'!");
+							if (Regex.isNumber(textGiaNiemYet.getText()) && Regex.isNumber(textGiaGiam.getText())) {
+								String maLoaiXe = textMaLoaiXe.getText();
+								String tenLoaiXe = textTenLoaiXe.getText();
+								int giaNiemYet = Integer.parseInt(textGiaNiemYet.getText());
+								int giaGiam = Integer.parseInt(textGiaGiam.getText());
+								String moTa = textMoTa.getText();
+								String phienBan = textPhienBan.getText();
+								ThongTinXe thongTinXe = new ThongTinXe(maLoaiXe, tenLoaiXe, giaNiemYet, giaGiam, moTa,
+										phienBan);
+								thongTinXe_DAO.suaThongTinXe(thongTinXe, maLoaiXe);
+								JOptionPane.showMessageDialog(null,
+										"Cập nhật thành công loại xe '" + model.getValueAt(row, 0) + "'!");
+							}
+							else {
+								JOptionPane.showMessageDialog(null, "Giá phải là số!");
+							}
 						} catch (SQLException e1) {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
@@ -356,7 +367,7 @@ public class ThongTinXe_GUI extends JPanel {
 		btnLmMi.setForeground(new Color(165, 42, 42));
 		btnLmMi.setFont(new Font("Arial", Font.PLAIN, 16));
 		btnLmMi.setBackground(Color.LIGHT_GRAY);
-		btnLmMi.setBounds(56, 106, 112, 27);
+		btnLmMi.setBounds(136, 110, 112, 27);
 		btnLmMi.addActionListener(new ActionListener() {
 
 			@Override

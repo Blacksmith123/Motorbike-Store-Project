@@ -381,7 +381,7 @@ public class Xe_GUI extends JPanel {
 		btnLmMi.setForeground(new Color(165, 42, 42));
 		btnLmMi.setFont(new Font("Arial", Font.PLAIN, 16));
 		btnLmMi.setBackground(Color.LIGHT_GRAY);
-		btnLmMi.setBounds(56, 106, 112, 27);
+		btnLmMi.setBounds(135, 110, 112, 27);
 		btnLmMi.addActionListener(new ActionListener() {
 
 			@Override
