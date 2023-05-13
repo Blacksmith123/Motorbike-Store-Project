@@ -23,15 +23,19 @@ import java.awt.ScrollPane;
 
 public class ThongKe extends JPanel {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JTextField txtTuNgay;
 	private JTextField txtDenNgay;
 	private JTextField txtXeBanDuocNhieuNhat;
 	private JTextField txtCuaHangBanNhieuXe;
 	private JTable table;
 	private JTable table_1;
-	private JTextField txtCuaHangCoNhieuNhanVien;
-	private JTextField txtKHMuaDuocNhieuXe;
 	private JTextField txtNhanVienBanDuocNhieuXe;
+	private JTextField textField;
+	private JTextField textField_1;
 
 	/**
 	 * Create the panel.
@@ -112,14 +116,14 @@ public class ThongKe extends JPanel {
 		
 		txtTuNgay = new JTextField();
 		txtTuNgay.setFont(new Font("Arial", Font.PLAIN, 16));
-		txtTuNgay.setBounds(183, 18, 183, 24);
+		txtTuNgay.setBounds(91, 15, 183, 24);
 		panel_1.add(txtTuNgay);
 		txtTuNgay.setColumns(10);
 		
 		txtDenNgay = new JTextField();
 		txtDenNgay.setFont(new Font("Arial", Font.PLAIN, 16));
 		txtDenNgay.setColumns(10);
-		txtDenNgay.setBounds(183, 53, 183, 24);
+		txtDenNgay.setBounds(91, 50, 183, 24);
 		panel_1.add(txtDenNgay);
 		
 		txtXeBanDuocNhieuNhat = new JTextField();
@@ -134,11 +138,6 @@ public class ThongKe extends JPanel {
 		txtCuaHangBanNhieuXe.setBounds(40, 198, 292, 24);
 		panel_1.add(txtCuaHangBanNhieuXe);
 		
-		txtCuaHangCoNhieuNhanVien = new JTextField();
-		txtCuaHangCoNhieuNhanVien.setBounds(40, 289, 292, 20);
-		panel_1.add(txtCuaHangCoNhieuNhanVien);
-		txtCuaHangCoNhieuNhanVien.setColumns(10);
-		
 		JLabel lblNewLabel_4_1_1_1_1 = new JLabel("Nhân viên bán được nhiều xe nhất:");
 		lblNewLabel_4_1_1_1_1.setForeground(new Color(165, 42, 42));
 		lblNewLabel_4_1_1_1_1.setFont(new Font("Arial", Font.PLAIN, 16));
@@ -151,11 +150,6 @@ public class ThongKe extends JPanel {
 		lblNewLabel_4_1_1_1_2.setBounds(10, 332, 267, 34);
 		panel_1.add(lblNewLabel_4_1_1_1_2);
 		
-		txtKHMuaDuocNhieuXe = new JTextField();
-		txtKHMuaDuocNhieuXe.setColumns(10);
-		txtKHMuaDuocNhieuXe.setBounds(40, 377, 292, 20);
-		panel_1.add(txtKHMuaDuocNhieuXe);
-		
 		JLabel lblNewLabel_4_1_1_1_3 = new JLabel("Cửa hàng có nhiều nhân viên nhất:");
 		lblNewLabel_4_1_1_1_3.setForeground(new Color(165, 42, 42));
 		lblNewLabel_4_1_1_1_3.setFont(new Font("Arial", Font.PLAIN, 16));
@@ -167,6 +161,18 @@ public class ThongKe extends JPanel {
 		txtNhanVienBanDuocNhieuXe.setColumns(10);
 		txtNhanVienBanDuocNhieuXe.setBounds(40, 460, 292, 24);
 		panel_1.add(txtNhanVienBanDuocNhieuXe);
+		
+		textField = new JTextField();
+		textField.setFont(new Font("Arial", Font.PLAIN, 16));
+		textField.setColumns(10);
+		textField.setBounds(40, 298, 292, 24);
+		panel_1.add(textField);
+		
+		textField_1 = new JTextField();
+		textField_1.setFont(new Font("Arial", Font.PLAIN, 16));
+		textField_1.setColumns(10);
+		textField_1.setBounds(40, 381, 292, 24);
+		panel_1.add(textField_1);
 		
 		JLabel lblNewLabel_1 = new JLabel("Thông Tin:");
 		lblNewLabel_1.setForeground(Color.BLUE);
@@ -194,16 +200,15 @@ public class ThongKe extends JPanel {
 		lblNewLabel_3.setBounds(0, 70, 1198, 37);
 		add(lblNewLabel_3);
 		
-		JButton btnTim = new JButton("Tìm Kiếm");
-		btnTim.setHorizontalAlignment(SwingConstants.LEFT);
-		btnTim.setIcon(new ImageIcon("D:\\Study\\OOPJava\\21091031_TrinhMinhKhaa\\Motorbike-Store-Project\\data\\image\\icons8-search-30.png"));
-		btnTim.setForeground(new Color(165, 42, 42));
-		btnTim.setFont(new Font("Arial", Font.PLAIN, 16));
-		btnTim.setBackground(Color.LIGHT_GRAY);
-		btnTim.setBounds(294, 110, 133, 27);
-		btnTim.setHorizontalTextPosition(SwingConstants.RIGHT);
-		btnTim.setVerticalTextPosition(SwingConstants.CENTER);
-		btnTim.setHorizontalAlignment(SwingConstants.LEFT);
-		add(btnTim);
+		JButton btnLoc = new JButton("Lọc");
+		btnLoc.setHorizontalAlignment(SwingConstants.LEFT);
+		btnLoc.setIcon(new ImageIcon("D:\\Study\\OOPJava\\21091031_TrinhMinhKhaa\\Motorbike-Store-Project\\data\\image\\icons8-search-30.png"));
+		btnLoc.setForeground(new Color(165, 42, 42));
+		btnLoc.setFont(new Font("Arial", Font.PLAIN, 16));
+		btnLoc.setBackground(Color.LIGHT_GRAY);
+		btnLoc.setBounds(294, 110, 133, 27);
+		btnLoc.setHorizontalTextPosition(SwingConstants.RIGHT);
+		btnLoc.setHorizontalAlignment(SwingConstants.LEFT);
+		add(btnLoc);
 	}
 }

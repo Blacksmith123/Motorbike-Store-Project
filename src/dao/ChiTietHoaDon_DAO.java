@@ -20,9 +20,10 @@ public class ChiTietHoaDon_DAO {
 		Connection connection = ConnectDB.getConnection();
 		ThongTinXe_DAO thongTinXe_DAO = new ThongTinXe_DAO();
 		ThongTinXe thongTinXe = new ThongTinXe();
+		Statement statement;
 		try {
 			String sqlString = "select * from ChiTietHoaDon";
-			Statement statement = connection.createStatement();
+			statement = connection.createStatement();
 			ResultSet rsResultSet = statement.executeQuery(sqlString);
 			while (rsResultSet.next()) {
 				thongTinXe = thongTinXe_DAO.getThongTinXeTheoMa(rsResultSet.getString(2));
@@ -31,23 +32,38 @@ public class ChiTietHoaDon_DAO {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally {
+		
 		}
 		return dsChiTietHoaDon;
 	}
 
 	// thêm chi tiết hóa đơn
-	public void themChiTietHoaDon(ChiTietHoaDon chiTietHoaDon) throws SQLException {
+	public void themChiTietHoaDon(ChiTietHoaDon chiTietHoaDon) {
 		ConnectDB.getInstance();
 		Connection connection = ConnectDB.getConnection();
 		PreparedStatement stmPreparedStatement = null;
-		stmPreparedStatement = connection.prepareStatement("insert into ChiTietHoaDon values(?,?,?,?,?)");
-		stmPreparedStatement.setString(1, chiTietHoaDon.getMa());
-		stmPreparedStatement.setString(2, chiTietHoaDon.getMaLoaiXe());
-		stmPreparedStatement.setInt(3, chiTietHoaDon.getSoLuong());
-		stmPreparedStatement.setInt(4, chiTietHoaDon.getDonGia());
-		stmPreparedStatement.setInt(5, chiTietHoaDon.getThanhTien());
-		stmPreparedStatement.executeUpdate();
-		stmPreparedStatement.close();
+		try {
+			stmPreparedStatement = connection.prepareStatement("insert into ChiTietHoaDon values(?,?,?,?,?)");
+			stmPreparedStatement.setString(1, chiTietHoaDon.getMa());
+			stmPreparedStatement.setString(2, chiTietHoaDon.getMaLoaiXe());
+			stmPreparedStatement.setInt(3, chiTietHoaDon.getSoLuong());
+			stmPreparedStatement.setInt(4, chiTietHoaDon.getDonGia());
+			stmPreparedStatement.setInt(5, chiTietHoaDon.getThanhTien());
+			stmPreparedStatement.executeUpdate();
+			stmPreparedStatement.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+//			try {
+//				connection.close();
+//			} catch (SQLException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+		}
+
 		return;
 	}
 

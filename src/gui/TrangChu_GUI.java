@@ -68,14 +68,11 @@ public class TrangChu_GUI extends JFrame implements ActionListener {
 		new TrangChu_GUI().setVisible(true);
 	}
 
+
 	/**
 	 * Create the frame.
 	 */
 	public TrangChu_GUI() {
-		TrangChu();
-	}
-	
-	public void TrangChu() {
 		setTitle(trangChu);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(391, 21, 1210, 780);
@@ -84,7 +81,7 @@ public class TrangChu_GUI extends JFrame implements ActionListener {
 		setJMenuBar(menuBar);
 
 		menuTrangChu = new JMenu(trangChu);
-		menuTrangChu.setIcon(null);
+		menuTrangChu.setIcon(new ImageIcon(TrangChu_GUI.class.getResource("/image/menuHome.png")));
 		menuTrangChu.setForeground(new Color(0, 0, 255));
 		menuTrangChu.setFont(new Font("Segoe UI", Font.BOLD, 18));
 		menuBar.add(menuTrangChu);
@@ -165,8 +162,8 @@ public class TrangChu_GUI extends JFrame implements ActionListener {
 		menuThongKe.setFont(new Font("Segoe UI", Font.BOLD, 18));
 		menuBar.add(menuThongKe);
 		
-		JMenuItem mntmNewMenuItem = new JMenuItem("Thống kê ");
-		menuThongKe.add(mntmNewMenuItem);
+		JMenuItem menuitemThongKe = new JMenuItem("Thống kê ");
+		menuThongKe.add(menuitemThongKe);
 
 
 		contentPane = new JPanel();
@@ -177,15 +174,14 @@ public class TrangChu_GUI extends JFrame implements ActionListener {
 
 		JLabel lblNewLabel = new JLabel("");
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel.setIcon(new ImageIcon("C:\\java\\workspace\\workspace\\Motorbike-Store-Project\\data\\image\\TrangChu.jpg"));
+		lblNewLabel.setIcon(new ImageIcon(TrangChu_GUI.class.getResource("/image/TrangChu.jpg")));
+		
 		// lblNewLabel.setIcon(new
 
 		// ImageIcon(TrangChu_GUI.class.getResource("/image/TrangChu.jpg")));
-		lblNewLabel.setBounds(79, 156, 1003, 476);
 
-		// ImageIcon(TrangChu_GUI.class.getResource("/image/TrangChu_GUI.jpg")));
+		lblNewLabel.setBounds(54, 123, 960, 476);
 		lblNewLabel.setBounds(54, 123, 830, 476);
-
 		contentPane.add(lblNewLabel);
 
 		JLabel lblNewLabel_1 = new JLabel("QUẢN LÝ BÁN XE MÁY", SwingConstants.CENTER);
@@ -193,6 +189,10 @@ public class TrangChu_GUI extends JFrame implements ActionListener {
 		lblNewLabel_1.setFont(new Font("Arial", Font.BOLD, 24));
 		lblNewLabel_1.setBounds(0, 0, 1161, 74);
 		contentPane.add(lblNewLabel_1);
+		
+		JPanel panel = new JPanel();
+		panel.setBounds(0, 0, 1184, 112);
+		contentPane.add(panel);
 		menuTrangChu.addActionListener(this);
 		menuitemNhanVienHanhChinh.addActionListener(this);
 		menuitemCuaHang.addActionListener(this);
@@ -271,8 +271,8 @@ public class TrangChu_GUI extends JFrame implements ActionListener {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
-		} else if (o.equals(menuitemTrangChu)) {
-			
+		} else if (o.equals(menuitemThongTinXe)) {
+			showMenu(new ThongKe());
 		}
 
 	}

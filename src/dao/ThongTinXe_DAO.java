@@ -33,8 +33,10 @@ public class ThongTinXe_DAO {
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
+		} finally {
+			con.close();
 		}
-		con.close();
+
 		return false;
 	}
 
@@ -82,25 +84,58 @@ public class ThongTinXe_DAO {
 	public ThongTinXe getThongTinXeTheoMa(String maLoaiXe) throws SQLException {
 		ConnectDB.getInstance();
 		Connection con = ConnectDB.getConnection();
-		Statement statement = con.createStatement();
-		ResultSet resultSet = statement.executeQuery("select * from ThongTinXe where maLoaiXe = '" + maLoaiXe + "'");
 		ThongTinXe thongTinXe = new ThongTinXe();
-		while (resultSet.next()) {
+		try {
+			Statement statement = con.createStatement();
+			ResultSet resultSet = statement
+					.executeQuery("select * from ThongTinXe where maLoaiXe = '" + maLoaiXe + "'");
 
-			thongTinXe.setMaLoaiXe(maLoaiXe);
-			thongTinXe.setTenLoaiXe(resultSet.getString(2));
-			thongTinXe.setGiaNiemYet(resultSet.getInt(3));
-			thongTinXe.setGiaGiam(resultSet.getInt(4));
-			thongTinXe.setMoTaXe(resultSet.getString(5));
-			thongTinXe.setPhienBan(resultSet.getString(6));
+			while (resultSet.next()) {
 
+				thongTinXe.setMaLoaiXe(maLoaiXe);
+				thongTinXe.setTenLoaiXe(resultSet.getString(2));
+				thongTinXe.setGiaNiemYet(resultSet.getInt(3));
+				thongTinXe.setGiaGiam(resultSet.getInt(4));
+				thongTinXe.setMoTaXe(resultSet.getString(5));
+				thongTinXe.setPhienBan(resultSet.getString(6));
+
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
 		}
+		return thongTinXe;
+	}
 
+	// get thong tin xe theo ten
+	public ThongTinXe getThongTinXeTheoTen(String tenLoaiXe) throws SQLException {
+		ConnectDB.getInstance();
+		Connection con = ConnectDB.getConnection();
+		ThongTinXe thongTinXe = new ThongTinXe();
+		try {
+			Statement statement = con.createStatement();
+			ResultSet resultSet = statement
+					.executeQuery("select * from ThongTinXe where tenLoaiXe = '" + tenLoaiXe + "'");
+
+			while (resultSet.next()) {
+
+				thongTinXe.setMaLoaiXe(resultSet.getString(1));
+				thongTinXe.setTenLoaiXe(resultSet.getString(2));
+				thongTinXe.setGiaNiemYet(resultSet.getInt(3));
+				thongTinXe.setGiaGiam(resultSet.getInt(4));
+				thongTinXe.setMoTaXe(resultSet.getString(5));
+				thongTinXe.setPhienBan(resultSet.getString(6));
+
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
 		return thongTinXe;
 	}
 
 	// get danh sach thong tin xe
-	public List<ThongTinXe> getAllThongTinXe() throws SQLException {
+	public List<ThongTinXe> getAllThongTinXe() {
 		ConnectDB.getInstance();
 		Connection con = ConnectDB.getConnection();
 		List<ThongTinXe> dsThongTinXe = new ArrayList<ThongTinXe>();

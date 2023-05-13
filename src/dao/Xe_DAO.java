@@ -1,6 +1,7 @@
 package dao;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.PseudoColumnUsage;
 import java.sql.ResultSet;
@@ -54,13 +55,31 @@ public class Xe_DAO {
 
 	}
 
-	// sua thong tin xe 
+	// xoa xe theo ma loai xe theo số lượng
+	public boolean xoaXeTheoMaLoaiXeSL(String ma, int sl) throws SQLException {
+		ConnectDB.getInstance();
+		Connection con = ConnectDB.getConnection();
+		PreparedStatement ps = null;
+		try {
+			ps = con.prepareStatement("delete top ("+sl+") from Xe where maLoaiXe = '"+ma+"'");
+			return ps.executeUpdate() > 0;
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		ps.close();
+		return false;
+
+	}
+
+	// sua thong tin xe
 	public boolean suaThongTinXe(Xe xe, String ma) throws SQLException {
 		ConnectDB.getInstance();
 		Connection con = ConnectDB.getConnection();
 		try {
 			PreparedStatement ps = con.prepareStatement(
-					"update Xe set soMay = ?, soKhung = ?, ngayNhapXe = ?, maNhaPhanPhoi = ?, maLoaiXe = ? where maXe = '"+ ma +"'");
+					"update Xe set soMay = ?, soKhung = ?, ngayNhapXe = ?, maNhaPhanPhoi = ?, maLoaiXe = ? where maXe = '"
+							+ ma + "'");
 			ps.setString(1, xe.getSoMay());
 			ps.setString(2, xe.getSoKhung());
 			ps.setDate(3, xe.getNgayNhap());
@@ -92,6 +111,67 @@ public class Xe_DAO {
 			xe.setMaLoaiXe(resultSet.getString(6));
 		}
 		return xe;
+	}
+
+	// get danh sach xe theo nha phan phoi, get tat ca xe theo nha phan phoi
+	public List<Xe> getXeTheoMaNhaPhanPhoi(String maNhaPhanPhoi) throws SQLException {
+		ConnectDB.getInstance();
+		Connection con = ConnectDB.getConnection();
+		try {
+			PreparedStatement ps = con
+					.prepareStatement("select * from Xe where maNhaPhanPhoi = '" + maNhaPhanPhoi + "'");
+			ResultSet resultSet = ps.executeQuery();
+			List<Xe> dsXe = new ArrayList<Xe>();
+			while (resultSet.next()) {
+				dsXe.add(new Xe(resultSet.getString(1), resultSet.getString(2), resultSet.getString(3),
+						resultSet.getDate(4), resultSet.getString(5), resultSet.getString(6)));
+			}
+			return dsXe;
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return new ArrayList<Xe>();
+	}
+
+	// get danh sach xe theo ma loai xe, get tat ca xe theo ma loai xe
+	public List<Xe> getXeTheoMaLoaiXe(String maLoaiXe) throws SQLException {
+		ConnectDB.getInstance();
+		Connection con = ConnectDB.getConnection();
+		try {
+			PreparedStatement ps = con.prepareStatement("select * from Xe where maLoaiXe = '" + maLoaiXe + "'");
+			ResultSet resultSet = ps.executeQuery();
+			List<Xe> dsXe = new ArrayList<Xe>();
+			while (resultSet.next()) {
+				dsXe.add(new Xe(resultSet.getString(1), resultSet.getString(2), resultSet.getString(3),
+						resultSet.getDate(4), resultSet.getString(5), resultSet.getString(6)));
+			}
+			return dsXe;
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return new ArrayList<Xe>();
+	}
+
+	// get danh sach xe theo ngay nhap, get tat ca xe theo ngay nhap
+	public List<Xe> getXeTheoNgayNhap(Date ngayNhap) throws SQLException {
+		ConnectDB.getInstance();
+		Connection con = ConnectDB.getConnection();
+		try {
+			PreparedStatement ps = con.prepareStatement("select * from Xe where ngayNhapXe = '" + ngayNhap + "'");
+			ResultSet resultSet = ps.executeQuery();
+			List<Xe> dsXe = new ArrayList<Xe>();
+			while (resultSet.next()) {
+				dsXe.add(new Xe(resultSet.getString(1), resultSet.getString(2), resultSet.getString(3),
+						resultSet.getDate(4), resultSet.getString(5), resultSet.getString(6)));
+			}
+			return dsXe;
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return new ArrayList<Xe>();
 	}
 
 	// get danh sach xe, get tat ca xe

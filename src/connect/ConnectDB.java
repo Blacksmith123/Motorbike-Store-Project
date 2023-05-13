@@ -28,5 +28,8 @@ public class ConnectDB {
 	public static Connection getConnection() {
 		return con;
 	}
-	
+	public static void main(String[] args) throws SQLException {
+		connect();
+		System.out.println(con);
+	}
 }
