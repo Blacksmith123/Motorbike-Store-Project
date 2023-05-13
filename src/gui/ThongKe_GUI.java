@@ -12,12 +12,7 @@ import java.awt.event.MouseListener;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
-<<<<<<< HEAD
-import java.util.Date;
-import java.util.Iterator;
-=======
 import java.time.LocalDate;
->>>>>>> ce72b1a866a328e35c469174b061189f2ec536b7
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -56,12 +51,7 @@ public class ThongKe_GUI extends JPanel {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-<<<<<<< HEAD
 	private JTextField txtSoluong;
-=======
-	
-	private JTextField txtXeBanDuocNhieuNhat;
->>>>>>> ce72b1a866a328e35c469174b061189f2ec536b7
 	private JTextField txtCuaHangBanNhieuXe;
 	private JTable table;
 	private JTable table_1;
@@ -76,12 +66,7 @@ public class ThongKe_GUI extends JPanel {
 	private CuaHang_DAO cuaHang_DAO;
 	private JDateChooser chooserTuNgay;
 	private JDateChooser chooserDenNgay;
-<<<<<<< HEAD
-	private Date d1;
-	private Date d2;
-=======
 	private LocalDate localDate;
->>>>>>> ce72b1a866a328e35c469174b061189f2ec536b7
 
 	/**
 	 * Create the panel.
@@ -324,8 +309,8 @@ public class ThongKe_GUI extends JPanel {
 		btnLoc.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				xoaTrang();
-				d1 = chooserTuNgay.getDate();
-				d2 = chooserDenNgay.getDate();
+				java.util.Date d1 = chooserTuNgay.getDate();
+				java.util.Date d2 = chooserDenNgay.getDate();
 				// Kiểm tra nếu ngày được chọn khác null
 				if (d1 != null && d2 != null) {
 					if (d2.before(d1)) {
@@ -386,7 +371,7 @@ public class ThongKe_GUI extends JPanel {
 				Date ngayBatDau = new Date(utilTuNgay.getYear(), utilTuNgay.getMonth(), utilTuNgay.getDate());
 				@SuppressWarnings("deprecation")
 				Date ngayKetThuc = new Date(utilDenNgay.getYear(), utilDenNgay.getMonth(), utilDenNgay.getDate());
-				if (ngayBatDau.after(ngayKetThuc)) {
+				if (utilTuNgay.after(utilDenNgay)) {
 					JOptionPane.showMessageDialog(null, "Ngày bắt đầu phải trước hoặc bằng ngày kết thúc!");
 				}
 			}
