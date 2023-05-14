@@ -21,6 +21,8 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableColumn;
 
+import com.itextpdf.text.pdf.PdfStructTreeController.returnType;
+
 import connect.ConnectDB;
 import dao.ChiTietHoaDon_DAO;
 import dao.CuaHang_DAO;
@@ -361,10 +363,13 @@ public class HoaDon_GUI extends JPanel {
 						textTongTien.setText(sum + "");
 					}
 					if (textNgaylap.getText().isEmpty() || textThoigianbaohanh.getText().isEmpty()
-							|| cbMacuahang.getSelectedItem().equals("") || cbManhanvien.getSelectedItem().equals("")
-							|| cbManhanvien.getSelectedItem().equals("")) {
+							|| cbMacuahang.getSelectedItem().equals(null) || cbManhanvien.getSelectedItem().equals(null)
+							|| cbManhanvien.getSelectedItem().equals(null)) {
 						JOptionPane.showMessageDialog(null, "Thêm Thất bại");
-					} else {
+					} else if(!kiemTraDuLieu()){
+						JOptionPane.showMessageDialog(null, "Ngày lập đúng định dạng dd/MM/yyyy và phải đúng ngày hiện tại");
+					} 
+					else {
 						modelHd.addRow(layDuLieu());
 						themSql();
 						for (int j = 0; j < tableHddetail.getRowCount(); j++) {
@@ -505,7 +510,7 @@ public class HoaDon_GUI extends JPanel {
 		btnInHoaDon.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int k = tableHd.getSelectedRow();
-				if (k > 0 && k < tableHd.getRowCount()) {
+//				if (k >= 0 && k < tableHd.getRowCount()) {
 					String time = tableHd.getValueAt(k, 1).toString();
 					String maHoaDon = tableHd.getValueAt(k, 0).toString();
 					String maNV = tableHd.getValueAt(k, 5).toString();
@@ -549,7 +554,7 @@ public class HoaDon_GUI extends JPanel {
 
 					}
 				}
-			}
+//			}
 		});
 		btnInHoaDon.setForeground(new Color(165, 42, 42));
 		btnInHoaDon.setFont(new Font("Arial", Font.PLAIN, 16));
@@ -640,7 +645,7 @@ public class HoaDon_GUI extends JPanel {
 			// Tìm kiếm theo
 			public void actionPerformed(ActionEvent e) {
 				if (textTim.getText().isEmpty()) {
-					JOptionPane.showMessageDialog(null, "Bạn chưa nhập dữ liệu");
+					JOptionPane.showMessageDialog(null, "Bạn chưa nhập dữ liệu");					
 				} else {
 					boolean check = false;
 					if (cbTimTheo.getSelectedItem().equals("Hóa Đơn")) {
@@ -1012,5 +1017,10 @@ public class HoaDon_GUI extends JPanel {
 				}
 			}
 		}
+	}
+	public boolean kiemTraDuLieu() {
+		String ngaylap = textNgaylap.getText();
+		String tgbh = textThoigianbaohanh.getText();
+		return  Regex.ktDateFormat(ngaylap) && Regex.ktTruocNgayHT(ngaylap);		
 	}
 }

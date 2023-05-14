@@ -39,6 +39,7 @@ public class DangNhap_GUI extends JFrame implements ActionListener {
 	private JButton btnLogin;
 	private TaiKhoan_DAO taiKhoan_DAO;
 	private JTextField txtUser;
+	private int countSaiMatKhau = 0;
 	
 	public static void main(String[] args) {
 		try {
@@ -147,7 +148,12 @@ public class DangNhap_GUI extends JFrame implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		if (e.getSource().equals(btnLogin)) {
-			login();
+			if (countSaiMatKhau > 2) {
+				JOptionPane.showMessageDialog(null, "Bạn đã nhập sai mật khẩu quá 3 lần!");
+			}
+			else {
+				login();
+			}
 		}
 		else if (e.getSource().equals(btnExit)) {
 			int option = JOptionPane.showConfirmDialog(null, "Bạn có thực sự muốn thoát?", "Thoát?", JOptionPane.YES_NO_OPTION);
@@ -167,6 +173,7 @@ public class DangNhap_GUI extends JFrame implements ActionListener {
 		}
 		else if (!taiKhoan.getMatKhau().equals(matKhau)) {
 			JOptionPane.showMessageDialog(null, "Mật khẩu không đúng!");
+			countSaiMatKhau++;
 		}
 		else {
 			TrangChu trangChu = new TrangChu();
