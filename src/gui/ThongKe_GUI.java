@@ -9,7 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.sql.Date;
+import java.util.Date;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -42,14 +42,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 public class ThongKe_GUI extends JPanel {
-	/*
-	 * Hai bảng bảng đầu là hóa đơn, bảng sau là chi tiết hóa đơn tương ứng xử lí
-	 * màu, độ rộng cột, table head, như mấy bảng trước và làm hai text có xổ xuống
-	 * ngày
-	 */
-	/**
-	 * 
-	 */
+	
 	private static final long serialVersionUID = 1L;
 	private JTextField txtSoluong;
 	private JTextField txtCuaHangBanNhieuXe;
@@ -66,7 +59,9 @@ public class ThongKe_GUI extends JPanel {
 	private CuaHang_DAO cuaHang_DAO;
 	private JDateChooser chooserTuNgay;
 	private JDateChooser chooserDenNgay;
-	private LocalDate localDate;
+	private Date d1;
+	private Date d2;
+//	private LocalDate localDate;
 
 	/**
 	 * Create the panel.
@@ -227,11 +222,11 @@ public class ThongKe_GUI extends JPanel {
 		lblNewLabel_4_1_1_1.setBounds(10, 158, 206, 34);
 		panel_1.add(lblNewLabel_4_1_1_1);
 
-		localDate = LocalDate.now();
-		int ngay = localDate.getDayOfMonth();
-		int thang = localDate.getMonthValue();
-		int nam = localDate.getYear();
-		Date now = new Date(nam - 1900, thang - 1, ngay);
+//		localDate = LocalDate.now();
+//		int ngay = localDate.getDayOfMonth();
+//		int thang = localDate.getMonthValue();
+//		int nam = localDate.getYear();
+//		Date now = new Date(nam - 1900, thang - 1, ngay);
 		
 		chooserTuNgay = new JDateChooser();
 		chooserTuNgay.getCalendarButton().setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -241,7 +236,7 @@ public class ThongKe_GUI extends JPanel {
 		chooserTuNgay.setFont(new Font("Arial", Font.PLAIN, 16));
 		chooserTuNgay.getCalendarButton().setPreferredSize(new Dimension(30, 24));
 		chooserTuNgay.getCalendarButton().setBackground(new Color(138, 255, 255));
-		chooserTuNgay.setDate(now);
+//		chooserTuNgay.setDate(now);
 		chooserTuNgay.getCalendarButton().setToolTipText("Chọn ngày nhập xe");
 		panel_1.add(chooserTuNgay);
 
@@ -254,7 +249,7 @@ public class ThongKe_GUI extends JPanel {
 		chooserDenNgay.getCalendarButton().setPreferredSize(new Dimension(30, 24));
 		chooserDenNgay.getCalendarButton().setBackground(new Color(138, 255, 255));
 		chooserDenNgay.getCalendarButton().setToolTipText("Chọn ngày cuối");
-		chooserDenNgay.setDate(now);
+//		chooserDenNgay.setDate(now);
 		panel_1.add(chooserDenNgay);
 
 		txtSoluong = new JTextField();
@@ -337,7 +332,7 @@ public class ThongKe_GUI extends JPanel {
 							txtCuaHangBanNhieuXe.setText("Mã CH: "+
 									getString + " Tên CH: "+cuaHang_DAO.getCuaHangTheoMa(getString).getTen());
 							getString = hoaDon_DAO.getNhanVienBanNhieu(d1, d2);
-							txtNhanVienBanDuocNhieuXe.setText("Tên NV: "+getString + "Tên NV: "
+							txtNhanVienBanDuocNhieuXe.setText("Tên NV: "+getString + " Tên NV: "
 							 + nhanVienHanhChinh_DAO.getNhanVienHanhChinhTheoMa(getString).getTen() );
 						}
 					} catch (SQLException e1) {
@@ -359,23 +354,23 @@ public class ThongKe_GUI extends JPanel {
 		btnLoc.setBackground(Color.LIGHT_GRAY);
 		btnLoc.setHorizontalTextPosition(SwingConstants.RIGHT);
 		btnLoc.setHorizontalAlignment(SwingConstants.LEFT);
-		btnLoc.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				java.util.Date utilTuNgay = chooserTuNgay.getDate();
-				java.util.Date utilDenNgay = chooserDenNgay.getDate();
-
-				@SuppressWarnings("deprecation")
-				Date ngayBatDau = new Date(utilTuNgay.getYear(), utilTuNgay.getMonth(), utilTuNgay.getDate());
-				@SuppressWarnings("deprecation")
-				Date ngayKetThuc = new Date(utilDenNgay.getYear(), utilDenNgay.getMonth(), utilDenNgay.getDate());
-				if (utilTuNgay.after(utilDenNgay)) {
-					JOptionPane.showMessageDialog(null, "Ngày bắt đầu phải trước hoặc bằng ngày kết thúc!");
-				}
-			}
-		});
+//		btnLoc.addActionListener(new ActionListener() {
+//
+//			@Override
+//			public void actionPerformed(ActionEvent e) {
+//				// TODO Auto-generated method stub
+//				java.util.Date utilTuNgay = chooserTuNgay.getDate();
+//				java.util.Date utilDenNgay = chooserDenNgay.getDate();
+//
+//				@SuppressWarnings("deprecation")
+//				Date ngayBatDau = new Date(utilTuNgay.getYear(), utilTuNgay.getMonth(), utilTuNgay.getDate());
+//				@SuppressWarnings("deprecation")
+//				Date ngayKetThuc = new Date(utilDenNgay.getYear(), utilDenNgay.getMonth(), utilDenNgay.getDate());
+//				if (ngayBatDau.after(ngayKetThuc)) {
+//					JOptionPane.showMessageDialog(null, "Ngày bắt đầu phải trước hoặc bằng ngày kết thúc!");
+//				}
+//			}
+//		});
 
 		JButton btnLamMoi = new JButton("Làm Mới");
 		btnLamMoi.addActionListener(new ActionListener() {
